@@ -1,7 +1,7 @@
 package hu.progmatic.kozos.appconfig;
 
 import hu.progmatic.kozos.kassza.Termek;
-import hu.progmatic.kozos.kassza.TermekSzerviz;
+import hu.progmatic.kozos.kassza.TermekService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
@@ -13,16 +13,16 @@ import java.util.List;
 @Transactional
 public class InitKasszaDataBase implements InitializingBean {
 
-    private TermekSzerviz termekSzerviz;
+    private TermekService termekService;
 
-    public InitKasszaDataBase(TermekSzerviz termekSzerviz) {
-        this.termekSzerviz = termekSzerviz;
+    public InitKasszaDataBase(TermekService termekService) {
+        this.termekService = termekService;
     }
 
     @Override
     public void afterPropertiesSet() {
-        if (termekSzerviz.findAll().isEmpty()) {
-            termekSzerviz.saveAll(
+        if (termekService.findAll().isEmpty()) {
+            termekService.saveAll(
                     List.of(
                             Termek.builder().ar(100).megnevezes("víz").vonalkod("12345").mennyiseg(10).build(),
                             Termek.builder().ar(200).megnevezes("kóla").vonalkod("12335").mennyiseg(10).build(),

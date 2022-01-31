@@ -1,16 +1,14 @@
 package hu.progmatic.kozos.kassza;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
 import java.util.List;
 
 @Service
 @Transactional
-public class TermekSzerviz  {
+public class TermekService {
 
 
     @Autowired
@@ -18,7 +16,7 @@ public class TermekSzerviz  {
 
 
     public Termek save(Termek termek) {
-        return repository.saveAndFlush(termek);
+        return repository.save(termek);
     }
 
     public Termek getById(Integer id) {
@@ -26,7 +24,7 @@ public class TermekSzerviz  {
     }
 
     public void saveAll(List<Termek> initItems) {
-        repository.saveAllAndFlush(initItems);
+        repository.saveAll(initItems);
     }
 
     public List<Termek> findAllbyNev(String nev) {

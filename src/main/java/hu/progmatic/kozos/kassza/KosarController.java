@@ -19,7 +19,7 @@ public class KosarController {
   TermekMennyisegService termekMennyisegService;
 
   @Autowired
-  TermekSzerviz termekSzerviz;
+  TermekService termekService;
 
   @GetMapping("/kassza/kassza")
   public String termekek(Model model) {
@@ -56,7 +56,7 @@ public class KosarController {
 
   @ModelAttribute("allKasszaTermek")
   List<Termek> allKosar() {
-    return termekSzerviz.findAll();
+    return termekService.findAll();
   }
 
   @ModelAttribute("kivalasztottTermek")

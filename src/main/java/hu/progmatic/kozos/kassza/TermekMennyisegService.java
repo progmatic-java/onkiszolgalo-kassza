@@ -21,7 +21,7 @@ public class TermekMennyisegService {
 
 
     @Autowired
-    TermekSzerviz termekSzerviz;
+    TermekService termekService;
 
     public TermekMennyiseg save(TermekMennyiseg mennyiseg) {
         return repository.save(mennyiseg);
@@ -51,7 +51,7 @@ public class TermekMennyisegService {
     }
 
     public void termekHozzaadasa(String vonalkod, Integer mennyiseg) {
-        Termek termek = termekSzerviz.getByVonalkod(vonalkod);
+        Termek termek = termekService.getByVonalkod(vonalkod);
 
         if(repository.findAll().isEmpty()){
             TermekMennyiseg termekMennyiseg = TermekMennyiseg.builder()
