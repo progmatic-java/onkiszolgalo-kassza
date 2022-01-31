@@ -4,10 +4,12 @@ package hu.progmatic.kozos.kassza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
 @Service
+@Transactional
 public class TermekMennyisegService {
 
 
@@ -22,7 +24,7 @@ public class TermekMennyisegService {
     TermekSzerviz termekSzerviz;
 
     public TermekMennyiseg save(TermekMennyiseg mennyiseg) {
-        return repository.saveAndFlush(mennyiseg);
+        return repository.save(mennyiseg);
     }
 
     public TermekMennyiseg getById(Integer id) {
@@ -30,7 +32,7 @@ public class TermekMennyisegService {
     }
 
     public void saveAll(List<TermekMennyiseg> initItems) {
-        repository.saveAllAndFlush(initItems);
+        repository.saveAll(initItems);
     }
 
     public void delete(Integer id) {
