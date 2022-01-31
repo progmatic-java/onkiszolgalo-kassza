@@ -16,70 +16,72 @@ import java.util.List;
 public class KosarController {
 
 
-  @Autowired
-  TermekMennyisegService termekMennyisegService;
+    @Autowired
+    TermekMennyisegService termekMennyisegService;
 
-  @Autowired
-  TermekService termekService;
+    @Autowired
+    TermekService termekService;
 
-  @GetMapping("/kassza/kassza")
-  public String termekek(Model model) {
-    return termekek();
-  }
-
-  private String termekek() {
-    return "kassza/kassza";
-  }
-
-  @PostMapping("/kassza/kassza/addtermek")
-  public String addTermek(
-      @ModelAttribute("termekMennyisegHozzaadasCommand") @Valid TermekMennyisegHozzaadasCommand command,
-      BindingResult bindingResult,
-      Model model) {
-    if (!bindingResult.hasErrors()) {
-      try{
-        termekMennyisegService.termekHozzaadasa(
-                command.getVonalkod(),
-                command.getMennyiseg()
-        );
-      }catch(NincsElegRaktarKeszletException e){
-        bindingResult.addError(new FieldError("termekMennyisegHozzaadasCommand",
-                "mennyiseg",
-                "Nincs elég termék raktáron"));
-      }
-      model.addAttribute("kivalasztottTermek", termekMennyisegService.findAllDto());
+    @GetMapping("/kassza/kassza")
+    public String termekek(Model model) {
+        return termekek();
     }
 
-    return "kassza/kassza";
-  }
+    private String termekek() {
+        return "kassza/kassza";
+    }
 
-  @PostMapping("kassza/kassza/termekek")
-  public String kosarbanLevoTermekek(@ModelAttribute("allKasszaTermek") TermekMennyiseg termekMennyiseg,
-                                     Model model) {
-    model.addAttribute(allKosar());
-    model.addAttribute(kivalasztottKosar());
-    return termekek();
-  }
+    @PostMapping("/kassza/kassza/addtermek")
+    public String addTermek(
+            @ModelAttribute("termekMennyisegHozzaadasCommand") @Valid TermekMennyisegHozzaadasCommand command,
+            BindingResult bindingResult,
+            Model model) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                termekMennyisegService.termekHozzaadasa(
+                        command.getVonalkod(),
+                        command.getMennyiseg()
+                );
+                model.addAttribute("kivalasztottTermek", termekMennyisegService.findAllDto());
+            } catch (NincsElegRaktarKeszletException e) {
+                bindingResult.addError(new FieldError("termekMennyisegHozzaadasCommand",
+                        "mennyiseg",
+                        "Nincs elég termék a raktáron!"));
+            }
+        }
 
-  @ModelAttribute("allKasszaTermek")
-  List<Termek> allKosar() {
-    return termekService.findAll();
-  }
+        return "kassza/kassza";
+    }
 
-  @ModelAttribute("kivalasztottTermek")
-  List<TermekMennyisegDto> kivalasztottKosar() {
-    return termekMennyisegService.findAllDto();
-  }
+    @PostMapping("kassza/kassza/termekek")
+    public String kosarbanLevoTermekek(@ModelAttribute("allKasszaTermek") TermekMennyiseg termekMennyiseg,
+                                       Model model) {
+        model.addAttribute(allKosar());
+        model.addAttribute(kivalasztottKosar());
+        return termekek();
+    }
 
-  @ModelAttribute("termekMennyisegHozzaadasCommand")
-  TermekMennyisegHozzaadasCommand termekMennyisegHozzaadasCommand() {
-    return new TermekMennyisegHozzaadasCommand();
-  }
+    @ModelAttribute("allKasszaTermek")
+    List<Termek> allKosar() {
+        return termekService.findAll();
+    }
 
-  @ModelAttribute("allKosarTermek")
-  KosarViewDTO kosarViewDTO(Integer kosarId){
-    return termekMennyisegService.kosarViewDTO(kosarId);
-  };
+    @ModelAttribute("kivalasztottTermek")
+    List<TermekMennyisegDto> kivalasztottKosar() {
+        return termekMennyisegService.findAllDto();
+    }
+
+    @ModelAttribute("termekMennyisegHozzaadasCommand")
+    TermekMennyisegHozzaadasCommand termekMennyisegHozzaadasCommand() {
+        return new TermekMennyisegHozzaadasCommand();
+    }
+
+    @ModelAttribute("allKosarTermek")
+    KosarViewDTO kosarViewDTO(Integer kosarId) {
+        return termekMennyisegService.kosarViewDTO(kosarId);
+    }
+
+    ;
 
 
 }
