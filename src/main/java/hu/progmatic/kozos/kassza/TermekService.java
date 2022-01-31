@@ -14,6 +14,9 @@ public class TermekService {
     @Autowired
     private TermekRepository repository;
 
+    @Autowired
+    private TermekMennyisegService termekMennyisegService;
+
 
     public Termek save(Termek termek) {
         return repository.save(termek);
@@ -39,5 +42,13 @@ public class TermekService {
         return repository.findByVonalkod(vonalkod);
     }
 
+
+    public Termek findByNev(String nev) {
+        return repository.findByMegnevezes(nev);
+    }
+
+    public void addTermek(Termek termek) {
+        repository.save(termek);
+    }
 
 }

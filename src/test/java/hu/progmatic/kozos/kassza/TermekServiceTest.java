@@ -4,6 +4,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,56 +14,44 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class TermekServiceTest {
 
 
-    @Autowired
-    private TermekMennyisegService szerviz;
 
 
-    @BeforeEach
-    void setUp() {
-        Kosar kosar = Kosar.builder()
-                .nev("1-es kosar")
-                .build();
-        TermekMennyiseg termekMennyiseg = TermekMennyiseg.builder()
-                .mennyiseg(1)
-                .termek(Termek.builder()
-                        .megnevezes("sör")
-                        .ar(250)
-                        .vonalkod("12345")
-                        .build())
-                .kosar(kosar)
-                .build();
-        TermekMennyiseg termekMennyiseg2 = TermekMennyiseg.builder()
-                .mennyiseg(5)
-                .termek(Termek.builder()
-                        .megnevezes("bor")
-                        .ar(750)
-                        .vonalkod("55555")
-                        .build())
-                .kosar(kosar)
-                .build();
-        TermekMennyiseg termekMennyiseg3 = TermekMennyiseg.builder()
-                .mennyiseg(2)
-                .termek(Termek.builder()
-                        .megnevezes("palinka")
-                        .ar(1050)
-                        .vonalkod("98765")
-                        .build())
-                .kosar(kosar)
-                .build();
+    @Autowired TermekService service;
 
-        szerviz.save(termekMennyiseg);
-        szerviz.save(termekMennyiseg2);
-        szerviz.save(termekMennyiseg3);
+
+    @Test
+    @DisplayName("Az alkalmazás indításakor léteznek termékek")
+    void termekekLeteznek() {
+        List<Termek> allTermek = service.findAll();
+        assertThat(allTermek)
+                .extracting(Termek::getMegnevezes)
+                .containsAll(List.of("kenyér", "kóla"));
     }
 
-    @AfterEach
-    void tearDown() {
-        szerviz.delete();
+    @Test
+    @DisplayName("Rendelés hozzáadása")
+    void termekHozzaadasa() {
+        service.addTermek(
+                Termek.builder()
+                        .megnevezes("sprite")
+                        .ar(270)
+                        .vonalkod("126378906")
+                        .mennyiseg(2)
+                        .build()
+        );
+        Termek termek = service.findByNev("sprite");
+        assertNotNull(termek.getId());
+        assertEquals("sprite", termek.getMegnevezes());
+        assertEquals(270, termek.getAr());
+        assertEquals("126378906", termek.getVonalkod());
+        assertEquals(2, termek.getMennyiseg());
     }
 
     @Test
     @Disabled
-    void vegosszeg() {
-        assertEquals(6100, szerviz.vegosszeg());
+    @DisplayName("Termék mennyiségének módosítása")
+    void termekModositasa(){
+        service.modify("kenyér", 4);
+        assertEquals(4, service.findByNev("kenyér").getMennyiseg());
     }
 }
