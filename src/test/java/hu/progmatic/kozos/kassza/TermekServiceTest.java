@@ -51,7 +51,7 @@ class TermekServiceTest {
     @Disabled
     @DisplayName("Termék mennyiségének módosítása")
     void termekModositasa(){
-        service.modify("kenyér", 4);
+        service.modify("12344345", 4);
         assertEquals(4, service.findByNev("kenyér").getMennyiseg());
     }
 }
