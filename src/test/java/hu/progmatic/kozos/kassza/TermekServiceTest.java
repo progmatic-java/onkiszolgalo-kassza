@@ -54,7 +54,7 @@ class TermekServiceTest {
     }
 
     @Test
-    @DisplayName("Termék törlése vonalkód alapján")
+    @DisplayName("")
     void termekTorlese() {
         service.deleteByVonalkod("12344345");
         assertNull(service.findByNev("kenyér"));

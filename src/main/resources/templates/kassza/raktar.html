@@ -57,12 +57,49 @@
             <hr>
             <h3>Új termék hozzáadása</h3>
             <form class="row"
+                  th:action="@{/kassza/addTermek}" method="post"
+                  th:object="${termekHozzaadasa}"
             >
                 <div class="col">
                     <label>
-                        <select class="form-select">
-                            <option></option>
-                        </select>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="név"
+                               th:field="*{megnevezes}"
+                               th:classappend="${#fields.hasErrors('megnevezes')} ? 'is-invalid' : 'is-valid'"/>
+                        <div class="invalid-feedback"
+                             th:if="${#fields.hasErrors('megnevezes')}"
+                             th:errors="*{megnevezes}">
+                            Hibaüzenet
+                        </div>
+                    </label>
+                </div>
+                <div class="col">
+                    <label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Ár"
+                               th:field="*{ar}"
+                               th:classappend="${#fields.hasErrors('ar')} ? 'is-invalid' : 'is-valid'"/>
+                        <div class="invalid-feedback"
+                             th:if="${#fields.hasErrors('ar')}"
+                             th:errors="*{ar}">
+                            Hibaüzenet
+                        </div>
+                    </label>
+                </div>
+                <div class="col">
+                    <label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Vonalkód"
+                               th:field="*{vonalkod}"
+                               th:classappend="${#fields.hasErrors('vonalkod')} ? 'is-invalid' : 'is-valid'"/>
+                        <div class="invalid-feedback"
+                             th:if="${#fields.hasErrors('vonalkod')}"
+                             th:errors="*{vonalkod}">
+                            Hibaüzenet
+                        </div>
                     </label>
                 </div>
                 <div class="col">
@@ -70,8 +107,11 @@
                         <input type="text"
                                class="form-control"
                                placeholder="Mennyiség"
-                              >
-                        <div class="invalid-feedback">
+                               th:field="*{mennyiseg}"
+                               th:classappend="${#fields.hasErrors('mennyiseg')} ? 'is-invalid' : 'is-valid'"/>
+                        <div class="invalid-feedback"
+                             th:if="${#fields.hasErrors('mennyiseg')}"
+                             th:errors="*{mennyiseg}">
                             Hibaüzenet
                         </div>
                     </label>
@@ -83,7 +123,7 @@
             <hr>
         </div>
 
-</div>
+    </div>
 </div>
 </body>
 </html>
