@@ -98,7 +98,7 @@
     <br>
     <br>
     <div class="row" style="text-align: center; font-size: 30px">
-        <div class="col-7" style="background-color: yellow; border: 3px black" >
+        <div class="col-7" style="background-color: yellow; border: 3px black" th:text="'Végösszeg: '+${allKosarTermek.vegosszeg}+'Ft'" >
             Végösszeg: 0 Ft
         </div>
         <div class="col-1">
@@ -110,7 +110,6 @@
             <a type="button" class="btn btn-success" href="visszaigazolas.html" th:href="@{/kassza/visszaigazolas}">fizetés készpénzzel</a>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>

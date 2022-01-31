@@ -23,7 +23,6 @@ public class Termek {
     @NotNull
     @Column(unique = true)
     private String vonalkod;
-
     @Min(0)
     private Integer mennyiseg;
 
