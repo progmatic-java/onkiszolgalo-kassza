@@ -44,7 +44,9 @@
         <img src="../../images/kassza/images.png" th:src="@{/images/kassza/images.png}" alt="">
     </a>
 </div>
-<p>
+<p th:action="@{/kassza/raktar}" method="post"
+th:object="${allTermek}"
+>
     <a type="button" class="btn btn-danger"  href="adminFelulet.html" th:href="@{/kassza/raktar}">Admin</a>
 </p>
 </body>

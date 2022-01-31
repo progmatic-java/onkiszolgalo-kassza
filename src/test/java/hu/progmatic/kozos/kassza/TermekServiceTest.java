@@ -28,7 +28,7 @@ class TermekServiceTest {
     }
 
     @Test
-    @DisplayName("Rendelés hozzáadása")
+    @DisplayName("Termék hozzáadása")
     void termekHozzaadasa() {
         service.addTermek(
                 Termek.builder()
@@ -54,11 +54,9 @@ class TermekServiceTest {
     }
 
     @Test
+    @DisplayName("Termék törlése vonalkód alapján")
     void termekTorlese() {
         service.deleteByVonalkod("12344345");
         assertNull(service.findByNev("kenyér"));
-
-
-
     }
 }

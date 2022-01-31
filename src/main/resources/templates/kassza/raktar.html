@@ -22,17 +22,20 @@
                 <thead>
                 <tr style="font-size: 30px; border: 3px solid black">
                     <h3>Raktár tartalma:</h3></tr>
-                <tr th:each="termekmennyiseg : ${kivalasztottTermek}">
-                    <th scope="col" th:text ="${termekmennyiseg.nev}">Termék neve</th>
-                    <th scope="col"  th:text ="${termekmennyiseg.ar}">Ár</th>
-                    <th scope="col" th:text = "${termekmennyiseg.mennyiseg}">Mennyiség</th>
+                <tr th:each="termek : ${allTermek}">
+                    <th scope="col" th:text="${termek.getMegnevezes}">Termék neve</th>
+                    <th scope="col" th:text="${termek.getAr}">Ár</th>
+                    <th scope="col" th:text="${termek.getMennyiseg}">Mennyiség</th>
+                    <th scope="col" th:text="${termek.getVonalkod}">Vonalkód</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr >
                     <td>Termék neve</td>
-                    <td>100</td>
+                    <td>ára</td>
+                    <td>mennyiség</td>
+                    <td>vonalkód</td>
                     <!--                    <td th:text="${termek.mennyiseg}">10.0</td>-->
                     <td>
                         <div class="row">
@@ -54,15 +57,11 @@
             <hr>
             <h3>Új termék hozzáadása</h3>
             <form class="row"
-                  th:action="@{/kassza/kassza/addtermek}" method="post"
-                  th:object="${termekMennyisegHozzaadasCommand}"
             >
                 <div class="col">
                     <label>
-                        <select th:field="*{vonalkod}" class="form-select">
-                            <option th:each="type : ${allKasszaTermek}"
-                                    th:value="${type.vonalkod}"
-                                    th:text="${type.megnevezes}"></option>
+                        <select class="form-select">
+                            <option></option>
                         </select>
                     </label>
                 </div>
@@ -71,11 +70,8 @@
                         <input type="text"
                                class="form-control"
                                placeholder="Mennyiség"
-                               th:field="*{mennyiseg}"
-                               th:classappend="${#fields.hasErrors('mennyiseg')} ? 'is-invalid' : 'is-valid'"/>
-                        <div class="invalid-feedback"
-                             th:if="${#fields.hasErrors('mennyiseg')}"
-                             th:errors="*{mennyiseg}">
+                              >
+                        <div class="invalid-feedback">
                             Hibaüzenet
                         </div>
                     </label>
