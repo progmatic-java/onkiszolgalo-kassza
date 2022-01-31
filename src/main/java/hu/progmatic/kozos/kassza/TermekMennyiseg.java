@@ -1,28 +1,26 @@
 package hu.progmatic.kozos.kassza;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class TermekMennyiseg {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    private Integer id;
     @Min(0)
-    Integer mennyiseg;
+    private Integer mennyiseg;
     @ManyToOne(cascade = CascadeType.PERSIST)
-    Termek termek;
+    private Termek termek;
     @ManyToOne(cascade = CascadeType.ALL)
-    Kosar kosar;
+    private Kosar kosar;
 }
 
 

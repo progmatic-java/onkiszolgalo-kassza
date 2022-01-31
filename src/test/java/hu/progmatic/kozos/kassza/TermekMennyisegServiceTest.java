@@ -32,7 +32,7 @@ class TermekMennyisegServiceTest {
         szerviz.termekHozzaadasa("12335",3);
 
         List<TermekMennyiseg> termekMennyisegek = szerviz.findAll();
-        assertThat(termekMennyisegek.stream().map(termekMennyiseg -> termekMennyiseg.getTermek().megnevezes))
+        assertThat(termekMennyisegek.stream().map(termekMennyiseg -> termekMennyiseg.getTermek().getMegnevezes()))
                 .containsExactlyInAnyOrder("víz","kóla");
     }
 }

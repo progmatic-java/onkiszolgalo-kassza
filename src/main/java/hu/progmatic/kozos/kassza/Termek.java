@@ -1,32 +1,31 @@
 package hu.progmatic.kozos.kassza;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Termek {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    private Integer id;
     @Column(unique = true)
-    String megnevezes;
+    private String megnevezes;
     @Min(0)
-    Integer ar;
+    private Integer ar;
     @NotNull
     @Column(unique = true)
-    String vonalkod;
-    @ManyToOne
-    Raktar raktár;
+    private String vonalkod;
+
+    @Min(0)
+    private Integer mennyiseg;
 
 
 }
