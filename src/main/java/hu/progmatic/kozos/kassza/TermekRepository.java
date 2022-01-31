@@ -11,4 +11,6 @@ public interface TermekRepository extends JpaRepository<Termek,Integer> {
     Termek findByVonalkod(String vonalkod);
 
     Termek findByMegnevezes(String nev);
+
+    void deleteByVonalkod(String vonalkod);
 }

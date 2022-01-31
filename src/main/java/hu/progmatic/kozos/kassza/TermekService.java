@@ -54,4 +54,8 @@ public class TermekService {
            termek.setMennyiseg(mennyiseg);
        }
     }
+
+    public void deleteByVonalkod(String vonalkod) {
+        repository.deleteByVonalkod(vonalkod);
+    }
 }

@@ -7,8 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class TermekServiceTest {
@@ -48,10 +47,18 @@ class TermekServiceTest {
     }
 
     @Test
-    @Disabled
     @DisplayName("Termék mennyiségének módosítása")
     void termekModositasa(){
         service.modify("12344345", 4);
         assertEquals(4, service.findByNev("kenyér").getMennyiseg());
+    }
+
+    @Test
+    void termekTorlese() {
+        service.deleteByVonalkod("12344345");
+        assertNull(service.findByNev("kenyér"));
+
+
+
     }
 }
