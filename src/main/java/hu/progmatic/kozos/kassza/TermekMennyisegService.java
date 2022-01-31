@@ -14,7 +14,7 @@ public class TermekMennyisegService {
 
 
     @Autowired
-    private TermekMennyisegRepository repository;
+    private TermekMennyisegRepository termekMennyisegRepository;
 
     @Autowired
     private TermekRepository termekRepository;
@@ -24,27 +24,27 @@ public class TermekMennyisegService {
     TermekService termekService;
 
     public TermekMennyiseg save(TermekMennyiseg mennyiseg) {
-        return repository.save(mennyiseg);
+        return termekMennyisegRepository.save(mennyiseg);
     }
 
     public TermekMennyiseg getById(Integer id) {
-        return repository.getById(id);
+        return termekMennyisegRepository.getById(id);
     }
 
     public void saveAll(List<TermekMennyiseg> initItems) {
-        repository.saveAll(initItems);
+        termekMennyisegRepository.saveAll(initItems);
     }
 
     public void delete(Integer id) {
-        repository.deleteById(id);
+        termekMennyisegRepository.deleteById(id);
     }
 
     public void delete() {
-        repository.deleteAll();
+        termekMennyisegRepository.deleteAll();
     }
 
     public Integer vegosszeg() {
-        List<TermekMennyiseg> termekMennyisegek = repository.findAll();
+        List<TermekMennyiseg> termekMennyisegek = termekMennyisegRepository.findAll();
         return termekMennyisegek.stream()
                 .mapToInt(termekMennyiseg -> termekMennyiseg.getMennyiseg() * termekMennyiseg.getTermek().getAr())
                 .sum();
@@ -56,16 +56,16 @@ public class TermekMennyisegService {
             throw new NincsElegRaktarKeszletException();
         }
         termek.setMennyiseg(termek.getMennyiseg() - mennyiseg);
-        if (repository.findAll().isEmpty()) {
+        if (termekMennyisegRepository.findAll().isEmpty()) {
             TermekMennyiseg termekMennyiseg = TermekMennyiseg.builder()
                     .termek(termek)
                     .mennyiseg(mennyiseg)
                     .build();
-            repository.save(termekMennyiseg);
+            termekMennyisegRepository.save(termekMennyiseg);
             return;
         }
 
-        List<TermekMennyiseg> termekMennyisegek = repository.findAll();
+        List<TermekMennyiseg> termekMennyisegek = termekMennyisegRepository.findAll();
         termekMennyisegek.stream()
                 .forEach(termekMennyiseg -> {
                     if (termekMennyiseg.getTermek().getVonalkod().equals(vonalkod)) {
@@ -73,15 +73,15 @@ public class TermekMennyisegService {
                                 .termek(termek)
                                 .mennyiseg(termekMennyiseg.getMennyiseg() + mennyiseg)
                                 .build();
-                        repository.delete(termekMennyiseg);
-                        repository.save(felulirando);
+                        termekMennyisegRepository.delete(termekMennyiseg);
+                        termekMennyisegRepository.save(felulirando);
                         return;
                     } else {
                         TermekMennyiseg ujTermek = TermekMennyiseg.builder()
                                 .termek(termek)
                                 .mennyiseg(mennyiseg)
                                 .build();
-                        repository.save(ujTermek);
+                        termekMennyisegRepository.save(ujTermek);
                         return;
                     }
 
@@ -91,11 +91,11 @@ public class TermekMennyisegService {
 
 
     public List<TermekMennyiseg> findAll() {
-        return repository.findAll();
+        return termekMennyisegRepository.findAll();
     }
 
     public List<TermekMennyisegDto> findAllDto() {
-        return repository.findAll().stream()
+        return termekMennyisegRepository.findAll().stream()
                 .map(termekMennyiseg -> TermekMennyisegDto.builder()
                         .ar(termekMennyiseg.getTermek().getAr())
                         .nev(termekMennyiseg.getTermek().getMegnevezes())
@@ -116,12 +116,12 @@ public class TermekMennyisegService {
                                 .toList()
                 )
                 .termekMennyisegDtoList(
-                        repository.findAll().stream()
+                        termekMennyisegRepository.findAll().stream()
                                 .map(
                                         termekMennyiseg -> TermekMennyisegDto.builder()
-                                                .mennyiseg(repository.getTermekMennyisegByKosar_Id(kosarId).getMennyiseg())
-                                                .ar(repository.getTermekMennyisegByKosar_Id(kosarId).getTermek().getAr())
-                                                .nev(repository.getTermekMennyisegByKosar_Id(kosarId).getTermek().getMegnevezes())
+                                                .mennyiseg(termekMennyisegRepository.getTermekMennyisegByKosar_Id(kosarId).getMennyiseg())
+                                                .ar(termekMennyisegRepository.getTermekMennyisegByKosar_Id(kosarId).getTermek().getAr())
+                                                .nev(termekMennyisegRepository.getTermekMennyisegByKosar_Id(kosarId).getTermek().getMegnevezes())
                                                 .build()
                                 )
                                 .toList()
