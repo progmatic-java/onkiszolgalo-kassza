@@ -52,8 +52,11 @@ public class TermekMennyisegService {
 
     public void termekHozzaadasa(String vonalkod, Integer mennyiseg) {
         Termek termek = termekService.getByVonalkod(vonalkod);
-
-        if(repository.findAll().isEmpty()){
+        if (termek.getMennyiseg() < mennyiseg) {
+            throw new NincsElegRaktarKeszletException();
+        }
+        termek.setMennyiseg(termek.getMennyiseg() - mennyiseg);
+        if (repository.findAll().isEmpty()) {
             TermekMennyiseg termekMennyiseg = TermekMennyiseg.builder()
                     .termek(termek)
                     .mennyiseg(mennyiseg)
@@ -83,7 +86,7 @@ public class TermekMennyisegService {
                     }
 
 
-        });
+                });
     }
 
 
@@ -93,33 +96,33 @@ public class TermekMennyisegService {
 
     public List<TermekMennyisegDto> findAllDto() {
         return repository.findAll().stream()
-            .map(termekMennyiseg -> TermekMennyisegDto.builder()
-                .ar(termekMennyiseg.getTermek().getAr())
-                .nev(termekMennyiseg.getTermek().getMegnevezes())
-                .mennyiseg(termekMennyiseg.getMennyiseg())
-                .build())
-            .toList();
+                .map(termekMennyiseg -> TermekMennyisegDto.builder()
+                        .ar(termekMennyiseg.getTermek().getAr())
+                        .nev(termekMennyiseg.getTermek().getMegnevezes())
+                        .mennyiseg(termekMennyiseg.getMennyiseg())
+                        .build())
+                .toList();
     }
 
     public KosarViewDTO kosarViewDTO(Integer kosarId) {
-       return KosarViewDTO.builder()
+        return KosarViewDTO.builder()
                 .termekDtoList(
-                    termekRepository.findAll().stream()
-                        .map(
-                            termek -> TermekDto.builder()
-                                .megnevezes(termek.getMegnevezes())
-                                .build()
-                        )
-                        .toList()
+                        termekRepository.findAll().stream()
+                                .map(
+                                        termek -> TermekDto.builder()
+                                                .megnevezes(termek.getMegnevezes())
+                                                .build()
+                                )
+                                .toList()
                 )
                 .termekMennyisegDtoList(
                         repository.findAll().stream()
                                 .map(
-                                    termekMennyiseg -> TermekMennyisegDto.builder()
-                                        .mennyiseg(repository.getTermekMennyisegByKosar_Id(kosarId).getMennyiseg())
-                                        .ar(repository.getTermekMennyisegByKosar_Id(kosarId).getTermek().getAr())
-                                        .nev(repository.getTermekMennyisegByKosar_Id(kosarId).getTermek().getMegnevezes())
-                                        .build()
+                                        termekMennyiseg -> TermekMennyisegDto.builder()
+                                                .mennyiseg(repository.getTermekMennyisegByKosar_Id(kosarId).getMennyiseg())
+                                                .ar(repository.getTermekMennyisegByKosar_Id(kosarId).getTermek().getAr())
+                                                .nev(repository.getTermekMennyisegByKosar_Id(kosarId).getTermek().getMegnevezes())
+                                                .build()
                                 )
                                 .toList()
                 )
