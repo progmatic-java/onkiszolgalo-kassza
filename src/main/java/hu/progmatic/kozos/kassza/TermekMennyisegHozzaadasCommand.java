@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Data
-@Builder
 public class TermekMennyisegHozzaadasCommand {
   @NotEmpty
   private String vonalkod;
