@@ -42,6 +42,7 @@ public class KosarService {
         kosar.getTermekMennyisegek().add(TermekMennyiseg.builder()
                 .mennyiseg(command.getMennyiseg())
                 .termek(termekRepository.findByVonalkod(command.getVonalkod()))
+                .kosar(kosar)
                 .build());
         return kosarToKosarViewDTO(kosar);
     }
@@ -57,7 +58,7 @@ public class KosarService {
                                 .ar(termekMennyiseg.getTermek().getAr())
                                 .nev(termekMennyiseg.getTermek().getMegnevezes())
                                 .mennyiseg(termekMennyiseg.getMennyiseg())
-                        .build()).toList())
+                                .build()).toList())
                 .build();
     }
 
