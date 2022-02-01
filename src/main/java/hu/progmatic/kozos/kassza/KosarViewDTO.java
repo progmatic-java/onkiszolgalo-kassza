@@ -17,17 +17,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KosarViewDTO implements Serializable {
+
+    private Integer kosarId;
     @NotNull
-    Integer vegosszeg;
+    private Integer vegosszeg;
 
-    TermekDto termekDto;
-
-    List<TermekDto> termekDtoList;
-
-    List<TermekMennyisegDto> termekMennyisegDtoList;
-
-
-
+    private List<TermekMennyisegDto> termekMennyisegDtoList;
 
 
 }

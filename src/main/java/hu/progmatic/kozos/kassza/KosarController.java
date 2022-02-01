@@ -76,10 +76,10 @@ public class KosarController {
         return new TermekMennyisegHozzaadasCommand();
     }
 
-    @ModelAttribute("allKosarTermek")
+   /* @ModelAttribute("allKosarTermek")
     KosarViewDTO kosarViewDTO(Integer kosarId) {
         return termekMennyisegService.kosarViewDTO(kosarId);
-    }
+    }*/
 
     ;
 

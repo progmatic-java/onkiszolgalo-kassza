@@ -17,15 +17,14 @@ import java.util.List;
 public class Kosar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    private Integer id;
     @Column(
             length = 20,
             unique = true
     )
-    String nev;
     @OneToMany(mappedBy = "kosar",cascade = CascadeType.ALL)
-    List<TermekMennyiseg> termekMennyisegek;
+    private List<TermekMennyiseg> termekMennyisegek;
 
     @ManyToOne
-    Kassza kassza;
+    private Kassza kassza;
 }

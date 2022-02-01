@@ -104,7 +104,7 @@ public class TermekMennyisegService {
                 .toList();
     }
 
-    public KosarViewDTO kosarViewDTO(Integer kosarId) {
+   /* public KosarViewDTO kosarViewDTO(Integer kosarId) {
         return KosarViewDTO.builder()
                 .termekDtoList(
                         termekRepository.findAll().stream()
@@ -129,6 +129,6 @@ public class TermekMennyisegService {
                 .vegosszeg(vegosszeg())
                 .build();
 
-    }
+    }*/
 }
 
