@@ -13,9 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class TermekServiceTest {
 
 
-
-
-    @Autowired TermekService service;
+    @Autowired
+    TermekService service;
 
 
     @Test
@@ -48,15 +47,33 @@ class TermekServiceTest {
 
     @Test
     @DisplayName("Termék mennyiségének módosítása")
-    void termekModositasa(){
+    void termekModositasa() {
         service.modify("12344345", 4);
         assertEquals(4, service.findByNev("kenyér").getMennyiseg());
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Termek törlése")
     void termekTorlese() {
         service.deleteByVonalkod("12344345");
         assertNull(service.findByNev("kenyér"));
+    }
+
+    @Test
+    void nemNullaMennyisegTest() {
+        service.addTermek(
+                Termek.builder()
+                        .megnevezes("probaNullaTermek")
+                        .ar(270)
+                        .vonalkod("11111111")
+                        .mennyiseg(0)
+                        .build()
+        );
+        Termek termek = service.findByNev("probaNullaTermek");
+        assertNotNull(termek);
+        List<Termek> termekek = service.findAllNotNullMennyiseg();
+        assertThat(termekek).extracting(Termek::getMegnevezes).doesNotContain("probaNullaTermek");
+        List<Termek> termekekWithNull = service.findAll();
+        assertThat(termekekWithNull).extracting(Termek::getMegnevezes).contains("probaNullaTermek");
     }
 }

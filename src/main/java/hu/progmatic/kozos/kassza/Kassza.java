@@ -7,7 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

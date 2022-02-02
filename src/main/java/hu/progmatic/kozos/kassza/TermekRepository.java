@@ -13,4 +13,6 @@ public interface TermekRepository extends JpaRepository<Termek,Integer> {
     Termek findByMegnevezes(String nev);
 
     void deleteByVonalkod(String vonalkod);
+
+    List<Termek> findAllByMennyisegGreaterThan(Integer minMennyiseg);
 }

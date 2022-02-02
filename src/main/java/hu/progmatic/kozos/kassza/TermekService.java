@@ -55,6 +55,10 @@ public class TermekService {
        }
     }
 
+    public List<Termek> findAllNotNullMennyiseg(){
+        return repository.findAllByMennyisegGreaterThan(0);
+    }
+
     public void deleteByVonalkod(String vonalkod) {
         repository.deleteByVonalkod(vonalkod);
     }

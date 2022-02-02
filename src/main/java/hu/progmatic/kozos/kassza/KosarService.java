@@ -5,45 +5,63 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class KosarService {
 
     @Autowired
-    private KosarRepositoryProba repository;
+    private KosarRepositoryProba kosarRepository;
 
     @Autowired
-    private TermekRepository termekRepository;
+    private TermekMennyisegRepository termekMennyisegRepository;
+
+    @Autowired
+    private TermekService termekService;
 
 
     public Kosar save(Kosar kosar) {
-        return repository.saveAndFlush(kosar);
+        return kosarRepository.saveAndFlush(kosar);
     }
 
     public KosarViewDTO getKosarDtoById(Integer id) {
-        return kosarToKosarViewDTO(repository.getById(id));
+        return kosarToKosarViewDTO(kosarRepository.getById(id));
     }
 
     public void saveAll(List<Kosar> initItems) {
-        repository.saveAllAndFlush(initItems);
+        kosarRepository.saveAllAndFlush(initItems);
     }
 
 
     public KosarViewDTO kosarViewCreate() {
-        Kosar kosar = repository.save(Kosar.builder().build());
+        Kosar kosar = kosarRepository.save(Kosar.builder().build());
         return KosarViewDTO.builder()
                 .kosarId(kosar.getId())
                 .build();
     }
 
     public KosarViewDTO addTermekMennyisegCommand(TermekMennyisegHozzaadasCommand command) {
-        Kosar kosar = repository.getById(command.getKosarId());
-        kosar.getTermekMennyisegek().add(TermekMennyiseg.builder()
-                .mennyiseg(command.getMennyiseg())
-                .termek(termekRepository.findByVonalkod(command.getVonalkod()))
-                .kosar(kosar)
-                .build());
+        Kosar kosar = kosarRepository.getById(command.getKosarId());
+
+        Termek termek = termekService.getByVonalkod(command.getVonalkod());
+        if (termek.getMennyiseg() < command.getMennyiseg()) {
+            throw new NincsElegRaktarKeszletException();
+        }
+        termek.setMennyiseg(termek.getMennyiseg() - command.getMennyiseg());
+
+        Optional<TermekMennyiseg> termekMennyisegOptional = kosar.getTermekMennyisegek().stream()
+                .filter(termekM -> termekM.getTermek().getVonalkod().equals(command.getVonalkod()))
+                .findAny();
+        if (termekMennyisegOptional.isEmpty()) {
+            kosar.getTermekMennyisegek().add(TermekMennyiseg.builder()
+                    .mennyiseg(command.getMennyiseg())
+                    .termek(termekService.getByVonalkod(command.getVonalkod()))
+                    .kosar(kosar)
+                    .build());
+        }else{
+            termekMennyisegOptional.get().setMennyiseg( termekMennyisegOptional.get().getMennyiseg() + command.getMennyiseg());
+        }
         return kosarToKosarViewDTO(kosar);
     }
 
@@ -63,6 +81,10 @@ public class KosarService {
     }
 
     public void deleteKosarById(Integer id) {
-        repository.delete(repository.getById(id));
+        kosarRepository.delete(kosarRepository.getById(id));
+    }
+
+    public List<Termek> findAllTermekNotNullMennyiseg(){
+        return termekService.findAllNotNullMennyiseg();
     }
 }
