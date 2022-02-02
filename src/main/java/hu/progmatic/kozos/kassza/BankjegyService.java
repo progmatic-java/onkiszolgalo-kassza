@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -34,52 +35,76 @@ public class BankjegyService {
         int tizesDarab = 0;
         int otosDarab = 0;
 
-        while (visszajaro >= 10000) {
+        while (visszajaro >= 10000 && bankjegyRepository.findByErtek(10000).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 10000;
             tizEzresDarab++;
+            bankjegyRepository.findByErtek(10000).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(10000).orElseThrow().getMennyiseg()-1);
         }
-        while (visszajaro >= 5000) {
+        while (visszajaro >= 5000 && bankjegyRepository.findByErtek(5000).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 5000;
             otEzresDarab++;
+            bankjegyRepository.findByErtek(5000).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(5000).orElseThrow().getMennyiseg()-1);
         }
-        while (visszajaro >= 2000) {
+        while (visszajaro >= 2000 && bankjegyRepository.findByErtek(2000).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 2000;
             ketEzresDarab++;
+            bankjegyRepository.findByErtek(2000).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(2000).orElseThrow().getMennyiseg()-1);
         }
-        while (visszajaro >= 1000) {
+        while (visszajaro >= 1000 && bankjegyRepository.findByErtek(1000).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 1000;
             ezresDarab++;
+            bankjegyRepository.findByErtek(1000).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(1000).orElseThrow().getMennyiseg()-1);
         }
-        while (visszajaro >= 500) {
+        while (visszajaro >= 500 && bankjegyRepository.findByErtek(500).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 500;
             otszazasDarab++;
+            bankjegyRepository.findByErtek(500).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(500).orElseThrow().getMennyiseg()-1);
         }
-        while (visszajaro >= 200) {
+        while (visszajaro >= 200 && bankjegyRepository.findByErtek(200).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 200;
             ketszazasDarab++;
+            bankjegyRepository.findByErtek(200).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(200).orElseThrow().getMennyiseg()-1);
         }
-        while (visszajaro >= 100) {
+        while (visszajaro >= 100 && bankjegyRepository.findByErtek(100).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 100;
             szazasDarab++;
+            bankjegyRepository.findByErtek(100).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(100).orElseThrow().getMennyiseg()-1);
         }
-        while (visszajaro >= 50) {
+        while (visszajaro >= 50 && bankjegyRepository.findByErtek(50).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 50;
             otvenesDarab++;
+            bankjegyRepository.findByErtek(50).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(50).orElseThrow().getMennyiseg()-1);
         }
-        while (visszajaro >= 20) {
+        while (visszajaro >= 20 && bankjegyRepository.findByErtek(20).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 20;
             huszasDarab++;
+            bankjegyRepository.findByErtek(20).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(20).orElseThrow().getMennyiseg()-1);
         }
-        while (visszajaro >= 10) {
+        while (visszajaro >= 10 && bankjegyRepository.findByErtek(10).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 10;
             tizesDarab++;
+            bankjegyRepository.findByErtek(10).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(10).orElseThrow().getMennyiseg()-1);
         }
-        while (visszajaro >= 5) {
+        while (visszajaro >= 5 && bankjegyRepository.findByErtek(5).orElseThrow().getMennyiseg() > 0) {
             visszajaro -= 5;
             otosDarab++;
+            bankjegyRepository.findByErtek(5).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(5).orElseThrow().getMennyiseg()-1);
         }
-        if (visszajaro >= 3) {
+        if (visszajaro >= 3 && bankjegyRepository.findByErtek(5).orElseThrow().getMennyiseg() > 0) {
             otosDarab++;
+            bankjegyRepository.findByErtek(5).orElseThrow()
+                    .setMennyiseg(bankjegyRepository.findByErtek(5).orElseThrow().getMennyiseg()-1);
         }
 
 
@@ -97,5 +122,13 @@ public class BankjegyService {
 
 
         return cimletek;
+    }
+
+    public void save(List<Bankjegy> bankjegyek) {
+        bankjegyRepository.saveAll(bankjegyek);
+    }
+
+    public void deleteAll() {
+        bankjegyRepository.deleteAll();
     }
 }
