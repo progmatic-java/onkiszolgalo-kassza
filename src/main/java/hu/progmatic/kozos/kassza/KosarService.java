@@ -84,6 +84,10 @@ public class KosarService {
         kosarRepository.delete(kosarRepository.getById(id));
     }
 
+    public KosarViewDTO getKosarViewDTOById(Integer kosarId){
+        return kosarToKosarViewDTO(kosarRepository.getById(kosarId));
+    }
+
     public List<Termek> findAllTermekNotNullMennyiseg(){
         return termekService.findAllNotNullMennyiseg();
     }

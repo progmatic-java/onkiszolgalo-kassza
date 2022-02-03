@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,10 +20,13 @@ import java.util.List;
 public class KosarViewDTO implements Serializable {
 
     private Integer kosarId;
-    @NotNull
-    private Integer vegosszeg;
 
-    private List<TermekMennyisegDto> termekMennyisegDtoList;
+    @NotNull
+    @Builder.Default
+    private Integer vegosszeg = 0;
+
+    @Builder.Default
+    private List<TermekMennyisegDto> termekMennyisegDtoList = new ArrayList<>();
 
 
 }
