@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,40 +14,76 @@ import java.util.List;
 public class RaktarController {
 
     @Autowired
-    TermekService termekService;
+    private TermekService termekService;
 
     @GetMapping("/kassza/raktar")
-    public String raktar(){
-        return "kassza/raktar";
+    public String items(Model model) {
+        return items();
     }
 
-    @PostMapping("/kassza/addTermek")
-    public String addTermek(
-            @ModelAttribute("termekHozzaadasa") @Valid Termek termek,
+    private String items() {
+        return "/kassza/raktar";
+    }
+
+    @GetMapping("/kassza/raktar/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        Termek formItem = termekService.getById(id);
+        model.addAttribute("formItem", formItem);
+        return "/kassza/raktar";
+    }
+
+
+    @PostMapping("/kassza/raktar/delete/{id}")
+    public String delete(@PathVariable Integer id, Model model) {
+        termekService.deleteById(id);
+        refreshAllTermek(model);
+        return items();
+    }
+
+    @PostMapping("/kassza/raktar")
+    public String create(
+            @ModelAttribute("formItem") @Valid Termek formItem,
             BindingResult bindingResult,
             Model model) {
         if (!bindingResult.hasErrors()) {
-                termekService.addTermek(
-                        Termek.builder()
-                                .mennyiseg(termek.getMennyiseg())
-                                .ar(termek.getAr())
-                                .megnevezes(termek.getMegnevezes())
-                                .vonalkod(termek.getVonalkod())
-                        .build());
-                model.addAttribute("termekHozzaadasa",termek);
-        return "kassza/raktar";
+            termekService.create(formItem);
+            refreshAllTermek(model);
+            clearFormItem(model);
         }
-        return "kassza/raktar";
+        return items();
     }
 
-    @ModelAttribute("allTermek")
-    List<Termek> allTermek(){
-       return termekService.findAll();
+    @PostMapping("/kassza/raktar/{id}")
+    public String save(
+            @PathVariable Integer id,
+            @ModelAttribute("formItem") @Valid Termek formItem,
+            BindingResult bindingResult,
+            Model model) {
+        if (!bindingResult.hasErrors()) {
+            termekService.save(formItem);
+            refreshAllTermek(model);
+            clearFormItem(model);
+        }
+        return items();
     }
 
-    @ModelAttribute("termekHozzaadasa")
-    void addtermek(){
-        termekService.addTermek(Termek.builder().build());
+    @ModelAttribute("allItem")
+    List<Termek> allItem() {
+        return termekService.findAll();
+    }
+
+    @ModelAttribute("formItem")
+    public Termek formItem() {
+        return new Termek();
+    }
+
+
+    private void clearFormItem(Model model) {
+        model.addAttribute("formItem", formItem());
+    }
+
+    private void refreshAllTermek(Model model) {
+        model.addAttribute("allItem", allItem());
     }
 
 

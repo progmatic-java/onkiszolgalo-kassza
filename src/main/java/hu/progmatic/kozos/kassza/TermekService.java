@@ -62,4 +62,15 @@ public class TermekService {
     public void deleteByVonalkod(String vonalkod) {
         repository.deleteByVonalkod(vonalkod);
     }
+
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
+    }
+
+    public Termek create(Termek item) {
+        item.setId(null);
+        return repository.saveAndFlush(item);
+    }
+
+
 }
