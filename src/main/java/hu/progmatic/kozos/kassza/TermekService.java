@@ -68,8 +68,11 @@ public class TermekService {
     }
 
     public Termek create(Termek termek) {
-        if(repository.findByMegnevezes(termek.getMegnevezes()) != null || repository.findByVonalkod(termek.getVonalkod()) != null){
-            throw new FoglaltNevVagyVonalkodException(String.format(termek.getMegnevezes() +  " nevű termék már van raktáron"));
+        if(repository.findByMegnevezes(termek.getMegnevezes()) != null){
+            throw new FoglaltNevException(String.format(termek.getMegnevezes() +  " nevű termék már van raktáron"));
+        }
+        if ( repository.findByVonalkod(termek.getVonalkod()) != null){
+            throw new FoglaltVonalkodException(String.format(termek.getVonalkod() + " számú vonalkód már foglalt"));
         }
         termek.setId(null);
         return repository.saveAndFlush(termek);

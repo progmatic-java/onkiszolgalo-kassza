@@ -3,8 +3,10 @@ package hu.progmatic.kozos.kassza;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Getter
@@ -17,18 +19,17 @@ public class Termek {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Column(unique = true)
-    @Builder.Default
-    private String megnevezes= "a";
+    //@Pattern(regexp="^[A-Za-z]*$",message = "Invalid Input")
+    private String megnevezes;
     @Min(0)
-    @Builder.Default
-    private Integer ar = 10;
+    private Integer ar;
     @NotNull
+    @Pattern(regexp="^[0-9]*$",message = "A Vonalkód csak számokat tartalmazhat")
     @Column(unique = true)
-    @Builder.Default
-    private String vonalkod = "10";
-    @Min(0)
-    @Builder.Default
-    private Integer mennyiseg = 1;
+    private String vonalkod;
+    @Min(value = 0, message = "A termék mennyiség nem lehet negatív")
+    @Max(value = 10000, message = "maximum 10000db terméket lehet felvenni")
+    private Integer mennyiseg;
 
 
 }

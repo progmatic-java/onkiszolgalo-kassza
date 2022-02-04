@@ -52,9 +52,14 @@ public class RaktarController {
                 refreshAllTermek(model);
                 clearFormItem(model);
             }catch (Exception e){
-                bindingResult.addError(new FieldError("formItem",
-                        "megnevezes",
-                        e.getMessage()));
+                if (e instanceof FoglaltNevException) {
+                    bindingResult.addError(new FieldError("formItem",
+                            "megnevezes",
+                            e.getMessage()));
+                }
+                else{bindingResult.addError(new FieldError("formItem",
+                        "vonalkod",
+                        e.getMessage()));}
             }
         }
         return items();
