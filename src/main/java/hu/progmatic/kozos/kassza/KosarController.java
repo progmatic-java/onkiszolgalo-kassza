@@ -28,15 +28,20 @@ public class KosarController {
     private KosarService kosarService;
 
     @GetMapping("/kassza/kassza")
-    public String termekek(Model model) {
-
-        return termekek();
-    }
-
-
-    private String termekek() {
+    public String kosarIndex(Model model) {
+        KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
+        model.addAttribute("kosar", kosarViewDTO);
+        //return String.format("/kassza/%s", kosarViewDTO.getKosarId());
         return "kassza/kassza";
     }
+
+    @GetMapping("/kassza/{kosarId}")
+    public String kosarIdIndex(@PathVariable("kosarId") Integer kosarId,
+                               Model model) {
+        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        return "kassza/kassza";
+    }
+
 
     @PostMapping("/kassza/{kosarId}/addtermek")
     public String addTermek(
@@ -46,20 +51,30 @@ public class KosarController {
             Model model) {
         if (!bindingResult.hasErrors()) {
             try {
-                command.setKosarId(kosarId);
-                KosarViewDTO kosarViewDto = kosarService.addTermekMennyisegCommand(command);
-
-                model.addAttribute("kosar", kosarViewDto);
+                kosarService.addTermekMennyisegCommand(kosarId, command);
+                model.addAttribute("allTermek", kosarService.findAllTermekNotNullMennyiseg());
+                model.addAttribute("termekMennyisegHozzaadasCommand", new TermekMennyisegHozzaadasCommand());
             } catch (NincsElegRaktarKeszletException e) {
-                //model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
                 bindingResult.addError(new FieldError("termekMennyisegHozzaadasCommand",
                         "mennyiseg",
-                        "Nincs elég termék a raktáron!"));
+                        e.getMessage()));
             }
         }
         model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
         return "kassza/kassza";
     }
+
+    @PostMapping("/kassza/{kosarId}/delete/{termekMId}")
+    public String deleteTermekMennyiseg(
+            @PathVariable("kosarId") Integer kosarId,
+            @PathVariable("termekMId") Integer termekMId,
+            Model model) {
+        KosarViewDTO kosarViewDTO = kosarService.deleteTermekMennyiseg(kosarId, termekMId);
+        model.addAttribute("kosar", kosarViewDTO);
+        return "kassza/kassza";
+    }
+
+
 
    /* @PostMapping("kassza/kassza/termekek")
     public String kosarbanLevoTermekek(@ModelAttribute("allKasszaTermek") TermekMennyiseg termekMennyiseg,
@@ -85,13 +100,11 @@ public class KosarController {
         return new TermekMennyisegHozzaadasCommand();
     }
 
-    //@ModelAttribute("allKosarTermek")
+   /* //@ModelAttribute("allKosarTermek")
     @ModelAttribute("kosar")
     KosarViewDTO kosarViewDTO() {
         return kosarService.kosarViewCreate();
-    }
-
-    ;
+    }*/;
 
 
 }

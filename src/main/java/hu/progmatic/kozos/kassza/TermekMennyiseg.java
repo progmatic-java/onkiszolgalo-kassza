@@ -17,10 +17,14 @@ public class TermekMennyiseg {
     private Integer id;
     @Min(0)
     private Integer mennyiseg;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Termek termek;
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne
     private Kosar kosar;
+
+    @OneToOne
+    private Kosar utolsoElemKosar;
 }
 
 

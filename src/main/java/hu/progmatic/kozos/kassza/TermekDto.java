@@ -10,10 +10,10 @@ import java.io.Serializable;
 @Data
 @Builder
 public class TermekDto implements Serializable {
-    private final Integer id;
-    private final String megnevezes;
+    private  Integer id;
+    private  String megnevezes;
     @Min(0)
-    private final Integer ar;
+    private  Integer ar;
     @NotNull
-    private final String vonalkod;
+    private  String vonalkod;
 }

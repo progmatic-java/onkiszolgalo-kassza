@@ -29,20 +29,20 @@ class KosarServiceTest {
 
         KosarViewDTO kosarViewDTO;
 
-        private List<TermekMennyisegHozzaadasCommand> getTermekMennyisegHozzaadasCommandList(KosarViewDTO kosar) {
+        private List<TermekMennyisegHozzaadasCommand> getTermekMennyisegHozzaadasCommandList() {
             return List.of(
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("12345").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("12335").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("1232345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("12344345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("12134235").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("23212345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("16752345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("123226345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("121134354345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("113344512345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("1234133425").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().kosarId(kosar.getKosarId()).vonalkod("1221421345").mennyiseg(10).build()
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12345").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12335").mennyiseg(10).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1232345").mennyiseg(10).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12344345").mennyiseg(10).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12134235").mennyiseg(10).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("23212345").mennyiseg(10).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("16752345").mennyiseg(10).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("123226345").mennyiseg(10).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("121134354345").mennyiseg(10).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("113344512345").mennyiseg(10).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1234133425").mennyiseg(10).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1221421345").mennyiseg(10).build()
             );
         }
 
@@ -59,11 +59,10 @@ class KosarServiceTest {
         @Test
         void hozzaad1Elem() {
             TermekMennyisegHozzaadasCommand command = TermekMennyisegHozzaadasCommand.builder()
-                    .kosarId(kosarViewDTO.getKosarId())
                     .mennyiseg(1)
                     .vonalkod("12345")
                     .build();
-            kosarViewDTO = kosarService.addTermekMennyisegCommand(command);
+            kosarViewDTO = kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), command);
 
             assertThat(kosarViewDTO.getTermekMennyisegDtoList())
                     .extracting(TermekMennyisegDto::getNev)
@@ -72,8 +71,8 @@ class KosarServiceTest {
 
         @Test
         void hozzaadTobbElem() {
-            for (TermekMennyisegHozzaadasCommand command : getTermekMennyisegHozzaadasCommandList(kosarViewDTO)) {
-                kosarService.addTermekMennyisegCommand(command);
+            for (TermekMennyisegHozzaadasCommand command : getTermekMennyisegHozzaadasCommandList()) {
+                kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), command);
             }
             kosarViewDTO = kosarService.getKosarDtoById(kosarViewDTO.getKosarId());
             assertThat(kosarViewDTO.getTermekMennyisegDtoList())
@@ -95,12 +94,11 @@ class KosarServiceTest {
         @Test
         void hozzadEgyElemTobbszor() {
             TermekMennyisegHozzaadasCommand command = TermekMennyisegHozzaadasCommand.builder()
-                    .kosarId(kosarViewDTO.getKosarId())
                     .mennyiseg(1)
                     .vonalkod("12345")
                     .build();
-            kosarService.addTermekMennyisegCommand(command);
-            kosarViewDTO = kosarService.addTermekMennyisegCommand(command);
+            kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), command);
+            kosarViewDTO = kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), command);
 
             assertEquals(2, kosarViewDTO.getTermekMennyisegDtoList().get(0).getMennyiseg());
         }
@@ -109,13 +107,12 @@ class KosarServiceTest {
         void hozzadTobbmintRaktarKeszlet() {
 
             TermekMennyisegHozzaadasCommand command = TermekMennyisegHozzaadasCommand.builder()
-                    .kosarId(kosarViewDTO.getKosarId())
                     .mennyiseg(11)
                     .vonalkod("12345")
                     .build();
             String message = null;
             try {
-                kosarViewDTO = kosarService.addTermekMennyisegCommand(command);
+                kosarViewDTO = kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), command);
             } catch (NincsElegRaktarKeszletException e) {
                 message = e.getMessage();
             }

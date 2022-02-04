@@ -13,8 +13,6 @@ import java.util.List;
 
 @Data
 @Builder
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class KosarViewDTO implements Serializable {
@@ -24,6 +22,8 @@ public class KosarViewDTO implements Serializable {
     @NotNull
     @Builder.Default
     private Integer vegosszeg = 0;
+
+    private TermekMennyisegDto utolsoHozzaadottTermekmennyisegDto;
 
     @Builder.Default
     private List<TermekMennyisegDto> termekMennyisegDtoList = new ArrayList<>();

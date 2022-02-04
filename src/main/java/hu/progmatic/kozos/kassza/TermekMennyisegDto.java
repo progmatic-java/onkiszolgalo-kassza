@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Builder
 @Data
 public class TermekMennyisegDto implements Serializable {
+    private Integer termekMennyisegId;
     private final Integer mennyiseg;
     private final String nev;
     private final Integer ar;

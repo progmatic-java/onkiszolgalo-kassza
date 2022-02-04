@@ -16,7 +16,6 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class TermekMennyisegHozzaadasCommand {
 
-  private Integer kosarId;
   @NotEmpty
   private String vonalkod;
   @Positive(message = "Mennyiség nem lehet negatív vagy nulla")

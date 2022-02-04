@@ -53,7 +53,7 @@ public class TermekMennyisegService {
     public void termekHozzaadasa(String vonalkod, Integer mennyiseg) {
         Termek termek = termekService.getByVonalkod(vonalkod);
         if (termek.getMennyiseg() < mennyiseg) {
-            throw new NincsElegRaktarKeszletException();
+            throw new NincsElegRaktarKeszletException("asd");
         }
         termek.setMennyiseg(termek.getMennyiseg() - mennyiseg);
         if (termekMennyisegRepository.findAll().isEmpty()) {
