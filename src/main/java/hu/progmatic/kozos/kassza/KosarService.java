@@ -63,6 +63,7 @@ public class KosarService {
                     .kosar(kosar)
                     .build();
             kosar.getTermekMennyisegek().add(ujTermekMennyiseg);
+            termekMennyisegRepository.save(ujTermekMennyiseg);
             kosar.setUtolsoHozzaadottTermekmennyiseg(null);
             //kosar.setUtolsoHozzaadottTermekmennyiseg(ujTermekMennyiseg);
         } else {
@@ -122,5 +123,18 @@ public class KosarService {
         termekMennyisegRepository.delete(termekMenny);
 
         return kosarToKosarViewDTO(kosar);
+    }
+
+    public TermekMennyisegHozzaadasCommand kivalasztottTermekHozzaad(Integer kosarId, Integer termekMId){
+        Kosar kosar = kosarRepository.getById(kosarId);
+        TermekMennyiseg termekM = kosar.getTermekMennyisegek().stream()
+                .filter(termekMennyiseg -> termekMennyiseg.getId().equals(termekMId))
+                .findAny()
+                .orElseThrow();
+
+        return TermekMennyisegHozzaadasCommand.builder()
+                .vonalkod(termekM.getTermek().getVonalkod())
+                .mennyiseg(termekM.getMennyiseg())
+                .build();
     }
 }

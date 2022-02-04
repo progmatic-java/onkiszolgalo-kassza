@@ -32,17 +32,17 @@ class KosarServiceTest {
         private List<TermekMennyisegHozzaadasCommand> getTermekMennyisegHozzaadasCommandList() {
             return List.of(
                     TermekMennyisegHozzaadasCommand.builder().vonalkod("12345").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12335").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1232345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12344345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12134235").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("23212345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("16752345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("123226345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("121134354345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("113344512345").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1234133425").mennyiseg(10).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1221421345").mennyiseg(10).build()
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12335").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1232345").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12344345").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12134235").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("23212345").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("16752345").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("123226345").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("121134354345").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("113344512345").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1234133425").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1221421345").mennyiseg(1).build()
             );
         }
 
@@ -117,9 +117,8 @@ class KosarServiceTest {
                 message = e.getMessage();
             }
 
-            assertNull(message);
+            assertNotNull(message);
         }
     }
-
 
 }

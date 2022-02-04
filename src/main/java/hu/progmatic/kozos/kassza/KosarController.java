@@ -17,13 +17,6 @@ import java.util.List;
 public class KosarController {
 
 
-
-    /*@Autowired
-    TermekMennyisegService termekMennyisegService;
-
-    @Autowired
-    TermekService termekService;*/
-
     @Autowired
     private KosarService kosarService;
 
@@ -31,7 +24,6 @@ public class KosarController {
     public String kosarIndex(Model model) {
         KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
         model.addAttribute("kosar", kosarViewDTO);
-        //return String.format("/kassza/%s", kosarViewDTO.getKosarId());
         return "kassza/kassza";
     }
 
@@ -74,37 +66,27 @@ public class KosarController {
         return "kassza/kassza";
     }
 
+    @GetMapping("/kassza/{kosarId}/delete/{termekMId}")
+    public String editTermekMennyiseg(
+            @PathVariable("kosarId") Integer kosarId,
+            @PathVariable("termekMId") Integer termekMId,
+            Model model) {
+        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        model.addAttribute("termekMennyisegHozzaadasCommand", kosarService.kivalasztottTermekHozzaad(kosarId, termekMId));
+        return "kassza/kassza";
+    }
 
 
-   /* @PostMapping("kassza/kassza/termekek")
-    public String kosarbanLevoTermekek(@ModelAttribute("allKasszaTermek") TermekMennyiseg termekMennyiseg,
-                                       Model model) {
-        model.addAttribute(allKosar());
-        model.addAttribute(kivalasztottKosar());
-        return termekek();
-    }*/
-
-    //@ModelAttribute("allKasszaTermek")
     @ModelAttribute("allTermek")
     List<Termek> allKosar() {
         return kosarService.findAllTermekNotNullMennyiseg();
     }
 
-    /*@ModelAttribute("kivalasztottTermek")
-    List<TermekMennyisegDto> kivalasztottKosar() {
-        return termekMennyisegService.findAllDto();
-    }*/
 
     @ModelAttribute("termekMennyisegHozzaadasCommand")
     TermekMennyisegHozzaadasCommand termekMennyisegHozzaadasCommand() {
         return new TermekMennyisegHozzaadasCommand();
     }
-
-   /* //@ModelAttribute("allKosarTermek")
-    @ModelAttribute("kosar")
-    KosarViewDTO kosarViewDTO() {
-        return kosarService.kosarViewCreate();
-    }*/;
 
 
 }

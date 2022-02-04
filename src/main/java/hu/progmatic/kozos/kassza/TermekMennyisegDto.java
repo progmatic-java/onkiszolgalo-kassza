@@ -9,9 +9,11 @@ import java.io.Serializable;
 
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TermekMennyisegDto implements Serializable {
     private Integer termekMennyisegId;
-    private final Integer mennyiseg;
-    private final String nev;
-    private final Integer ar;
+    private Integer mennyiseg;
+    private String nev;
+    private Integer ar;
 }

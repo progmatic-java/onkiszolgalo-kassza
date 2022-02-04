@@ -29,34 +29,53 @@ class TermekServiceTest {
     @Test
     @DisplayName("Termék hozzáadása")
     void termekHozzaadasa() {
+
         service.addTermek(
                 Termek.builder()
-                        .megnevezes("sprite")
+                        .megnevezes("spriteTeszt")
                         .ar(270)
-                        .vonalkod("126378906")
+                        .vonalkod("126378906Teszt")
                         .mennyiseg(2)
                         .build()
         );
-        Termek termek = service.findByNev("sprite");
+        Termek termek = service.findByNev("spriteTeszt");
         assertNotNull(termek.getId());
-        assertEquals("sprite", termek.getMegnevezes());
+        assertEquals("spriteTeszt", termek.getMegnevezes());
         assertEquals(270, termek.getAr());
-        assertEquals("126378906", termek.getVonalkod());
+        assertEquals("126378906Teszt", termek.getVonalkod());
         assertEquals(2, termek.getMennyiseg());
     }
 
-    @Test
-    @DisplayName("Termék mennyiségének módosítása")
-    void termekModositasa() {
-        service.modify("12344345", 4);
-        assertEquals(4, service.findByNev("kenyér").getMennyiseg());
-    }
 
-    @Test
-    @DisplayName("Termek törlése")
-    void termekTorlese() {
-        service.deleteByVonalkod("12344345");
-        assertNull(service.findByNev("kenyér"));
+    @Nested
+    class modositasTorles {
+
+        @BeforeEach
+        void setUp() {
+            service.addTermek(
+                    Termek.builder()
+                            .megnevezes("ModositasTeszt")
+                            .ar(270)
+                            .vonalkod("12Teszt")
+                            .mennyiseg(2)
+                            .build()
+            );
+        }
+
+        @AfterEach
+        void tearDown() {
+            service.deleteByVonalkod("12Teszt");
+            assertNull(service.findByNev("ModositasTeszt"));
+        }
+
+        @Test
+        @DisplayName("Termék mennyiségének módosítása")
+        void termekModositasa() {
+            service.modify("12Teszt", 4);
+            assertEquals(4, service.findByNev("ModositasTeszt").getMennyiseg());
+        }
+
+
     }
 
     @Test
