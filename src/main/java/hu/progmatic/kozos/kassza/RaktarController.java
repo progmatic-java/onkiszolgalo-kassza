@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -54,15 +55,21 @@ public class RaktarController {
     }
 
     @PostMapping("/kassza/raktar/{id}")
-    public String save(
+    public String add(
             @PathVariable Integer id,
             @ModelAttribute("formItem") @Valid Termek formItem,
             BindingResult bindingResult,
             Model model) {
         if (!bindingResult.hasErrors()) {
-            termekService.save(formItem);
-            refreshAllTermek(model);
-            clearFormItem(model);
+            try {
+                termekService.add(formItem);
+                refreshAllTermek(model);
+                clearFormItem(model);
+            }catch (Exception e){
+                bindingResult.addError(new FieldError("formItem",
+                        "megnevezes",
+                        e.getMessage()));
+            }
         }
         return items();
     }

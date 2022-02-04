@@ -15,7 +15,10 @@ public class TermekService {
     private TermekRepository repository;
 
 
-    public Termek save(Termek termek) {
+    public Termek add(Termek termek) {
+        if(termek.getMegnevezes().equals(repository.findByMegnevezes(termek.getMegnevezes()).getMegnevezes())){
+            throw new FoglaltNevException(String.format(termek.getMegnevezes(), "már foglalt"));
+        }
         return repository.save(termek);
     }
 

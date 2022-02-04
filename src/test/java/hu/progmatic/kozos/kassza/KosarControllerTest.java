@@ -1,10 +1,7 @@
 package hu.progmatic.kozos.kassza;
 
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,21 +42,54 @@ public class KosarControllerTest {
                 .andExpect(content().string(containsString("víz")));
     }
 
-    @Test
-    @DisplayName("Termek hozzáadás után is megjelenik és a növelt végösszeg is")
-    void Osszeg() throws Exception {
-        KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
-        TermekMennyisegHozzaadasCommand termekMennyisegHozzaadasCommand = TermekMennyisegHozzaadasCommand.builder()
-                .mennyiseg(5)
-                .vonalkod("12345")
-                .build();
-        kosarViewDTO = kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), termekMennyisegHozzaadasCommand);
 
-        mockMvc.perform(
-                        post("/kassza/" +kosarViewDTO.getKosarId() +"/addtermek")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString(String.valueOf(kosarViewDTO.getKosarId()))))
-                .andExpect(content().string(containsString("víz")))
-                .andExpect(content().string(containsString("500")));
+    @Nested
+    class Gombtesztelesek{
+        private KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
+        @BeforeEach
+        void beforeEach() {
+            TermekMennyisegHozzaadasCommand termekMennyisegHozzaadasCommand = TermekMennyisegHozzaadasCommand.builder()
+                    .mennyiseg(5)
+                    .vonalkod("12345")
+                    .build();
+            kosarViewDTO = kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), termekMennyisegHozzaadasCommand);
+
+        }
+
+        @AfterEach
+        void tearDown() {
+            if (kosarViewDTO != null) {
+                kosarService.deleteKosarById(kosarViewDTO.getKosarId());
+                kosarViewDTO = null;
+            }
+        }
+
+
+        @Test
+        @DisplayName("Termek hozzáadás után is megjelenik és a növelt végösszeg is")
+        void Osszeg() throws Exception {
+            mockMvc.perform(
+                            post("/kassza/" + kosarViewDTO.getKosarId() + "/addtermek")).andDo(print()).andExpect(status().isOk())
+                    .andExpect(content().string(containsString(String.valueOf(kosarViewDTO.getKosarId()))))
+                    .andExpect(content().string(containsString("víz")))
+                    .andExpect(content().string(containsString("500")));
+        }
+
+        @Test
+        @Disabled
+        @DisplayName("törlés gomb után eltűnik a termék és a végösszeg is a kosárból")
+        void OsszegTorles() throws Exception {
+            mockMvc.perform(post("/kassza/"+ kosarViewDTO.getKosarId() + "delete/"
+                            + kosarViewDTO.getTermekMennyisegDtoList().stream()
+                            .filter(termekMennyisegDto -> termekMennyisegDto.getNev().equals("víz"))
+                    .mapToInt(TermekMennyisegDto::getTermekMennyisegId)))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(content().string(containsString("végösszeg")))
+                    .andExpect(content().string(containsString("0")))
+                    .andExpect(content().string(not(containsString("500"))));
+            kosarViewDTO = null;
+        }
+
     }
 
 
