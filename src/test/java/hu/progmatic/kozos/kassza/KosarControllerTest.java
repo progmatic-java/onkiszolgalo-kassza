@@ -76,15 +76,14 @@ public class KosarControllerTest {
         }
 
         @Test
-        @Disabled
         @DisplayName("törlés gomb után eltűnik a termék és a végösszeg is a kosárból")
         void OsszegTorles() throws Exception {
             mockMvc.perform(post("/kassza/"+ kosarViewDTO.getKosarId() + "/delete/"
                             + kosarViewDTO.getTermekMennyisegDtoList().stream()
                             .filter(termekMennyisegDto -> termekMennyisegDto.getNev().equals("víz"))
-                    .mapToInt(TermekMennyisegDto::getTermekMennyisegId)))
+                    .mapToInt(TermekMennyisegDto::getTermekMennyisegId).findAny().orElseThrow()))
                     .andDo(print()).andExpect(status().isOk())
-                    .andExpect(content().string(containsString("végösszeg")))
+                    .andExpect(content().string(containsString("Végösszeg")))
                     .andExpect(content().string(containsString("0")))
                     .andExpect(content().string(not(containsString("500"))));
             kosarViewDTO = null;
