@@ -17,14 +17,18 @@ public class Termek {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Column(unique = true)
-    private String megnevezes;
+    @Builder.Default
+    private String megnevezes= "a";
     @Min(0)
-    private Integer ar;
+    @Builder.Default
+    private Integer ar = 10;
     @NotNull
     @Column(unique = true)
-    private String vonalkod;
+    @Builder.Default
+    private String vonalkod = "10";
     @Min(0)
-    private Integer mennyiseg;
+    @Builder.Default
+    private Integer mennyiseg = 1;
 
 
 }

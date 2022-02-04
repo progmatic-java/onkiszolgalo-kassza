@@ -95,7 +95,7 @@
         <div class="col-2">
         </div>
         <div class="col-3" style="font-size: 50px;text-align: center;border: 3px solid black; background-color: whitesmoke" th:text="${kosar.getUtolsoHozzaadottTermekmennyisegDto() == null} ? 'Aktuálisan hozzáadott termék neve' : ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getNev()} + ' ' + ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getMennyiseg()} + ' db'">  <!--th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Aktuálisan hozzáadott termék neve' : ${kosar.getTermekMennyisegDtoList().get(kosar.getTermekMennyisegDtoList().size()-1).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(kosar.getTermekMennyisegDtoList().size()-1).getMennyiseg()} + ' db'"> -->
-                        Aktuálisan hozzáadott termék neve
+            Aktuálisan hozzáadott termék neve
         </div>
     </div>
     <br>
