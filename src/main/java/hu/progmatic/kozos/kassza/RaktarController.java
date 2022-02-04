@@ -47,9 +47,15 @@ public class RaktarController {
             BindingResult bindingResult,
             Model model) {
         if (!bindingResult.hasErrors()) {
-            termekService.create(formItem);
-            refreshAllTermek(model);
-            clearFormItem(model);
+            try {
+                termekService.create(formItem);
+                refreshAllTermek(model);
+                clearFormItem(model);
+            }catch (Exception e){
+                bindingResult.addError(new FieldError("formItem",
+                        "megnevezes",
+                        e.getMessage()));
+            }
         }
         return items();
     }
@@ -61,15 +67,9 @@ public class RaktarController {
             BindingResult bindingResult,
             Model model) {
         if (!bindingResult.hasErrors()) {
-            try {
                 termekService.add(formItem);
                 refreshAllTermek(model);
                 clearFormItem(model);
-            }catch (Exception e){
-                bindingResult.addError(new FieldError("formItem",
-                        "megnevezes",
-                        e.getMessage()));
-            }
         }
         return items();
     }

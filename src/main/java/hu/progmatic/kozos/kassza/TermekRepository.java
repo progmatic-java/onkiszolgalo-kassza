@@ -4,6 +4,7 @@ package hu.progmatic.kozos.kassza;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TermekRepository extends JpaRepository<Termek,Integer> {
     List<Termek> findAllByMegnevezesContains(String nev);

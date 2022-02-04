@@ -16,9 +16,6 @@ public class TermekService {
 
 
     public Termek add(Termek termek) {
-        if(termek.getMegnevezes().equals(repository.findByMegnevezes(termek.getMegnevezes()).getMegnevezes())){
-            throw new FoglaltNevException(String.format(termek.getMegnevezes(), "már foglalt"));
-        }
         return repository.save(termek);
     }
 
@@ -70,9 +67,12 @@ public class TermekService {
         repository.deleteById(id);
     }
 
-    public Termek create(Termek item) {
-        item.setId(null);
-        return repository.saveAndFlush(item);
+    public Termek create(Termek termek) {
+        if(repository.findByMegnevezes(termek.getMegnevezes()) != null){
+            throw new FoglaltNevException(String.format(termek.getMegnevezes(), "már van raktáron"));
+        }
+        termek.setId(null);
+        return repository.saveAndFlush(termek);
     }
 
 
