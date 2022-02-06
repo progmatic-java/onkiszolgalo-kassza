@@ -22,7 +22,7 @@ class BankjegyServiceTest {
             Bankjegy.builder()
                     .ertek(10000)
                     .nev("Tízezer")
-                    .mennyiseg(0)
+                    .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(5000)
@@ -55,7 +55,7 @@ class BankjegyServiceTest {
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
-                    .ertek(500)
+                    .ertek(50)
                     .nev("Ötven")
                     .mennyiseg(3)
                     .build(),
@@ -89,6 +89,23 @@ class BankjegyServiceTest {
     @Disabled
     @Test
     void visszaadas() {
-        assertEquals("{otszazas=1, szazas=0, ezres=1, tizes=1, tizezres=1, otezres=1, huszas=0, ketszazas=1, ketezres=1, otvenes=1, otos=1}", bankjegyService.bankjegyek(1235, 20000));
+        assertEquals(
+                "{" +
+                        "otszazas=1," +
+                        " szazas=0," +
+                        " ezres=1," +
+                        " tizes=1," +
+                        " tizezres=1," +
+                        " otezres=1," +
+                        " huszas=0," +
+                        " ketszazas=1," +
+                        " ketezres=1," +
+                        " otvenes=1," +
+                        " otos=1"+
+                        "}",
+                bankjegyService.bankjegyek(
+                        1235,
+                        20000)
+        );
     }
 }

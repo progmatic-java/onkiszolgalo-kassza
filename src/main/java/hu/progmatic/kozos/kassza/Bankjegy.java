@@ -2,10 +2,7 @@ package hu.progmatic.kozos.kassza;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -18,6 +15,7 @@ public class Bankjegy {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String nev;
+    @Column(unique = true)
     private Integer ertek;
     private Integer mennyiseg;
 }
