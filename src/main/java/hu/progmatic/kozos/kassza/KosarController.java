@@ -24,6 +24,7 @@ public class KosarController {
     public String kosarIndex(Model model) {
         KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
         model.addAttribute("kosar", kosarViewDTO);
+        model.addAttribute("isTermekMennyisegEdit", false);
         return "kassza/kassza";
     }
 
@@ -56,6 +57,31 @@ public class KosarController {
         return "kassza/kassza";
     }
 
+    @PostMapping("/kassza/{kosarId}/modosit")
+    public String modositTermek(
+            @PathVariable("kosarId") Integer kosarId,
+            @ModelAttribute("termekMennyisegHozzaadasCommand") @Valid TermekMennyisegHozzaadasCommand command,
+            BindingResult bindingResult,
+            Model model) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                kosarService.termekMennyisegModosit(kosarId, command);
+                model.addAttribute("allTermek", kosarService.findAllTermekNotNullMennyiseg());
+                model.addAttribute("termekMennyisegHozzaadasCommand", new TermekMennyisegHozzaadasCommand());
+            } catch (NincsElegRaktarKeszletException e) {
+                model.addAttribute("isTermekMennyisegEdit", true);
+                bindingResult.addError(new FieldError("termekMennyisegHozzaadasCommand",
+                        "mennyiseg",
+                        e.getMessage()));
+            }
+        }else{
+            model.addAttribute("isTermekMennyisegEdit", true);
+        }
+        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        return "kassza/kassza";
+    }
+
+
     @PostMapping("/kassza/{kosarId}/delete/{termekMId}")
     public String deleteTermekMennyiseg(
             @PathVariable("kosarId") Integer kosarId,
@@ -63,16 +89,19 @@ public class KosarController {
             Model model) {
         KosarViewDTO kosarViewDTO = kosarService.deleteTermekMennyiseg(kosarId, termekMId);
         model.addAttribute("kosar", kosarViewDTO);
+        model.addAttribute("allTermek", kosarService.findAllTermekNotNullMennyiseg());
         return "kassza/kassza";
     }
 
-    @GetMapping("/kassza/{kosarId}/delete/{termekMId}")
+    @GetMapping("/kassza/{kosarId}/modosit/{termekMId}")
     public String editTermekMennyiseg(
             @PathVariable("kosarId") Integer kosarId,
             @PathVariable("termekMId") Integer termekMId,
             Model model) {
         model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
         model.addAttribute("termekMennyisegHozzaadasCommand", kosarService.kivalasztottTermekHozzaad(kosarId, termekMId));
+        model.addAttribute("isTermekMennyisegEdit", true);
+        model.addAttribute("allTermek", kosarService.findAllTermek());
         return "kassza/kassza";
     }
 
@@ -88,6 +117,9 @@ public class KosarController {
         return new TermekMennyisegHozzaadasCommand();
     }
 
-
+    /*@ModelAttribute("isTermekMennyisegEdit")
+    boolean isTermekMennyisegEdit(){
+        return false;
+    }*/
 }
 

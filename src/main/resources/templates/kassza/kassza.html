@@ -40,7 +40,7 @@
                     <td>
                         <div class="row">
                             <div class="col">
-                                <form th:action="@{'/kassza/{kosarId}/delete/{termekMId}'(kosarId=${kosar.kosarId},termekMId =${termekmennyiseg.termekMennyisegId})}" method="get">
+                                <form th:action="@{'/kassza/{kosarId}/modosit/{termekMId}'(kosarId=${kosar.kosarId},termekMId =${termekmennyiseg.termekMennyisegId})}" method="get">
                                     <input type="submit" class="btn btn-success" value="Módosít"/>
                                 </form>
                             </div>
@@ -57,15 +57,16 @@
                 </tbody>
             </table>
             <hr>
-            <h3>Új termék hozzáadása</h3>
+            <h3 th:text="${isTermekMennyisegEdit} ? 'Termék mennyiség módosítás' : 'Új termék hozzáadása'">Új termék hozzáadása</h3>
             <form class="row"
-                  th:action="@{'/kassza/{kosarId}/addtermek' (kosarId=${kosar.kosarId})}" method="post"
+                  th:action="${isTermekMennyisegEdit} ? @{'/kassza/{kosarId}/modosit' (kosarId=${kosar.kosarId})} : @{'/kassza/{kosarId}/addtermek' (kosarId=${kosar.kosarId})}" method="post"
                   th:object="${termekMennyisegHozzaadasCommand}"
             >
                 <div class="col">
                     <label>
-                        <select th:field="*{vonalkod}" class="form-select">
-                            <option th:each="type : ${allTermek}"
+                        <select th:field="*{vonalkod}" class="form-select"  th:hidden="${isTermekMennyisegEdit}">
+                            <option th:selected="${type.vonalkod == termekMennyisegHozzaadasCommand.vonalkod}"
+                                    th:each="type : ${allTermek}"
                                     th:value="${type.vonalkod}"
                                     th:text="${type.megnevezes} + '  (' + ${type.mennyiseg} +')'"></option>
                         </select>
@@ -73,7 +74,6 @@
                 </div>
                 <div class="col">
                     <label>
-
                         <input type="text"
                                class="form-control"
                                placeholder="Mennyiség"
@@ -87,7 +87,7 @@
                     </label>
                 </div>
                 <div class="col">
-                    <input class="btn btn-primary" type="submit" value="Hozzáad"/>
+                    <input class="btn btn-primary" type="submit" th:value="${isTermekMennyisegEdit} ? 'Módosít' : 'Hozzáad'"/>
                 </div>
             </form>
             <hr>
