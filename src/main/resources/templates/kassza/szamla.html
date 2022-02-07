@@ -15,10 +15,17 @@
 <h1>Számla</h1>
 <table class="table table-striped">
     <tbody>
+    <tr>
+        <td>Nev</td>
+        <td>Ár</td>
+        <td>Mennyiseg</td>
+        <td>Összesen</td>
+    </tr>
     <tr th:each="item : ${kosar.termekMennyisegDtoList}">
         <td th:text="${item.nev}">Név</td>
         <td th:text="${item.ar}">100</td>
         <td th:text="${item.mennyiseg}">Mennyiseg</td>
+        <td th:text="${item.mennyiseg}*${item.ar}" style="text-align: right">Összesen</td>
 
     </tr>
     </tbody>
