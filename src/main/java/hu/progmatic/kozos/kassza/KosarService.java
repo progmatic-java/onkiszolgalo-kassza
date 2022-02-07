@@ -103,6 +103,7 @@ public class KosarService {
                                         .mennyiseg(kosar.getUtolsoHozzaadottTermekmennyiseg().getMennyiseg())
                                         .build())
                 .termekMennyisegDtoList(kosar.getTermekMennyisegek().stream()
+                        .sorted((o1, o2) -> o2.getId()- o1.getId())
                         .map(termekMennyiseg -> TermekMennyisegDto.builder()
                                 .termekMennyisegId(termekMennyiseg.getId())
                                 .ar(termekMennyiseg.getTermek().getAr())
