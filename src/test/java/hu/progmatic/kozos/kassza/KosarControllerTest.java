@@ -72,7 +72,8 @@ public class KosarControllerTest {
                             post("/kassza/" + kosarViewDTO.getKosarId() + "/addtermek")).andDo(print()).andExpect(status().isOk())
                     .andExpect(content().string(containsString(String.valueOf(kosarViewDTO.getKosarId()))))
                     .andExpect(content().string(containsString("víz")))
-                    .andExpect(content().string(containsString("500")));
+                    .andExpect(content().string(containsString("500")))
+                    .andExpect(content().string(not(containsString("Aktuálisan hozzáadott termék neve"))));
         }
 
         @Test

@@ -110,7 +110,9 @@
         <div class="col-1">
         </div>
         <div class="col-2" style="text-align: center; font-size: 30px">
-            <a type="button" class="btn btn-danger" href="bankkartyaUrlap.html" th:href="@{/kassza/bankkartyaUrlap}">fizetés bankkártyával</a>
+            <form th:action="@{'/kassza/bankkartyaUrlap/{kosarId}'(kosarId=${kosar.kosarId})}" method="get">
+                <input type="submit" class="btn btn-danger" value="bankártyás fizetés"/>
+            </form>
         </div>
         <div class="col-2">
             <a type="button" class="btn btn-success" href="visszaigazolas.html" th:href="@{/kassza/visszaigazolas}">fizetés készpénzzel</a>
