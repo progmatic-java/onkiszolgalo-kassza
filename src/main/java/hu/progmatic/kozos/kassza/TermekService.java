@@ -11,6 +11,7 @@ import java.util.List;
 public class TermekService {
 
 
+
     @Autowired
     private TermekRepository repository;
 
