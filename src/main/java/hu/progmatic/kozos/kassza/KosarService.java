@@ -45,6 +45,7 @@ public class KosarService {
     public KosarViewDTO addTermekMennyisegCommand(Integer kosarId, TermekMennyisegHozzaadasCommand command) {
         Kosar kosar = kosarRepository.findById(kosarId).orElseThrow();
 
+
         mennyisegValidacio(command.getVonalkod(), command.getMennyiseg());
         /*Termek termek = termekService.getByVonalkod(command.getVonalkod());
         int termekMennyiseg = termek.getMennyiseg();
