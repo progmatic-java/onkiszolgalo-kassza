@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Önkiszolgáló kassza</title>
     <style>
-        *{
+        * {
             font-family: sans-serif;
         }
-        .list-group{
+
+        .list-group {
             margin-bottom: 10px;
             overflow: scroll;
+            height: 250px;
         }
     </style>
 </head>
-<body style="background-image: url(/images/kassza/hatter.jpg)" th:src = "@{/images/kassza/hatter.jpg}">
+<body style="background-image: url(/images/kassza/hatter.jpg)" th:src="@{/images/kassza/hatter.jpg}">
 <h1 style="text-align: center">Üdvözöljük!</h1>
 <br>
 <br>
@@ -31,30 +34,36 @@
                 <thead>
                 <tr style="font-size: 30px; border: 3px solid black">
                     <h3>Kosár tartalma:</h3></tr>
-                <tr >
-                    <td>Termék neve</td>
-                    <td>Egység Ár</td>
-                    <td>Darab</td>
+                <tr>
+                    <td style="width: 150px">TERMÉK NEVE</td>
+                    <td style="width: 100px">EGYSÉGÁR</td>
+                    <td style="width: 50px">DB</td>
+                    <td style="width: 100px">ÖSSZESEN</td>
                     <!--                    <td th:text="${termek.mennyiseg}">10.0</td>-->
 
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="termekmennyiseg : ${kosar.getTermekMennyisegDtoList()}">
-                    <th scope="col" th:text ="${termekmennyiseg.nev}">Termék neve</th>
-                    <th scope="col"  th:text ="${termekmennyiseg.ar}">Ár</th>
-                    <th scope="col" th:text = "${termekmennyiseg.mennyiseg}">Mennyiség</th>
-                    <th scope="col"></th>
+                    <th style="width: 150px" scope="col" th:text="${termekmennyiseg.nev}">Termék neve</th>
+                    <th style="width: 100px" scope="col" th:text="${termekmennyiseg.ar}">Ár</th>
+                    <th style="width: 50px" scope="col" th:text="${termekmennyiseg.mennyiseg}">Mennyiség</th>
+                    <th style="width: 100px" scope="col" th:text="${termekmennyiseg.mennyiseg*termekmennyiseg.ar}">
+                        Mennyiség
+                    </th>
+                    <th style="width: 100px" scope="col"></th>
 
                     <td>
                         <div class="row">
                             <div class="col">
-                                <form th:action="@{'/kassza/{kosarId}/modosit/{termekMId}'(kosarId=${kosar.kosarId},termekMId =${termekmennyiseg.termekMennyisegId})}" method="get">
+                                <form th:action="@{'/kassza/{kosarId}/modosit/{termekMId}'(kosarId=${kosar.kosarId},termekMId =${termekmennyiseg.termekMennyisegId})}"
+                                      method="get">
                                     <input type="submit" class="btn btn-success" value="Módosít"/>
                                 </form>
                             </div>
                             <div class="col">
-                                <form th:action="@{'/kassza/{kosarId}/delete/{termekMId}'(kosarId=${kosar.kosarId},termekMId =${termekmennyiseg.termekMennyisegId})}" method="post">
+                                <form th:action="@{'/kassza/{kosarId}/delete/{termekMId}'(kosarId=${kosar.kosarId},termekMId =${termekmennyiseg.termekMennyisegId})}"
+                                      method="post">
                                     <input type="submit" class="btn btn-danger" value="Törlés"/>
                                 </form>
                             </div>
@@ -66,14 +75,16 @@
                 </tbody>
             </table>
             <hr>
-            <h3 th:text="${isTermekMennyisegEdit} ? 'Termék mennyiség módosítás' : 'Új termék hozzáadása'">Új termék hozzáadása</h3>
+            <h3 th:text="${isTermekMennyisegEdit} ? 'Termék mennyiség módosítás' : 'Új termék hozzáadása'">Új termék
+                hozzáadása</h3>
             <form class="row"
-                  th:action="${isTermekMennyisegEdit} ? @{'/kassza/{kosarId}/modosit' (kosarId=${kosar.kosarId})} : @{'/kassza/{kosarId}/addtermek' (kosarId=${kosar.kosarId})}" method="post"
+                  th:action="${isTermekMennyisegEdit} ? @{'/kassza/{kosarId}/modosit' (kosarId=${kosar.kosarId})} : @{'/kassza/{kosarId}/addtermek' (kosarId=${kosar.kosarId})}"
+                  method="post"
                   th:object="${termekMennyisegHozzaadasCommand}"
             >
                 <div class="col">
                     <label>
-                        <select th:field="*{vonalkod}" class="form-select"  th:hidden="${isTermekMennyisegEdit}">
+                        <select th:field="*{vonalkod}" class="form-select" th:hidden="${isTermekMennyisegEdit}">
                             <option th:selected="${type.vonalkod == termekMennyisegHozzaadasCommand.vonalkod}"
                                     th:each="type : ${allTermek}"
                                     th:value="${type.vonalkod}"
@@ -96,14 +107,18 @@
                     </label>
                 </div>
                 <div class="col">
-                    <input class="btn btn-primary" type="submit" th:value="${isTermekMennyisegEdit} ? 'Módosít' : 'Hozzáad'"/>
+                    <input class="btn btn-primary" type="submit"
+                           th:value="${isTermekMennyisegEdit} ? 'Módosít' : 'Hozzáad'"/>
                 </div>
             </form>
             <hr>
         </div>
         <div class="col-2">
         </div>
-        <div class="col-3" style="font-size: 50px;text-align: center;border: 3px solid black; background-color: whitesmoke" th:text="${kosar.getUtolsoHozzaadottTermekmennyisegDto() == null} ? 'Aktuálisan hozzáadott termék neve' : ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getNev()} + ' ' + ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getMennyiseg()} + ' db'">  <!--th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Aktuálisan hozzáadott termék neve' : ${kosar.getTermekMennyisegDtoList().get(kosar.getTermekMennyisegDtoList().size()-1).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(kosar.getTermekMennyisegDtoList().size()-1).getMennyiseg()} + ' db'"> -->
+        <div class="col-3"
+             style="font-size: 50px;text-align: center;border: 3px solid black; background-color: whitesmoke"
+             th:text="${kosar.getUtolsoHozzaadottTermekmennyisegDto() == null} ? 'Aktuálisan hozzáadott termék neve' : ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getNev()} + ' ' + ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getMennyiseg()} + ' db'">
+            <!--th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Aktuálisan hozzáadott termék neve' : ${kosar.getTermekMennyisegDtoList().get(kosar.getTermekMennyisegDtoList().size()-1).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(kosar.getTermekMennyisegDtoList().size()-1).getMennyiseg()} + ' db'"> -->
             Aktuálisan hozzáadott termék neve
         </div>
     </div>
@@ -113,7 +128,8 @@
     <br>
     <br>
     <div class="row" style="text-align: center; font-size: 30px">
-        <div class="col-7" style="background-color: yellow; border: 3px black" th:text="'Végösszeg: '+${kosar.vegosszeg}+'Ft'" >
+        <div class="col-7" style="background-color: yellow; border: 3px black"
+             th:text="'Végösszeg: '+${kosar.vegosszeg}+'Ft'">
             Végösszeg: 0 Ft
         </div>
 
@@ -125,7 +141,8 @@
             </form>
         </div>
         <div class="col-2">
-            <a type="button" class="btn btn-success" href="visszaigazolas.html" th:href="@{/kassza/visszaigazolas}">fizetés készpénzzel</a>
+            <a type="button" class="btn btn-success" href="visszaigazolas.html" th:href="@{/kassza/visszaigazolas}">fizetés
+                készpénzzel</a>
         </div>
     </div>
 </div>
