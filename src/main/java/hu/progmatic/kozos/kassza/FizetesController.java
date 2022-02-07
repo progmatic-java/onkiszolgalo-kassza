@@ -12,11 +12,11 @@ public class FizetesController {
     KosarService kosarService;
 
 
-    @GetMapping("/kassza/bankkartyaUrlap/{kosarId}")
+    @GetMapping("/kassza/fizetes/{kosarId}")
     public String kosarIdIndex(@PathVariable("kosarId") Integer kosarId,
                                 Model model) {
         model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
-        return "kassza/bankkartyaUrlap";
+        return "kassza/szamla";
     }
 
     @GetMapping("/kassza/visszaigazolas")

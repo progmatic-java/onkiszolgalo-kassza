@@ -15,17 +15,18 @@
 <h1>Számla</h1>
 <table class="table table-striped">
     <tbody>
-    <tr th:each="item : ${allItem}">
-        <td th:text="${item.megnevezes}">Név</td>
+    <tr th:each="item : ${kosar.termekMennyisegDtoList}">
+        <td th:text="${item.nev}">Név</td>
         <td th:text="${item.ar}">100</td>
         <td th:text="${item.mennyiseg}">Mennyiseg</td>
+
     </tr>
     </tbody>
 </table>
 <div class="col-7" style="background-color: yellow; border: 3px black" th:text="'Végösszeg: '+${kosar.vegosszeg}+'Ft'" >
     Végösszeg: 0 Ft
 </div>
-<form action="kassza.html">
+<form th:action="@{'/kassza/{kosarId}'(kosarId=${kosar.kosarId})}">
     <input type="submit" value="Vissza">
 </form>
 </body>
