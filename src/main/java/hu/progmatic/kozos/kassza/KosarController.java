@@ -75,12 +75,14 @@ public class KosarController {
                 model.addAttribute("termekMennyisegHozzaadasCommand", new TermekMennyisegHozzaadasCommand());
             } catch (NincsElegRaktarKeszletException e) {
                 model.addAttribute("isTermekMennyisegEdit", true);
+                model.addAttribute("allTermek", kosarService.findAllTermek());
                 bindingResult.addError(new FieldError("termekMennyisegHozzaadasCommand",
                         "mennyiseg",
                         e.getMessage()));
             }
         } else {
             model.addAttribute("isTermekMennyisegEdit", true);
+            model.addAttribute("allTermek", kosarService.findAllTermek());
         }
         model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
         return "kassza/kassza";
