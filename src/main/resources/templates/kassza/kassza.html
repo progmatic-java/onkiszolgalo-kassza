@@ -48,11 +48,13 @@
                 </tr>
                 </thead>
                 <tbody class="list-group2">
-                <tr  th:each="termekmennyiseg, iter : ${kosar.getTermekMennyisegDtoList()}" th:style="${iter.index % 2 == 0} ? 'background-color:#D3D3D3' : 'background-color:#F8F8F8'">
+                <tr th:each="termekmennyiseg, iter : ${kosar.getTermekMennyisegDtoList()}"
+                    th:style="${iter.index % 2 == 0} ? 'background-color:#D3D3D3' : 'background-color:#F8F8F8'">
                     <th style="width: 150px" scope="col" th:text="${termekmennyiseg.nev}">Termék neve</th>
                     <th style="width: 100px" scope="col" th:text="${termekmennyiseg.ar}">Ár</th>
                     <th style="width: 50px" scope="col" th:text="${termekmennyiseg.mennyiseg}">Mennyiség</th>
-                    <th style="width: 100px; font-style: italic" scope="col" th:text="${termekmennyiseg.mennyiseg*termekmennyiseg.ar} + ' Ft'">
+                    <th style="width: 100px; font-style: italic" scope="col"
+                        th:text="${termekmennyiseg.mennyiseg*termekmennyiseg.ar} + ' Ft'">
                         Mennyiség
                     </th>
                     <th style="width: 100px" scope="col"></th>
@@ -72,9 +74,9 @@
                                 <form th:action="@{'/kassza/{kosarId}/delete/{termekMId}'(kosarId=${kosar.kosarId},termekMId =${termekmennyiseg.termekMennyisegId})}"
                                       method="post">
                                     <!--<input type="submit" class="btn btn-danger" value="Törlés"/>-->
-                                   <button type="submit" class="btn btn-danger">
-                                    <i class="bi bi-trash"></i>
-                                   </button>
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 </form>
                             </div>
                         </div>
