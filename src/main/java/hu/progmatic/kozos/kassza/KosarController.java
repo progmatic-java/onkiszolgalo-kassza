@@ -17,7 +17,6 @@ import java.util.List;
 public class KosarController {
 
 
-
     @Autowired
     private KosarService kosarService;
 
@@ -36,6 +35,11 @@ public class KosarController {
         return "kassza/kassza";
     }
 
+    @PostMapping("/kassza/torles/{kosarId}")
+    public String kosarTorles(@PathVariable("kosarId") Integer kosarId){
+        kosarService.kosarDeleteById(kosarId);
+        return "kassza/kezdes";
+    }
 
     @PostMapping("/kassza/{kosarId}/addtermek")
     public String addTermek(
@@ -75,7 +79,7 @@ public class KosarController {
                         "mennyiseg",
                         e.getMessage()));
             }
-        }else{
+        } else {
             model.addAttribute("isTermekMennyisegEdit", true);
         }
         model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));

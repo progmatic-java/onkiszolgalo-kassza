@@ -171,4 +171,13 @@ public class KosarService {
 
         return kosarToKosarViewDTO(kosar);
     }
+
+    public void kosarDeleteById(Integer kosarId) {
+        Kosar kosar = kosarRepository.getById(kosarId);
+        for (TermekMennyiseg termekMennyiseg : kosar.getTermekMennyisegek()){
+            Termek termek = termekMennyiseg.getTermek();
+            termek.setMennyiseg(termek.getMennyiseg() + termekMennyiseg.getMennyiseg());
+        }
+        kosarRepository.delete(kosar);
+    }
 }
