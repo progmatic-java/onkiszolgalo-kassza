@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
 public class TermekService {
-
 
 
     @Autowired
@@ -36,7 +37,7 @@ public class TermekService {
         return repository.findAll();
     }
 
-    public Termek getByVonalkod(String vonalkod){
+    public Termek getByVonalkod(String vonalkod) {
         return repository.findByVonalkod(vonalkod);
     }
 
@@ -45,18 +46,18 @@ public class TermekService {
         return repository.findByMegnevezes(nev);
     }
 
-    public void addTermek(Termek termek) {
+    /*public void addTermek(Termek termek) {
         repository.save(termek);
-    }
+    }*/
 
     public void modify(String vonalkod, Integer mennyiseg) {
         Termek termek = getByVonalkod(vonalkod);
-       if(termek != null){
-           termek.setMennyiseg(mennyiseg);
-       }
+        if (termek != null) {
+            termek.setMennyiseg(mennyiseg);
+        }
     }
 
-    public List<Termek> findAllNotNullMennyiseg(){
+    public List<Termek> findAllNotNullMennyiseg() {
         return repository.findAllByMennyisegGreaterThan(0);
     }
 
@@ -69,14 +70,18 @@ public class TermekService {
     }
 
     public Termek create(Termek termek) {
-        if(repository.findByMegnevezes(termek.getMegnevezes()) != null){
-            throw new FoglaltNevException(String.format(termek.getMegnevezes() +  " nevű termék már van raktáron"));
+        Map<String, String> uniqueItemMap = new HashMap<>();
+        if (repository.findByMegnevezes(termek.getMegnevezes()) != null) {
+            uniqueItemMap.put("megnevezes", String.format("%s nevű termék már van raktáron", termek.getMegnevezes()));
         }
-        if ( repository.findByVonalkod(termek.getVonalkod()) != null){
-            throw new FoglaltVonalkodException(String.format(termek.getVonalkod() + " számú vonalkód már foglalt"));
+        if (repository.findByVonalkod(termek.getVonalkod()) != null) {
+            uniqueItemMap.put("vonalkod", String.format("%s számú vonalkód már foglalt", termek.getVonalkod()));
+        }
+        if (!uniqueItemMap.isEmpty()) {
+            throw new FoglaltTermekException(uniqueItemMap);
         }
         termek.setId(null);
-        return repository.saveAndFlush(termek);
+        return repository.save(termek);
     }
 
 

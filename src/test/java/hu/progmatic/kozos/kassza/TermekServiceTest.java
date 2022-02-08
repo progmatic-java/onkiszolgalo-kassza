@@ -30,11 +30,11 @@ class TermekServiceTest {
     @DisplayName("Termék hozzáadása")
     void termekHozzaadasa() {
 
-        service.addTermek(
+        service.create(
                 Termek.builder()
                         .megnevezes("spriteTeszt")
                         .ar(270)
-                        .vonalkod("126378906Teszt")
+                        .vonalkod("1263789060000000")
                         .mennyiseg(2)
                         .build()
         );
@@ -42,7 +42,7 @@ class TermekServiceTest {
         assertNotNull(termek.getId());
         assertEquals("spriteTeszt", termek.getMegnevezes());
         assertEquals(270, termek.getAr());
-        assertEquals("126378906Teszt", termek.getVonalkod());
+        assertEquals("1263789060000000", termek.getVonalkod());
         assertEquals(2, termek.getMennyiseg());
     }
 
@@ -52,11 +52,11 @@ class TermekServiceTest {
 
         @BeforeEach
         void setUp() {
-            service.addTermek(
+            service.create(
                     Termek.builder()
                             .megnevezes("ModositasTeszt")
                             .ar(270)
-                            .vonalkod("12Teszt")
+                            .vonalkod("1200000000")
                             .mennyiseg(2)
                             .build()
             );
@@ -64,14 +64,14 @@ class TermekServiceTest {
 
         @AfterEach
         void tearDown() {
-            service.deleteByVonalkod("12Teszt");
+            service.deleteByVonalkod("1200000000");
             assertNull(service.findByNev("ModositasTeszt"));
         }
 
         @Test
         @DisplayName("Termék mennyiségének módosítása")
         void termekModositasa() {
-            service.modify("12Teszt", 4);
+            service.modify("1200000000", 4);
             assertEquals(4, service.findByNev("ModositasTeszt").getMennyiseg());
         }
 
@@ -80,7 +80,7 @@ class TermekServiceTest {
 
     @Test
     void nemNullaMennyisegTest() {
-        service.addTermek(
+        service.create(
                 Termek.builder()
                         .megnevezes("probaNullaTermek")
                         .ar(270)
@@ -94,5 +94,110 @@ class TermekServiceTest {
         assertThat(termekek).extracting(Termek::getMegnevezes).doesNotContain("probaNullaTermek");
         List<Termek> termekekWithNull = service.findAll();
         assertThat(termekekWithNull).extracting(Termek::getMegnevezes).contains("probaNullaTermek");
+    }
+
+
+    @Nested
+    class unqieNevVonalkod {
+
+        @BeforeEach
+        void setUp() {
+            service.create(
+                    Termek.builder()
+                            .megnevezes("Unique1Teszt")
+                            .ar(270)
+                            .vonalkod("1200000000")
+                            .mennyiseg(2)
+                            .build()
+
+            );
+            service.create(
+                    Termek.builder()
+                            .megnevezes("Unique2Teszt")
+                            .ar(270)
+                            .vonalkod("1100000000")
+                            .mennyiseg(2)
+                            .build()
+            );
+        }
+
+        @AfterEach
+        void tearDown() {
+            service.deleteByVonalkod("1200000000");
+            service.deleteByVonalkod("1100000000");
+        }
+
+        @Test
+        void addUniqueNev() {
+            String exceptionMessageMegnevezes = null;
+            String exceptionMessageVonalkod = null;
+            try{
+                service.create(
+                        Termek.builder()
+                                .megnevezes("Unique1Teszt")
+                                .ar(270)
+                                .vonalkod("1300000000")
+                                .mennyiseg(2)
+                                .build()
+
+                );
+            }catch (FoglaltTermekException e){
+                exceptionMessageMegnevezes = e.getBindingProperty().get("megnevezes");
+                exceptionMessageVonalkod = e.getBindingProperty().get("vonalkod");
+            }
+
+            assertNull(exceptionMessageVonalkod);
+            assertNotNull(exceptionMessageMegnevezes);
+            assertEquals("Unique1Teszt nevű termék már van raktáron", exceptionMessageMegnevezes);
+        }
+
+        @Test
+        void addUniqueVonalkod() {
+            String exceptionMessageMegnevezes = null;
+            String exceptionMessageVonalkod = null;
+            try{
+                service.create(
+                        Termek.builder()
+                                .megnevezes("Unique12Teszt")
+                                .ar(270)
+                                .vonalkod("1100000000")
+                                .mennyiseg(2)
+                                .build()
+
+                );
+            }catch (FoglaltTermekException e){
+                exceptionMessageMegnevezes = e.getBindingProperty().get("megnevezes");
+                exceptionMessageVonalkod = e.getBindingProperty().get("vonalkod");
+            }
+
+            assertNull(exceptionMessageMegnevezes);
+            assertNotNull(exceptionMessageVonalkod);
+            assertEquals("1100000000 számú vonalkód már foglalt", exceptionMessageVonalkod);
+        }
+
+        @Test
+        void addUniqueVonalkodEsNev() {
+            String exceptionMessageMegnevezes = null;
+            String exceptionMessageVonalkod = null;
+            try{
+                service.create(
+                        Termek.builder()
+                                .megnevezes("Unique1Teszt")
+                                .ar(270)
+                                .vonalkod("1200000000")
+                                .mennyiseg(2)
+                                .build()
+
+                );
+            }catch (FoglaltTermekException e){
+                exceptionMessageMegnevezes = e.getBindingProperty().get("megnevezes");
+                exceptionMessageVonalkod = e.getBindingProperty().get("vonalkod");
+            }
+
+            assertNotNull(exceptionMessageMegnevezes);
+            assertNotNull(exceptionMessageVonalkod);
+            assertEquals("Unique1Teszt nevű termék már van raktáron", exceptionMessageMegnevezes);
+            assertEquals("1200000000 számú vonalkód már foglalt", exceptionMessageVonalkod);
+        }
     }
 }

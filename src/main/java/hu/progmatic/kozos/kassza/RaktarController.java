@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class RaktarController {
@@ -51,15 +52,12 @@ public class RaktarController {
                 termekService.create(formItem);
                 refreshAllTermek(model);
                 clearFormItem(model);
-            }catch (Exception e){
-                if (e instanceof FoglaltNevException) {
+            } catch (FoglaltTermekException e) {
+                for (Map.Entry<String, String> entry : e.getBindingProperty().entrySet()) {
                     bindingResult.addError(new FieldError("formItem",
-                            "megnevezes",
-                            e.getMessage()));
+                            entry.getKey(),
+                            entry.getValue()));
                 }
-                else{bindingResult.addError(new FieldError("formItem",
-                        "vonalkod",
-                        e.getMessage()));}
             }
         }
         return items();
@@ -72,9 +70,9 @@ public class RaktarController {
             BindingResult bindingResult,
             Model model) {
         if (!bindingResult.hasErrors()) {
-                termekService.add(formItem);
-                refreshAllTermek(model);
-                clearFormItem(model);
+            termekService.add(formItem);
+            refreshAllTermek(model);
+            clearFormItem(model);
         }
         return items();
     }
