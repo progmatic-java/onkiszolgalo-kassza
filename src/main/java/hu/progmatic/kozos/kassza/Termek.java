@@ -28,6 +28,9 @@ public class Termek {
     @Min(value = 0, message = "A termék mennyiség nem lehet negatív")
     @Max(value = 10000, message = "maximum 10000db terméket lehet felvenni")
     private Integer mennyiseg;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    private Kep kep;
 
 
 }
