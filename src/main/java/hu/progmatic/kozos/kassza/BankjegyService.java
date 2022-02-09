@@ -115,12 +115,12 @@ public class BankjegyService {
     }
 
     private boolean vanBelole(int ertek) {
-        return bankjegyRepository.findByErtek(ertek).orElseThrow().getMennyiseg() > 0;
+        return bankjegyRepository.findByErtek(ertek).isPresent();
     }
 
     private void mennyisegCsokkentese(Integer ertek) {
-        bankjegyRepository.findByErtek(ertek).orElseThrow()
-                .setMennyiseg(bankjegyRepository.findByErtek(ertek).orElseThrow().getMennyiseg() - 1);
+        Bankjegy bankjegy = bankjegyRepository.findByErtek(ertek).orElseThrow();
+        bankjegy.setMennyiseg(bankjegy.getMennyiseg() - 1);
     }
 
     public void save(List<Bankjegy> bankjegyek) {
