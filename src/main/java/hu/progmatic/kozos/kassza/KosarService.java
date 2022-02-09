@@ -21,18 +21,9 @@ public class KosarService {
     private TermekService termekService;
 
 
-    public Kosar save(Kosar kosar) {
-        return kosarRepository.save(kosar);
-    }
-
     public KosarViewDTO getKosarDtoById(Integer id) {
         return kosarToKosarViewDTO(kosarRepository.getById(id));
     }
-
-    public void saveAll(List<Kosar> initItems) {
-        kosarRepository.saveAll(initItems);
-    }
-
 
     public KosarViewDTO kosarViewCreate() {
         Kosar kosar = kosarRepository.save(Kosar.builder().build());
