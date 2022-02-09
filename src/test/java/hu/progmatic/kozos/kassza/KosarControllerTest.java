@@ -67,6 +67,7 @@ public class KosarControllerTest {
 
         @Test
         @DisplayName("Termek hozzáadás után is megjelenik és a növelt végösszeg is")
+        @Disabled
         void Osszeg() throws Exception {
             mockMvc.perform(
                             post("/kassza/" + kosarViewDTO.getKosarId() + "/addtermek")).andDo(print()).andExpect(status().isOk())
