@@ -3,42 +3,236 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- Bootstrap Font Icon CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link href='https://css.gg/enter.css' rel='stylesheet'>
     <title>Önkiszolgáló kassza</title>
-    <style>
+    <style th:inline="text">
+
+        /* CSS */
+        .button-79 {
+            backface-visibility: hidden;
+            background: #332cf2;
+            border: 0;
+            border-radius: .375rem;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            font-family: Circular, Helvetica, sans-serif;
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: -.01em;
+            line-height: 1.3;
+            padding: 1rem 1.25rem;
+            position: relative;
+            text-align: left;
+            text-decoration: none;
+            transform: translateZ(0) scale(1);
+            transition: transform .2s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .button-79:disabled {
+            color: #787878;
+            cursor: auto;
+        }
+
+        .button-79:not(:disabled):hover {
+            transform: scale(1.05);
+        }
+
+        .button-79:not(:disabled):hover:active {
+            transform: scale(1.05) translateY(.125rem);
+        }
+
+        .button-79:focus {
+            outline: 0 solid transparent;
+        }
+
+        .button-79:focus:before {
+            border-width: .125rem;
+            content: "";
+            left: calc(-1 * .375rem);
+            pointer-events: none;
+            position: absolute;
+            top: calc(-1 * .375rem);
+            transition: border-radius;
+            user-select: none;
+        }
+
+        .button-79:focus:not(:focus-visible) {
+            outline: 0 solid transparent;
+        }
+
+        .button-79:not(:disabled):active {
+            transform: translateY(.125rem);
+        }
+
+        .gg-enter {
+            box-sizing: border-box;
+            position: relative;
+            display: block;
+            transform: scale(var(--ggs, 1));
+            width: 16px;
+            height: 18px;
+            border: 2px solid;
+            border-left: 0;
+            box-shadow: -8px -6px 0 -6px,
+            -8px 6px 0 -6px
+        }
+
+        .gg-enter::after,
+        .gg-enter::before {
+            content: "";
+            display: block;
+            box-sizing: border-box;
+            position: absolute;
+            right: 4px
+        }
+
+        .gg-enter::before {
+            background: currentColor;
+            width: 16px;
+            height: 2px;
+            top: 6px
+        }
+
+        .gg-enter::after {
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid;
+            border-top: 2px solid;
+            top: 4px;
+            transform: rotate(45deg)
+        }
+
         * {
             font-family: sans-serif;
+            color: darkblue;
         }
 
         .list-group2 {
             margin-bottom: 10px;
-            overflow: scroll;
-            height: 250px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            height: 200px;
         }
+
+        .button-76 {
+            border-radius: 8px;
+            bottom: 0;
+            right: 0;
+            background-color: darkblue;
+            border: 0;
+            border-radius: .25rem;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            font-family: Helvetica;
+            font-size: 1.125rem; /* 18px */
+            font-weight: 600;
+            line-height: 1.75rem; /* 28px */
+            padding: 1rem 1.25rem;
+            text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .button-76:disabled{
+            background-color: whitesmoke;
+        }
+
+        .button-76:hover:enabled {
+            background-color: red;
+        }
+
+        @media (min-width: 1024px) {
+            .button-76 {
+                font-size: 1.5rem; /* 24px */
+                padding: 1rem 1.5rem;
+                line-height: 2rem; /* 32px */
+            }
+        }
+
+        .button-64 {
+            width: 250px;
+            height: 150px;
+            align-items: center;
+            background: darkblue;
+            border: 0;
+            border-radius: 8px;
+            box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            display: flex;
+            font-family: Phantomsans, sans-serif;
+            font-size: 20px;
+            justify-content: center;
+            line-height: 1em;
+            max-width: 100%;
+            min-width: 140px;
+            padding: 3px;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            cursor: pointer;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+
+        .button-64:hover {
+            background: #032e83;
+        }
+
+        .button-64 span {
+            background-color: rgb(5, 6, 45);
+            padding: 16px 24px;
+            border-radius: 6px;
+            width: 100%;
+            height: 100%;
+            transition: 300ms;
+        }
+
+        .button-64:hover span {
+            background: none;
+        }
+
+        @media (min-width: 768px) {
+            .button-64 {
+                font-size: 24px;
+                min-width: 196px;
+            }
+        }
+
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
-<body style="background-image: url(/images/kassza/hatter.jpg)" th:src="@{/images/kassza/hatter.jpg}">
-<h1 style="text-align: center">Üdvözöljük!</h1>
-<br>
-<br>
-<div class="container">
+<body>
+<h1 style="text-align: center; background-color: darkblue; color: white; height: 55px; padding-top: 5px">Üdvözöljük!</h1>
+<h2 style="position: fixed; bottom: 165px; color: darkblue; font-size: 31px">Kérjük olvassa le a Terméket, vagy válasszon a listából!</h2>
+<div class="container" style="margin-top: -10px;" >
     <div class="row">
-        <div class="col-7" style="border: 3px solid black; background-color: whitesmoke">
+        <div class="col-6"
+             style="border-top: 3px solid darkblue;border-right: 3px solid darkblue; border-bottom: 3px solid darkblue; position: fixed; left: 0; background-color: whitesmoke; height: 470px">
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
                     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
                     crossorigin="anonymous"></script>
             <table class="list-group">
                 <thead>
-                <tr style="font-size: 30px; border: 3px solid black">
+                <tr style="font-size: 30px;">
                     <h3>Kosár tartalma:</h3></tr>
-                <tr>
+                <tr style="border-bottom: 1px solid darkblue;background-color: white;">
                     <td style="width: 150px">TERMÉK NEVE</td>
                     <td style="width: 100px">EGYSÉGÁR</td>
                     <td style="width: 50px">DB</td>
@@ -48,8 +242,8 @@
                 </tr>
                 </thead>
                 <tbody class="list-group2">
-                <tr th:each="termekmennyiseg, iter : ${kosar.getTermekMennyisegDtoList()}"
-                    th:style="${iter.index % 2 == 0} ? 'background-color:#D3D3D3' : 'background-color:#F8F8F8'">
+                <tr th:each="termekmennyiseg, iter : ${kosar.getTermekMennyisegDtoList()}" style="border-right: 1px solid darkblue"
+                    th:style="${iter.index % 2 == 0} ? 'background-color:#fff' : 'background-color:whitesmoke'">
                     <th style="width: 150px" scope="col" th:text="${termekmennyiseg.nev}">Termék neve</th>
                     <th style="width: 100px" scope="col" th:text="${termekmennyiseg.ar}">Ár</th>
                     <th style="width: 50px" scope="col" th:text="${termekmennyiseg.mennyiseg}">Mennyiség</th>
@@ -65,8 +259,8 @@
                                 <form th:action="@{'/kassza/{kosarId}/modosit/{termekMId}'(kosarId=${kosar.kosarId},termekMId =${termekmennyiseg.termekMennyisegId})}"
                                       method="get">
                                     <!--<input type="submit" class="btn btn-success" value="Módosít"/>-->
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="bi bi-pen"></i>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-pen" style="color: white"></i>
                                     </button>
                                 </form>
                             </div>
@@ -75,7 +269,7 @@
                                       method="post">
                                     <!--<input type="submit" class="btn btn-danger" value="Törlés"/>-->
                                     <button type="submit" class="btn btn-danger">
-                                        <i class="bi bi-trash"></i>
+                                        <i class="bi bi-trash" style="color: white"></i>
                                     </button>
                                 </form>
                             </div>
@@ -96,7 +290,7 @@
             >
                 <div class="col">
                     <label>
-                        <select th:field="*{vonalkod}" class="form-select" th:hidden="${isTermekMennyisegEdit}">
+                        <select th:field="*{vonalkod}" class="form-select" style="color: darkblue" th:hidden="${isTermekMennyisegEdit}">
                             <option th:selected="${type.vonalkod == termekMennyisegHozzaadasCommand.vonalkod}"
                                     th:each="type : ${allTermek}"
                                     th:value="${type.vonalkod}"
@@ -107,6 +301,7 @@
                 <div class="col">
                     <label>
                         <input type="number"
+                               style="color: darkblue"
                                class="form-control"
                                placeholder="Mennyiség"
                                th:field="*{mennyiseg}"
@@ -128,19 +323,15 @@
         <div class="col-2">
         </div>
         <div class="col-3"
-             style="font-size: 50px;text-align: center;border: 3px solid black; background-color: whitesmoke"
-             th:text="${kosar.getUtolsoHozzaadottTermekmennyisegDto() == null} ? 'Aktuálisan hozzáadott termék neve' : ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getNev()} + ' ' + ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getMennyiseg()} + ' db'">
+             style="font-size: 50px;text-align: center;border: 3px solid darkblue; background-color: whitesmoke; border-right: whitesmoke; position: fixed; right: 0; height: 300px; padding-top: 30px"
+             th:text="${kosar.getUtolsoHozzaadottTermekmennyisegDto() == null} ? 'Aktuálisan hozzáadott termék képe' : ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getNev()} + ' ' + ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getMennyiseg()} + ' db'">
             <!--th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Aktuálisan hozzáadott termék neve' : ${kosar.getTermekMennyisegDtoList().get(kosar.getTermekMennyisegDtoList().size()-1).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(kosar.getTermekMennyisegDtoList().size()-1).getMennyiseg()} + ' db'"> -->
-            Aktuálisan hozzáadott termék neve
+            Aktuálisan hozzáadott termék képe
         </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <div class="row" style="text-align: center; font-size: 30px">
-        <div class="col-7" style="background-color: yellow; border: 3px black"
+        <div class="col-5"
+             style="border-bottom: 1px solid darkblue; background-color: whitesmoke;right: auto; color: darkblue; text-align: center; height: 150px; width: 1050px;position: fixed;bottom: 0; left: 250px;padding-top: 50px"
              th:text="'Végösszeg: '+${kosar.vegosszeg}+'Ft'">
             Végösszeg: 0 Ft
         </div>
@@ -149,24 +340,26 @@
         </div>
         <div class="col-2" style="text-align: center; font-size: 30px">
             <form th:action="@{'/kassza/fizetes/{kosarId}'(kosarId=${kosar.kosarId})}" method="get">
-                <input th:disabled ="${kosar.getTermekMennyisegDtoList().size() == 0}" type="submit" class="btn btn-danger" value="Tovább a számlához"/>
+                <input th:disabled="${kosar.getTermekMennyisegDtoList().size() == 0}" type="submit" class="button-76" style="font-size:23px; position: fixed; bottom: 0;right: 0; width: 250px;height: 150px;"
+                       value="Számlához"/>
             </form>
         </div>
         <div class="col-2">
             <div th:if="${kosar.getTermekMennyisegDtoList().size() == 0}">
                 <form th:action="@{'/kassza/torles/{kosarId}'(kosarId=${kosar.kosarId})}" method="post">
-                    <input type="submit" class="btn btn-primary" value="Vissza"/>
+                    <input type="submit" class="button-76" style="position: fixed; bottom: 0;left: 0; height: 150px; width: 250px" value="Vissza"/>
                 </form>
             </div>
             <!-- Button trigger modal -->
             <div th:if="${kosar.getTermekMennyisegDtoList().size() > 0}">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <button type="button" class="button-76" style="position: fixed; bottom: 0;left: 0; height: 150px; width: 250px" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Vissza
                 </button>
             </div>
         </div>
     </div>
 </div>
+<i class="gg-enter" style="position: absolute; bottom: 65px; right: 30px; color: white"></i>
 
 
 <!-- Modal -->

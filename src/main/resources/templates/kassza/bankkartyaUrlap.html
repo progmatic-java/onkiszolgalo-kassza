@@ -10,23 +10,43 @@
             color: yellow;
         }
 
-        @media only screen and (max-width : 600px){
-            .example{background-color: black}
-            img{display: none;}
-            .verzioTablet{display: none}
-            .verzioMonitor{display: none}
+        .button-76 {
+            border-radius: 8px;
+            bottom: 0;
+            right: 0;
+            background-color: darkblue;
+            border: 0;
+            border-radius: .25rem;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            font-family: Helvetica;
+            font-size: 1.125rem; /* 18px */
+            font-weight: 600;
+            line-height: 1.75rem; /* 28px */
+            padding: 1rem 1.25rem;
+            text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
         }
-        @media only screen and (max-width : 800px) and (min-width: 600px){
-            .example{background-color: orange}
-            .verzio{display: none}
-            .verzioMonitor{display: none}
+        .button-76:disabled{
+            background-color: whitesmoke;
         }
 
-        @media only screen and (min-width : 800px){
-            .example{background-color: aqua}
-            .verzio{display: none}
-            .verzioTablet{display: none}
+        .button-76:hover:enabled {
+            background-color: red;
         }
+
+        @media (min-width: 1024px) {
+            .button-76 {
+                font-size: 1.5rem; /* 24px */
+                padding: 1rem 1.5rem;
+                line-height: 2rem; /* 32px */
+            }
+        }
+
+
 
     </style>
     <meta charset="utf-8">
@@ -34,16 +54,15 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <title>Banki adatok megadása</title>
+    <title>Bankkártyás Fizetés</title>
 </head>
 <body>
-<h3 class="verzio">mobilos verzio</h3>
-<h3 class="verzioTablet">tablet verzio</h3>
-<h3 class="verzioMonitor">monitor verzio</h3>
+<h2 style="text-align: center; background-color: darkblue; color: white; height: 50px; padding-top: 5px" class="verzio">Banki adatok megadasa</h2>
 
+<div style="position: fixed; left: 180px; right: auto;">
 <p class="example"></p>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<form th:action="@{/kassza/szamla}" class="row g-3 needs-validation" novalidate>
+<form th:action="@{/kassza/szamla}" class="row g-3 needs-validation" novalidate style="width: 1500px">
     <div class="col-md-4">
         <label for="validationCustom01" class="form-label">Vezetéknév</label>
         <input type="text" class="form-control" id="validationCustom01" value="írd ide a vezetékneved" pattern="^[^0-9]{0,30}$" required>
@@ -96,13 +115,23 @@
             </div>
         </div>
     </div>
-    <div class="col-12">
-        <button class="btn btn-primary" href="szamla.html" th:href="@{/kassza/szamla}"type="submit">Vásárlás</button>
-    </div>
-</form><br>
-<div style="vertical-align: middle">
-<img src="fizetes.jpg">
+</form>
 </div>
+    <br>
+<div style="vertical-align: middle">
+    <div style="position: fixed; left:430px; bottom: 200px">
+<img th:src="@{/images/kassza/fizetes.jpg}" style="width: 600px">
+    </div>
+</div>
+<div style="position: fixed; bottom: 0;right: 0">
+    <button class="btn btn-primary" href="szamla.html" th:href="@{/kassza/szamla}"type="submit">Vásárlás</button>
+</div>
+<form th:action="@{'/kassza/befejezes/{kosarId}'(kosarId=${kosar.kosarId})}">
+    <input type="submit" class="button-76" style="position: fixed; bottom: 0;right: 0; width: 280px; height: 150px" value="Fizetés">
+</form>
+<form th:action="@{'/kassza/szamla/{kosarId}'(kosarId=${kosar.kosarId})}">
+    <input type="submit" class="button-76" style="position: fixed;bottom: 0;left: 0; width: 280px; height: 150px"   value="Vissza"/>
+</form>
 
 <script>
     (function () {
