@@ -69,7 +69,7 @@ public class TermekService {
         repository.deleteById(id);
     }
 
-    public Termek create(Termek termek) {
+    public void validacio(Termek termek){
         Map<String, String> uniqueItemMap = new HashMap<>();
         if (repository.findByMegnevezes(termek.getMegnevezes()) != null) {
             uniqueItemMap.put("megnevezes", String.format("%s nevű termék már van raktáron", termek.getMegnevezes()));
@@ -80,6 +80,9 @@ public class TermekService {
         if (!uniqueItemMap.isEmpty()) {
             throw new FoglaltTermekException(uniqueItemMap);
         }
+    }
+
+    public Termek create(Termek termek) {
         termek.setId(null);
         return repository.save(termek);
     }

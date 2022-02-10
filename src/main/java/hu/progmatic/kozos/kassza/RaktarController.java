@@ -47,18 +47,22 @@ public class RaktarController {
             @ModelAttribute("formItem") @Valid Termek formItem,
             BindingResult bindingResult,
             Model model) {
-        if (!bindingResult.hasErrors()) {
-            try {
-                termekService.create(formItem);
-                refreshAllTermek(model);
-                clearFormItem(model);
-            } catch (FoglaltTermekException e) {
-                for (Map.Entry<String, String> entry : e.getBindingProperty().entrySet()) {
-                    bindingResult.addError(new FieldError("formItem",
-                            entry.getKey(),
-                            entry.getValue()));
-                }
+        try {
+            termekService.validacio(formItem);
+            //refreshAllTermek(model);
+            //clearFormItem(model);
+            model.addAttribute("formItem", formItem());
+        } catch (FoglaltTermekException e) {
+            for (Map.Entry<String, String> entry : e.getBindingProperty().entrySet()) {
+                bindingResult.addError(new FieldError("formItem",
+                        entry.getKey(),
+                        entry.getValue()));
             }
+        }
+        if (!bindingResult.hasErrors()) {
+            termekService.create(formItem);
+            refreshAllTermek(model);
+            clearFormItem(model);
         }
         return items();
     }
