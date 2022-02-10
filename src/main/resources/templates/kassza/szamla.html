@@ -65,8 +65,8 @@
     <tr th:each="item : ${kosar.termekMennyisegDtoList}" style="height: 50px">
         <td th:text="${item.nev}">Név</td>
         <td th:text="${item.ar}+'Ft'">100</td>
-        <td th:text="${item.mennyiseg}"+'Db'>Mennyiseg</td>
-        <td th:text="${item.mennyiseg}*${item.ar}" style="text-align: center">Összesen</td>
+        <td th:text="${item.mennyiseg}+'db'"+'Db'>Mennyiseg</td>
+        <td th:text="${item.mennyiseg}*${item.ar}+'Ft'" style="text-align: center">Összesen</td>
     </tr>
     </tbody>
 </table>
