@@ -132,7 +132,7 @@ class TermekServiceTest {
             String exceptionMessageMegnevezes = null;
             String exceptionMessageVonalkod = null;
             try{
-                service.create(
+                service.validacio(
                         Termek.builder()
                                 .megnevezes("Unique1Teszt")
                                 .ar(270)
@@ -156,7 +156,7 @@ class TermekServiceTest {
             String exceptionMessageMegnevezes = null;
             String exceptionMessageVonalkod = null;
             try{
-                service.create(
+                service.validacio(
                         Termek.builder()
                                 .megnevezes("Unique12Teszt")
                                 .ar(270)
@@ -180,7 +180,7 @@ class TermekServiceTest {
             String exceptionMessageMegnevezes = null;
             String exceptionMessageVonalkod = null;
             try{
-                service.create(
+                service.validacio(
                         Termek.builder()
                                 .megnevezes("Unique1Teszt")
                                 .ar(270)
