@@ -30,9 +30,17 @@ public class FizetesController {
         return "kassza/szamla";
     }
 
+    @GetMapping("/kassza/keszpenzesfizetes/{kosarId}")
+    public String toKeszpenzesFizetes(@PathVariable("kosarId") Integer kosarId, Model model){
+        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        return "kassza/keszpenzesfizetes";
+    }
+
     @GetMapping("/kassza/befejezes/{kosarId}")
     public String befejezes(@PathVariable("kosarId") Integer kosarId, Model model){
         model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
         return "kassza/visszaigazolas";
     }
+
+
 }

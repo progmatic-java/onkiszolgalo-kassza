@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/keszpenzesfizetes.css}" href="/css/keszpenzesfizetes.css">
+    <title>Title</title>
+    <style>
+        .button-75 {
+            border-radius: 8px;
+            position: fixed;
+            width: 280px;
+            top: 0;
+            left: 0;
+            bottom: 63%;
+            background-color: white;
+            border: 3px solid darkblue;
+            border-radius: .25rem;
+            box-sizing: border-box;
+            color: darkblue;
+            cursor: pointer;
+            font-family: Helvetica;
+            font-size: 1.125rem; /* 18px */
+            font-weight: 600;
+            line-height: 1.75rem; /* 28px */
+            padding: 1rem 1.25rem;
+            text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .button-75:disabled{
+            background-color: whitesmoke;
+        }
+
+        .button-75:hover:enabled {
+            background-color: #ffb700;
+            color: black;
+        }
+
+        @media (min-width: 1024px) {
+            .button-75 {
+                font-size: 1.5rem; /* 24px */
+                padding: 1rem 1.5rem;
+                line-height: 2rem; /* 32px */
+            }
+        }
+
+        .button-78 {
+            height: 92px;
+            border: 3px solid darkblue;
+            position: relative;
+            left: 0;
+            width: 33%;
+            border-radius: 8px;
+            bottom: 0;
+            right: 0;
+            background-color: whitesmoke;
+            border-radius: .25rem;
+            box-sizing: border-box;
+            color: black;
+            cursor: pointer;
+            font-family: Helvetica;
+            font-size: 1.125rem; /* 18px */
+            font-weight: 600;
+            line-height: 1.75rem; /* 28px */
+            padding: 1rem 1.25rem;
+            text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .button-78:disabled {
+            background-color: whitesmoke;
+        }
+
+        .button-78:hover:enabled {
+            background-color: darkblue;
+            color: white;
+        }
+
+        @media (min-width: 1024px) {
+            .button-78 {
+                font-size: 1.5rem; /* 24px */
+                padding: 1rem 1.5rem;
+                line-height: 2rem; /* 32px */
+            }
+        }
+
+
+        * {
+            font-family: SansSerif;
+        }
+
+        h1 {
+            font-size: 70px;
+            background: whitesmoke;
+            color: darkblue;
+            position: fixed;
+            top: 0;
+            bottom: 55%;
+            text-align: center;
+            width: 100%;
+            padding-top: 100px;
+            margin-top: -15px;
+            margin-left: -20px
+        }
+
+        .container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 50%;
+        }
+
+        .row-1 {
+            border: 3px solid black;
+            position: fixed;
+            top: 50%;
+            bottom: 25%;
+            left: 0;
+            right: 0;
+        }
+
+        .row-2 {
+            border: 3px solid black;
+            position: fixed;
+            top: 75%;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        h2{
+            position: fixed;
+            bottom: 49%;
+            top: 35%;
+            width: 100%;
+            background-color: darkblue;
+            color: whitesmoke;
+            text-align: center;
+            padding-top: 30px;
+            margin-left: -20px
+        }
+
+    </style>
+</head>
+<body>
+<h1 th:text="'Fizetendő összeg: '+${kosar.vegosszeg}">
+    Fizetendő összeg = 0 Ft
+</h1>
+<h2 th:text="'Visszajáró= 0Ft'">
+    Visszajáró:
+</h2>
+<div class="container">
+    <input type="submit" class="button-78" value="5">
+    <input type="submit" class="button-78" value="10">
+    <input type="submit" class="button-78" value="20">
+    <input type="submit" class="button-78" value="50">
+    <input type="submit" class="button-78" value="100">
+    <input type="submit" class="button-78" value="200">
+    <input type="submit" class="button-78" value="500">
+    <input type="submit" class="button-78" value="1000">
+    <input type="submit" class="button-78" value="2000">
+    <input type="submit" class="button-78" value="5000">
+    <input type="submit" class="button-78" value="10000">
+    <input type="submit" class="button-78" value="20000">
+
+</div>
+<form th:action="@{'/kassza/szamla/{kosarId}'(kosarId=${kosar.kosarId})}">
+    <input type="submit" class="button-75" value="Vissza">
+</form>
+</body>
+</html>
