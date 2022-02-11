@@ -17,7 +17,7 @@ public class BankjegyService {
     @Autowired
     private KosarService kosarService;
 
-    private int visszajaro(int vegosszeg, int befizetett) {
+    /*private int visszajaro(int vegosszeg, int befizetett) {
         return befizetett - vegosszeg;
     }
 
@@ -121,7 +121,7 @@ public class BankjegyService {
     private void mennyisegCsokkentese(Integer ertek) {
         Bankjegy bankjegy = bankjegyRepository.findByErtek(ertek).orElseThrow();
         bankjegy.setMennyiseg(bankjegy.getMennyiseg() - 1);
-    }
+    }*/
 
     public void save(List<Bankjegy> bankjegyek) {
         bankjegyRepository.saveAll(bankjegyek);
@@ -137,7 +137,7 @@ public class BankjegyService {
                 .sum();
     }
 
-    public KeszpenzDto vissza(KeszpenzDto keszpenzDto) {
+    public KeszpenzDto visszajaro(KeszpenzDto keszpenzDto) {
         Kosar kosar = kosarService.getById(keszpenzDto.getKosarId());
         Integer vegosszeg = kosarVegosszegRoundFive(kosarService.kosarVegosszeg(kosar));
         keszpenzDto.setVegosszeg(vegosszeg);
@@ -180,6 +180,7 @@ public class BankjegyService {
                 bedobottCimletekLevonasaFromDataBase(kosar.getBedobottBankjegyek());
                 kosar.getBedobottBankjegyek().removeAll(kosar.getBedobottBankjegyek());
                 keszpenzDto.setMaradek(vegosszeg);
+                keszpenzDto.setNemTudVisszaadni(true);
                 return keszpenzDto;
             }
         }
@@ -239,4 +240,12 @@ public class BankjegyService {
         }
         return vegosszeg;
     }
+
+    public void clear(){
+        List<Bankjegy> bankjegyek = bankjegyRepository.findAll();
+        for (Bankjegy bankjegy : bankjegyek){
+            bankjegy.setMennyiseg(0);
+        }
+    }
+
 }

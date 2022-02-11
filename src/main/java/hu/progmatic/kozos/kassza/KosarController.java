@@ -100,7 +100,7 @@ public class KosarController {
         return "kassza/kassza";
     }
 
-    @GetMapping("/kassza/{kosarId}/modosit/{termekMId}")
+        @GetMapping("/kassza/{kosarId}/modosit/{termekMId}")
     public String editTermekMennyiseg(
             @PathVariable("kosarId") Integer kosarId,
             @PathVariable("termekMId") Integer termekMId,
