@@ -15,4 +15,6 @@ public class KeszpenzDto {
     private Integer bedobottCimlet;
     private Integer vegosszeg;
     private String visszajaro;
+    @Builder.Default
+    private boolean nemTudVisszaadni = false;
 }
