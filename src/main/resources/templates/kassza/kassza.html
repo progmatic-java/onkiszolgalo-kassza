@@ -323,10 +323,9 @@
         <div class="col-2">
         </div>
         <div class="col-3"
-             style="font-size: 50px;text-align: center;border: 3px solid darkblue; background-color: whitesmoke; border-right: whitesmoke; position: fixed; right: 0; height: 300px; padding-top: 30px"
-             th:text="${kosar.getUtolsoHozzaadottTermekmennyisegDto() == null} ? 'Aktuálisan hozzáadott termék képe' : ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getNev()} + ' ' + ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getMennyiseg()} + ' db'">
-            <!--th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Aktuálisan hozzáadott termék neve' : ${kosar.getTermekMennyisegDtoList().get(kosar.getTermekMennyisegDtoList().size()-1).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(kosar.getTermekMennyisegDtoList().size()-1).getMennyiseg()} + ' db'"> -->
-            Aktuálisan hozzáadott termék képe
+             style="font-size: 50px;text-align: center;border: 3px solid darkblue; background-color: whitesmoke; border-right: whitesmoke; position: fixed; right: 0; height: 300px; padding-top: 100px"
+             th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Termék neve' : ${kosar.getTermekMennyisegDtoList().get(0).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(0).getMennyiseg()} + ' db'">
+             <!--th:text="${kosar.getUtolsoHozzaadottTermekmennyisegDto() == null} ? 'Aktuálisan hozzáadott termék képe' : ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getNev()} + ' ' + ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getMennyiseg()} + ' db'"> -->
         </div>
     </div>
     <div class="row" style="text-align: center; font-size: 30px">
