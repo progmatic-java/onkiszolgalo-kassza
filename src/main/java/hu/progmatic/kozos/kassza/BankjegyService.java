@@ -183,7 +183,15 @@ public class BankjegyService implements InitializingBean {
         bankjegyRepository.deleteAll();
     }
 
-    private Integer osszegBedobva(List<BedobottBankjegy> bedobottBankjegyek) {
+    public Bankjegy findByErtek(Integer ertek){
+        return bankjegyRepository.findByErtek(ertek).orElseThrow();
+    }
+
+    public List<Bankjegy> findAll(){
+        return bankjegyRepository.findAll();
+    }
+/////////////////////////////////////////////////////////////////////////////////////6
+   /* private Integer osszegBedobva(List<BedobottBankjegy> bedobottBankjegyek) {
         return bedobottBankjegyek.stream()
                 .mapToInt(bedobottBankjegy -> (bedobottBankjegy.getBedobottMenyiseg() * bedobottBankjegy.getBankjegy().getErtek()))
                 .sum();
@@ -290,8 +298,8 @@ public class BankjegyService implements InitializingBean {
             vegosszeg += 1;
         }
         return vegosszeg;
-    }
-
+    }*/
+//////////////////////////////////////////////////////////////////
     public void clear(){
         List<Bankjegy> bankjegyek = bankjegyRepository.findAll();
         for (Bankjegy bankjegy : bankjegyek){

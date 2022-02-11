@@ -18,6 +18,7 @@ class BankjegyServiceTest {
     @Autowired
     private BankjegyService bankjegyService;
 
+
     private List<Bankjegy> bankjegyek = List.of(
             Bankjegy.builder()
                     .ertek(10000)
@@ -65,9 +66,68 @@ class BankjegyServiceTest {
                     .build()
     );
 
+    private List<Bankjegy> bankjegyBuilder(Integer tizE,
+                                           Integer otE,
+                                           Integer ketE,
+                                           Integer eE,
+                                           Integer oSz,
+                                           Integer kSz,
+                                           Integer Sz,
+                                           Integer otven,
+                                           Integer husz,
+                                           Integer tiz,
+                                           Integer ot){
+        return List.of(
+                Bankjegy.builder()
+                        .ertek(10000)
+                        .mennyiseg(tizE)
+                        .build(),
+                Bankjegy.builder()
+                        .ertek(5000)
+                        .mennyiseg(otE)
+                        .build(),
+                Bankjegy.builder()
+                        .ertek(2000)
+                        .mennyiseg(ketE)
+                        .build(),
+                Bankjegy.builder()
+                        .ertek(1000)
+                        .mennyiseg(eE)
+                        .build(),
+                Bankjegy.builder()
+                        .ertek(500)
+                        .mennyiseg(oSz)
+                        .build(),
+                Bankjegy.builder()
+                        .ertek(200)
+                        .mennyiseg(kSz)
+                        .build(),
+                Bankjegy.builder()
+                        .ertek(100)
+                        .mennyiseg(Sz)
+                        .build(),
+                Bankjegy.builder()
+                        .ertek(50)
+                        .mennyiseg(otven)
+                        .build(),
+                Bankjegy.builder()
+                        .ertek(20)
+                        .mennyiseg(husz)
+                        .build(),
+                Bankjegy.builder()
+                        .ertek(10)
+                        .mennyiseg(tiz)
+                        .build(),
+                Bankjegy.builder()
+                        .ertek(5)
+                        .mennyiseg(ot)
+                        .build()
+        );
+    }
+
     @BeforeEach
     void setUp() {
-        bankjegyService.save(bankjegyek);
+        bankjegyService.clear();
     }
 
     @AfterEach
