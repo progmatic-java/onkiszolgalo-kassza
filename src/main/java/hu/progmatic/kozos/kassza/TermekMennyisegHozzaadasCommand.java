@@ -15,6 +15,7 @@ public class TermekMennyisegHozzaadasCommand {
 
   @NotEmpty
   private String vonalkod;
+  @Max(value = 10000, message = "Túl nagy érték")
   @Positive(message = "Mennyiség nem lehet negatív vagy nulla")
   @NotNull(message = "Mennyiség nem lehet üres")
   private Integer mennyiseg;
