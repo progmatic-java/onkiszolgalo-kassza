@@ -222,7 +222,7 @@
     <input type="submit" class="button-75" value="Vissza">
 </form>
 <div th:if="${keszpenzDto.maradek<1}">
-    <form th:action="@{'/kassza/befejezes/{kosarId}'(kosarId=${kosar.kosarId})}" method="post">
+    <form th:action="@{'/kassza/befejezes/{kosarId}'(kosarId=${kosar.kosarId})}">
         <input type="submit" class="button-76" value="Befejezes"/>
     </form>
 </div>

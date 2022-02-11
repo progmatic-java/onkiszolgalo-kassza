@@ -37,6 +37,7 @@ public class FizetesController {
     public String toKeszpenzesFizetes(@PathVariable("kosarId") Integer kosarId, Model model){
         KeszpenzDto keszpenzDto = KeszpenzDto.builder()
                 .kosarId(kosarId)
+                .maradek(kosarService.getKosarViewDTOById(kosarId).getVegosszeg())
                 .build();
         model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
         model.addAttribute("keszpenzDto", keszpenzDto);
