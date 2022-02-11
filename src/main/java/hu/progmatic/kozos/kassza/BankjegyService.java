@@ -226,15 +226,14 @@ public class BankjegyService implements InitializingBean {
             if (kulonbozet.equals(0)){
                 keszpenzDto.setMaradek(0);
                 keszpenzDto.setVisszajaro(vissazjaroMapToStr(visszajaroMap));
-                return keszpenzDto;
             }else{
                 mapBankjegyAddToDatabase(visszajaroMap);
                 bedobottCimletekLevonasaFromDataBase(kosar.getBedobottBankjegyek());
                 kosar.getBedobottBankjegyek().removeAll(kosar.getBedobottBankjegyek());
                 keszpenzDto.setMaradek(vegosszeg);
                 keszpenzDto.setNemTudVisszaadni(true);
-                return keszpenzDto;
             }
+            return keszpenzDto;
         }
 
     }
