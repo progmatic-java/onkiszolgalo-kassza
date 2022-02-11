@@ -82,9 +82,7 @@ public class KosarService {
     private KosarViewDTO kosarToKosarViewDTO(Kosar kosar) {
         return KosarViewDTO.builder()
                 .kosarId(kosar.getId())
-                .vegosszeg(kosar.getTermekMennyisegek().stream()
-                        .mapToInt(osszeg -> osszeg.getMennyiseg() * osszeg.getTermek().getAr())
-                        .sum())
+                .vegosszeg(kosarVegosszeg(kosar))
                 .utolsoHozzaadottTermekmennyisegDto(
                         kosar.getUtolsoHozzaadottTermekmennyiseg() == null ? null :
                                 TermekMennyisegDto.builder()
@@ -94,7 +92,7 @@ public class KosarService {
                                         .mennyiseg(kosar.getUtolsoHozzaadottTermekmennyiseg().getMennyiseg())
                                         .build())
                 .termekMennyisegDtoList(kosar.getTermekMennyisegek().stream()
-                        .sorted((o1, o2) -> o2.getId()- o1.getId())
+                        .sorted((o1, o2) -> o2.getId() - o1.getId())
                         .map(termekMennyiseg -> TermekMennyisegDto.builder()
                                 .termekMennyisegId(termekMennyiseg.getId())
                                 .ar(termekMennyiseg.getTermek().getAr())
@@ -102,6 +100,13 @@ public class KosarService {
                                 .mennyiseg(termekMennyiseg.getMennyiseg())
                                 .build()).toList())
                 .build();
+    }
+
+    public Integer kosarVegosszeg(Kosar kosar) {
+        return kosar.getTermekMennyisegek().stream()
+                .mapToInt(osszeg -> osszeg.getMennyiseg() * osszeg.getTermek().getAr())
+                .sum();
+
     }
 
     public void deleteKosarById(Integer id) {
@@ -116,7 +121,7 @@ public class KosarService {
         return termekService.findAllNotNullMennyiseg();
     }
 
-    public List<Termek> findAllTermek(){
+    public List<Termek> findAllTermek() {
         return termekService.findAll();
     }
 
@@ -142,7 +147,7 @@ public class KosarService {
                 .findAny()
                 .orElseThrow();
         //termekM.getTermek().setMennyiseg(termekM.getTermek().getMennyiseg() + termekM.getMennyiseg());
-            return TermekMennyisegHozzaadasCommand.builder()
+        return TermekMennyisegHozzaadasCommand.builder()
                 .vonalkod(termekM.getTermek().getVonalkod())
                 .mennyiseg(termekM.getMennyiseg())
                 .build();
@@ -165,11 +170,14 @@ public class KosarService {
 
     public void kosarDeleteById(Integer kosarId) {
         Kosar kosar = kosarRepository.getById(kosarId);
-        for (TermekMennyiseg termekMennyiseg : kosar.getTermekMennyisegek()){
+        for (TermekMennyiseg termekMennyiseg : kosar.getTermekMennyisegek()) {
             Termek termek = termekMennyiseg.getTermek();
             termek.setMennyiseg(termek.getMennyiseg() + termekMennyiseg.getMennyiseg());
         }
         kosarRepository.delete(kosar);
     }
 
+    public Kosar getById(Integer id) {
+        return kosarRepository.getById(id);
+    }
 }

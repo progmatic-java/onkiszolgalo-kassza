@@ -20,8 +20,11 @@ public class Kosar {
             length = 20,
             unique = true
     )
-    @OneToMany(mappedBy = "kosar",cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "kosar",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TermekMennyiseg> termekMennyisegek;
+
+    @OneToMany(mappedBy = "kosar",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BedobottBankjegy> bedobottBankjegyek;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn

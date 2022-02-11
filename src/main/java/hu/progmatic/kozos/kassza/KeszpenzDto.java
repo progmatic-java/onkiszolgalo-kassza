@@ -19,3 +19,4 @@ public class KeszpenzDto {
     @Builder.Default
     private boolean nemTudVisszaadni = false;
 }
+
