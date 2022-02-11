@@ -13,7 +13,7 @@ public class KeszpenzDto {
 
     private Integer maradek;
     private Integer bedobottCimlet;
-    private Integer vegosszeg;
+    private Integer kosarId;
     private String visszajaro;
     @Builder.Default
     private boolean nemTudVisszaadni = false;
