@@ -14,7 +14,6 @@ public class Bankjegy {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String nev;
     @Column(unique = true)
     private Integer ertek;
     private Integer mennyiseg;

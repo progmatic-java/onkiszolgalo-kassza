@@ -21,57 +21,46 @@ class BankjegyServiceTest {
     private List<Bankjegy> bankjegyek = List.of(
             Bankjegy.builder()
                     .ertek(10000)
-                    .nev("Tízezer")
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(5000)
-                    .nev("Ötzezer")
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(2000)
-                    .nev("Kétezer")
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(1000)
-                    .nev("Ezer")
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(500)
-                    .nev("Ötszáz")
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(200)
-                    .nev("Kétszáz")
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(100)
-                    .nev("Száz")
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(50)
-                    .nev("Ötven")
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(20)
-                    .nev("Húsz")
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(10)
-                    .nev("Tíz")
                     .mennyiseg(3)
                     .build(),
             Bankjegy.builder()
                     .ertek(5)
-                    .nev("Öt")
                     .mennyiseg(3)
                     .build()
     );
