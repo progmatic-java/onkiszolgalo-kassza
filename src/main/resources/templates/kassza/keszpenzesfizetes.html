@@ -5,6 +5,45 @@
     <link th:href="@{/css/keszpenzesfizetes.css}" href="/css/keszpenzesfizetes.css">
     <title>Title</title>
     <style>
+        .button-76 {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 63%;
+            width: 250px;
+            border-radius: 8px;
+            background-color: darkblue;
+            border: 0;
+            border-radius: .25rem;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            font-family: Helvetica;
+            font-size: 1.125rem; /* 18px */
+            font-weight: 600;
+            line-height: 1.75rem; /* 28px */
+            padding: 1rem 1.25rem;
+            text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .button-76:disabled{
+            background-color: whitesmoke;
+        }
+
+        .button-76:hover:enabled {
+            background-color: red;
+        }
+
+        @media (min-width: 1024px) {
+            .button-76 {
+                font-size: 1.5rem; /* 24px */
+                padding: 1rem 1.5rem;
+                line-height: 2rem; /* 32px */
+            }
+        }
+
         .button-75 {
             border-radius: 8px;
             position: fixed;
@@ -28,7 +67,8 @@
             -webkit-user-select: none;
             touch-action: manipulation;
         }
-        .button-75:disabled{
+
+        .button-75:disabled {
             background-color: whitesmoke;
         }
 
@@ -46,14 +86,8 @@
         }
 
         .button-78 {
-            height: 92px;
             border: 3px solid darkblue;
-            position: relative;
-            left: 0;
-            width: 33%;
             border-radius: 8px;
-            bottom: 0;
-            right: 0;
             background-color: whitesmoke;
             border-radius: .25rem;
             box-sizing: border-box;
@@ -114,62 +148,83 @@
             top: 50%;
         }
 
-        .row-1 {
-            border: 3px solid black;
-            position: fixed;
-            top: 50%;
-            bottom: 25%;
-            left: 0;
-            right: 0;
-        }
 
-        .row-2 {
-            border: 3px solid black;
-            position: fixed;
-            top: 75%;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-
-        h2{
+        h2 {
             position: fixed;
             bottom: 49%;
             top: 35%;
-            width: 100%;
+            width: 110%;
             background-color: darkblue;
             color: whitesmoke;
             text-align: center;
             padding-top: 30px;
-            margin-left: -20px
+            margin-left: -90px;
         }
 
     </style>
 </head>
 <body>
-<h1 th:text="'Fizetendő összeg: '+${kosar.vegosszeg}">
+<h1 th:text="'Fennmaradó összeg: '+${keszpenzDto.maradek}">
     Fizetendő összeg = 0 Ft
 </h1>
-<h2 th:text="'Visszajáró= 0Ft'">
+<h2 th:text="'Fizetendő összeg= '+${kosar.vegosszeg}">
     Visszajáró:
 </h2>
 <div class="container">
-    <input type="submit" class="button-78" value="5">
-    <input type="submit" class="button-78" value="10">
-    <input type="submit" class="button-78" value="20">
-    <input type="submit" class="button-78" value="50">
-    <input type="submit" class="button-78" value="100">
-    <input type="submit" class="button-78" value="200">
-    <input type="submit" class="button-78" value="500">
-    <input type="submit" class="button-78" value="1000">
-    <input type="submit" class="button-78" value="2000">
-    <input type="submit" class="button-78" value="5000">
-    <input type="submit" class="button-78" value="10000">
-    <input type="submit" class="button-78" value="20000">
-
+    <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${5})}"
+          method="post">
+        <input type="submit" class="button-78" value="5" style="position: fixed; bottom: 42%; left: 0; width: 33%;">
+    </form>
+    <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${10})}"
+          method="post">
+        <input type="submit" class="button-78" value="10" style="position: fixed; bottom: 42%; left: 33.5%; width: 33%">
+    </form>
+    <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${20})}"
+          method="post">
+        <input type="submit" class="button-78" value="20" style="position: fixed; bottom: 42%; left: 67%; width: 33%">
+    </form>
+    <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${50})}"
+          method="post">
+        <input type="submit" class="button-78" value="50" style="position: fixed; bottom: 29%; left: 0; width: 33%; height: 95px">
+    </form>
+    <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${100})}"
+          method="post">
+        <input type="submit" class="button-78" value="100" style="position: fixed; bottom: 29%; left: 33.5%; width: 33%; height: 95px">
+    </form>
+    <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${200})}"
+          method="post">
+        <input type="submit" class="button-78" value="200" style="position: fixed; bottom: 29%; left: 67%; width: 33%; height: 95px">
+    </form><form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${500})}"
+                 method="post">
+    <input type="submit" class="button-78" value="500" style="position: fixed; bottom: 15%; left: 0; width: 33%; height: 99px">
+</form>
+    <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${1000})}"
+          method="post">
+        <input type="submit" class="button-78" value="1000" style="position: fixed; bottom: 15%; left: 33.5%; width: 33%; height: 99px">
+    </form>
+    <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${2000})}"
+          method="post">
+        <input type="submit" class="button-78" value="2000" style="position: fixed; bottom: 15%; left: 67%; width: 33%; height: 99px">
+    </form><form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${5000})}"
+                 method="post">
+    <input type="submit" class="button-78" value="5000" style="position: fixed; bottom: 1%; left: 0; width: 33%; height: 103px">
+</form>
+    <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${10000})}"
+          method="post">
+        <input type="submit" class="button-78" value="10000" style="position: fixed; bottom: 1%; left: 33.5%; width: 33%; height: 103px">
+    </form>
+    <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${20000})}"
+          method="post">
+        <input type="submit" class="button-78" value="20000" style="position: fixed; bottom: 1%; left: 67%; width: 33%; height: 103px">
+    </form>
 </div>
 <form th:action="@{'/kassza/szamla/{kosarId}'(kosarId=${kosar.kosarId})}">
     <input type="submit" class="button-75" value="Vissza">
 </form>
+<div th:if="${keszpenzDto.maradek<1}">
+    <form th:action="@{'/kassza/befejezes/{kosarId}'(kosarId=${kosar.kosarId})}" method="post">
+        <input type="submit" class="button-76" value="Befejezes"/>
+    </form>
+</div>
 </body>
 </html>
