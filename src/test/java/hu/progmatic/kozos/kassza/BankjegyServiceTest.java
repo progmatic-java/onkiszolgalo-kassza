@@ -78,7 +78,7 @@ class BankjegyServiceTest {
     @Disabled
     @Test
     void visszaadas() {
-        assertEquals(
+        /*assertEquals(
                 "{" +
                         "otszazas=1," +
                         " szazas=0," +
@@ -95,6 +95,6 @@ class BankjegyServiceTest {
                 bankjegyService.bankjegyek(
                         1235,
                         20000)
-        );
+        );*/
     }
 }

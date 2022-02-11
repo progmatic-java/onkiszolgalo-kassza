@@ -1,5 +1,6 @@
 package hu.progmatic.kozos.kassza;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ import java.util.*;
 
 @Service
 @Transactional
-public class BankjegyService {
+public class BankjegyService implements InitializingBean {
 
 
     @Autowired
@@ -17,6 +18,57 @@ public class BankjegyService {
     @Autowired
     private KosarService kosarService;
 
+
+    private List<Bankjegy> iniBankjegyek = List.of(
+            Bankjegy.builder()
+                    .ertek(10000)
+                    .mennyiseg(3)
+                    .build(),
+            Bankjegy.builder()
+                    .ertek(5000)
+                    .mennyiseg(3)
+                    .build(),
+            Bankjegy.builder()
+                    .ertek(2000)
+                    .mennyiseg(3)
+                    .build(),
+            Bankjegy.builder()
+                    .ertek(1000)
+                    .mennyiseg(3)
+                    .build(),
+            Bankjegy.builder()
+                    .ertek(500)
+                    .mennyiseg(3)
+                    .build(),
+            Bankjegy.builder()
+                    .ertek(200)
+                    .mennyiseg(3)
+                    .build(),
+            Bankjegy.builder()
+                    .ertek(100)
+                    .mennyiseg(3)
+                    .build(),
+            Bankjegy.builder()
+                    .ertek(50)
+                    .mennyiseg(3)
+                    .build(),
+            Bankjegy.builder()
+                    .ertek(20)
+                    .mennyiseg(3)
+                    .build(),
+            Bankjegy.builder()
+                    .ertek(10)
+                    .mennyiseg(3)
+                    .build(),
+            Bankjegy.builder()
+                    .ertek(5)
+                    .mennyiseg(3)
+                    .build()
+    );
+    @Override
+    public void afterPropertiesSet() {
+        bankjegyRepository.saveAll(iniBankjegyek);
+    }
     /*private int visszajaro(int vegosszeg, int befizetett) {
         return befizetett - vegosszeg;
     }
@@ -247,5 +299,6 @@ public class BankjegyService {
             bankjegy.setMennyiseg(0);
         }
     }
+
 
 }
