@@ -36,8 +36,7 @@ class TermekServiceTest {
                         .ar(270)
                         .vonalkod("1263789060000000")
                         .mennyiseg(2)
-                        .build()
-        );
+                        .build());
         Termek termek = service.findByNev("spriteTeszt");
         assertNotNull(termek.getId());
         assertEquals("spriteTeszt", termek.getMegnevezes());
@@ -58,8 +57,7 @@ class TermekServiceTest {
                             .ar(270)
                             .vonalkod("1200000000")
                             .mennyiseg(2)
-                            .build()
-            );
+                            .build());
         }
 
         @AfterEach
@@ -86,8 +84,7 @@ class TermekServiceTest {
                         .ar(270)
                         .vonalkod("11111111")
                         .mennyiseg(0)
-                        .build()
-        );
+                        .build());
         Termek termek = service.findByNev("probaNullaTermek");
         assertNotNull(termek);
         List<Termek> termekek = service.findAllNotNullMennyiseg();
@@ -108,17 +105,14 @@ class TermekServiceTest {
                             .ar(270)
                             .vonalkod("1200000000")
                             .mennyiseg(2)
-                            .build()
-
-            );
+                            .build());
             service.create(
                     Termek.builder()
                             .megnevezes("Unique2Teszt")
                             .ar(270)
                             .vonalkod("1100000000")
                             .mennyiseg(2)
-                            .build()
-            );
+                            .build());
         }
 
         @AfterEach

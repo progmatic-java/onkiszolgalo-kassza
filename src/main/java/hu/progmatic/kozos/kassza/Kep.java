@@ -19,8 +19,6 @@ public class Kep {
 
     private Long meret;
 
-    private String megnevezes;
-
     @Lob
     @Basic(fetch = FetchType.LAZY)
     byte[] kepAdat;

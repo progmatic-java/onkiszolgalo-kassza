@@ -20,7 +20,6 @@ public class KepService {
                 .map(
                         kep -> KepDto.builder()
                                 .id(kep.getId())
-                                .megnevezes(kep.getMegnevezes())
                                 .meret(meretFormazas(kep.getMeret()))
                                 .build()
                 ).toList();
@@ -51,7 +50,6 @@ public class KepService {
                     .contentType(kepFile.getContentType())
                     .meret(kepFile.getSize())
                     .kepAdat(kepFile.getBytes())
-                    .megnevezes(kepFeltoltesCommand.getNev())
                     .build();
             repository.save(kep);
         } catch (IOException e) {

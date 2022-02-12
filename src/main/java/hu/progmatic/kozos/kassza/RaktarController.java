@@ -8,7 +8,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +30,10 @@ public class RaktarController {
     }
 
     @GetMapping("/kassza/raktar/{id}")
-    public String edit(@PathVariable Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model, HttpServletResponse response) throws IOException {
+        KepMegjelenitesDto dto = termekService.getKepMegjelenitesDto(id);
+        response.setContentType(dto.getContentType());
+        response.getOutputStream().write(dto.getKepAdat());
         Termek formItem = termekService.getById(id);
         model.addAttribute("formItem", formItem);
         return "/kassza/raktar";
@@ -46,7 +51,8 @@ public class RaktarController {
     public String create(
             @ModelAttribute("formItem") @Valid Termek formItem,
             BindingResult bindingResult,
-            Model model) {
+            @ModelAttribute("kepFeltoltesCommand") KepfeltoltesCommand kepfeltoltesCommand,
+            Model model) throws IOException {
         try {
             termekService.validacio(formItem);
             //refreshAllTermek(model);
@@ -60,7 +66,7 @@ public class RaktarController {
             }
         }
         if (!bindingResult.hasErrors()) {
-            termekService.create(formItem);
+            termekService.create(formItem,kepfeltoltesCommand);
             refreshAllTermek(model);
             clearFormItem(model);
         }
@@ -98,6 +104,11 @@ public class RaktarController {
 
     private void refreshAllTermek(Model model) {
         model.addAttribute("allItem", allItem());
+    }
+
+    @ModelAttribute("kepFeltoltesCommand")
+    KepfeltoltesCommand kepFeltoltesCommand() {
+        return new KepfeltoltesCommand();
     }
 
 
