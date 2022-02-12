@@ -15,11 +15,15 @@ public class BankjegyService implements InitializingBean {
     @Autowired
     private BankjegyRepository bankjegyRepository;
 
-    @Autowired
-    private KosarService kosarService;
+    /*@Autowired
+    private KosarService kosarService;*/
 
 
     private List<Bankjegy> iniBankjegyek = List.of(
+            Bankjegy.builder()
+                    .ertek(20000)
+                    .mennyiseg(0)
+                    .build(),
             Bankjegy.builder()
                     .ertek(10000)
                     .mennyiseg(3)
@@ -175,13 +179,6 @@ public class BankjegyService implements InitializingBean {
         bankjegy.setMennyiseg(bankjegy.getMennyiseg() - 1);
     }*/
 
-    public void save(List<Bankjegy> bankjegyek) {
-        bankjegyRepository.saveAll(bankjegyek);
-    }
-
-    public void deleteAll() {
-        bankjegyRepository.deleteAll();
-    }
 
     public Bankjegy findByErtek(Integer ertek){
         return bankjegyRepository.findByErtek(ertek).orElseThrow();
@@ -190,6 +187,13 @@ public class BankjegyService implements InitializingBean {
     public List<Bankjegy> findAll(){
         return bankjegyRepository.findAll();
     }
+
+    public Bankjegy editById(Integer id, Integer mennyiseg){
+        Bankjegy bankjegy = bankjegyRepository.getById(id);
+        bankjegy.setMennyiseg(mennyiseg);
+        return bankjegy;
+    }
+
 /////////////////////////////////////////////////////////////////////////////////////6
    /* private Integer osszegBedobva(List<BedobottBankjegy> bedobottBankjegyek) {
         return bedobottBankjegyek.stream()

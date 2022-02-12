@@ -1,14 +1,12 @@
 package hu.progmatic.kozos.kassza;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -66,7 +64,7 @@ class BankjegyServiceTest {
                     .build()
     );
 
-    private List<Bankjegy> bankjegyBuilder(Integer tizE,
+    private List<Bankjegy> bankjegyEditor(Integer tizE,
                                            Integer otE,
                                            Integer ketE,
                                            Integer eE,
@@ -130,31 +128,60 @@ class BankjegyServiceTest {
         bankjegyService.clear();
     }
 
-    @AfterEach
-    void tearDown() {
-        bankjegyService.deleteAll();
+
+    @Test
+    @DisplayName("Összes bankjegy")
+    void findAll() {
+        List<Bankjegy> bankjegyek = bankjegyService.findAll();
+        assertThat(bankjegyek).extracting(Bankjegy::getErtek).containsExactlyInAnyOrder(
+                20_000,
+                10_000,
+                5_000,
+                2_000,
+                1_000,
+                500,
+                200,
+                100,
+                50,
+                20,
+                10,
+                5);
     }
 
-    @Disabled
+
     @Test
-    void visszaadas() {
-        /*assertEquals(
-                "{" +
-                        "otszazas=1," +
-                        " szazas=0," +
-                        " ezres=1," +
-                        " tizes=1," +
-                        " tizezres=1," +
-                        " otezres=1," +
-                        " huszas=0," +
-                        " ketszazas=1," +
-                        " ketezres=1," +
-                        " otvenes=1," +
-                        " otos=1"+
-                        "}",
-                bankjegyService.bankjegyek(
-                        1235,
-                        20000)
-        );*/
+    @DisplayName("Keresés érték alapján")
+    void findByErtek() {
+        Bankjegy bankjegy = bankjegyService.findByErtek(1_000);
+        assertEquals(1_000, bankjegy.getErtek());
+
+        bankjegy = bankjegyService.findByErtek(10_000);
+        assertEquals(10_000, bankjegy.getErtek());
+
+        bankjegy = bankjegyService.findByErtek(20);
+        assertEquals(20, bankjegy.getErtek());
+
+        bankjegy = bankjegyService.findByErtek(200);
+        assertEquals(200, bankjegy.getErtek());
+    }
+
+    @Test
+    @DisplayName("Mennyiség szerkesztése")
+    void szerkesztes() {
+        Bankjegy bankjegy = bankjegyService.findByErtek(1_000);
+        bankjegy = bankjegyService.editById(bankjegy.getId(),3 );
+        assertEquals(3, bankjegy.getMennyiseg());
+
+        bankjegy = bankjegyService.findByErtek(100);
+        bankjegy = bankjegyService.editById(bankjegy.getId(),96 );
+        assertEquals(96, bankjegy.getMennyiseg());
+
+        bankjegy = bankjegyService.findByErtek(20_000);
+        bankjegy = bankjegyService.editById(bankjegy.getId(),19 );
+        assertEquals(19, bankjegy.getMennyiseg());
+
+        bankjegy = bankjegyService.findByErtek(20);
+        bankjegy = bankjegyService.editById(bankjegy.getId(),99 );
+        assertEquals(99, bankjegy.getMennyiseg());
     }
 }

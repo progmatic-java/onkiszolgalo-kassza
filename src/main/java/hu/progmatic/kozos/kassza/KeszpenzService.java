@@ -62,7 +62,7 @@ public class KeszpenzService {
                 }
             }
             if (kulonbozet.equals(0)){
-                keszpenzDto.setMaradek(0);
+                keszpenzDto.setMaradek(null);
                 keszpenzDto.setVisszajaro(vissazjaroMapToStr(visszajaroMap));
             }else{
                 mapBankjegyAddToDatabase(visszajaroMap);
@@ -93,10 +93,9 @@ public class KeszpenzService {
     private String vissazjaroMapToStr(Map<Integer, Integer> visszajaroMap){
         String visszajaroStr = "";
         for (Map.Entry<Integer,Integer> entry : visszajaroMap.entrySet()){
-            visszajaroStr += String.format("%s db %s Ft-os címlet", entry.getValue(), entry.getKey());
-            visszajaroStr += "; ";
+            visszajaroStr += String.format("%s db: %s Ft; ", entry.getValue(), entry.getKey());
         }
-        return visszajaroStr;
+        return visszajaroStr.strip();
     }
 
     private void addBedobottCimletToKosar(Kosar kosar, Integer cimlet) {
