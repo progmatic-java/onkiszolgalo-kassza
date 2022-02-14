@@ -51,6 +51,7 @@ public class FizetesController {
         KosarViewDTO kosarViewDTO = kosarService.getKosarDtoById(kosarId);
         KeszpenzDto keszpenzDto = keszpenzService.visszajaro(KeszpenzDto.builder().bedobottCimlet(osszeg).kosarId(kosarId).build());
         if (keszpenzDto.getMaradek() == null || keszpenzDto.getMaradek() == 0) {
+            model.addAttribute("keszpenzdto",keszpenzDto);
             return "kassza/keszpenzvisszaigazolas";
         }
 

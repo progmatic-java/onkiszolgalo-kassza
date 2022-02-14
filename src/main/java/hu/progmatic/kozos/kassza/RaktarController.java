@@ -29,14 +29,17 @@ public class RaktarController {
         return "/kassza/raktar";
     }
 
-    @GetMapping("/kassza/raktar/{id}/a")
-    public String edit(@PathVariable Integer id, Model model, HttpServletResponse response) throws IOException {
-        KepMegjelenitesDto dto = termekService.getKepMegjelenitesDto(id);
-        response.setContentType(dto.getContentType());
-        response.getOutputStream().write(dto.getKepAdat());
+    @GetMapping("/kassza/raktar/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
         Termek formItem = termekService.getById(id);
         model.addAttribute("formItem", formItem);
         return "/kassza/raktar";
+    }
+    @GetMapping("/kassza/raktar/{id}/kep")
+    public void kep(@PathVariable Integer id, HttpServletResponse response) throws IOException {
+        KepMegjelenitesDto dto = termekService.getKepMegjelenitesDto(id);
+        response.setContentType(dto.getContentType());
+        response.getOutputStream().write(dto.getKepAdat());
     }
 
 
@@ -51,7 +54,7 @@ public class RaktarController {
     public String create(
             @ModelAttribute("formItem") @Valid Termek formItem,
             BindingResult bindingResult,
-            @ModelAttribute("kepFeltoltesCommand") KepfeltoltesCommand kepfeltoltesCommand,
+            @ModelAttribute("kepFeltoltesCommand") TermekMentesCommand kepfeltoltesCommand,
             Model model) throws IOException {
         try {
             termekService.validacio(formItem);
@@ -76,12 +79,12 @@ public class RaktarController {
     @PostMapping("/kassza/raktar/{id}")
     public String add(
             @PathVariable Integer id,
-            @ModelAttribute("kepFeltoltesCommand") KepfeltoltesCommand kepfeltoltesCommand,
-            @ModelAttribute("formItem") @Valid Termek formItem,
+            @ModelAttribute("kepFeltoltesCommand") TermekMentesCommand termekmentesDto,
             BindingResult bindingResult,
             Model model) throws IOException {
         if (!bindingResult.hasErrors()) {
-            termekService.create(formItem, kepfeltoltesCommand);
+            termekmentesDto.setId(id);
+            termekService.save(termekmentesDto);
             refreshAllTermek(model);
             clearFormItem(model);
         }
@@ -108,8 +111,8 @@ public class RaktarController {
     }
 
     @ModelAttribute("kepFeltoltesCommand")
-    KepfeltoltesCommand kepFeltoltesCommand() {
-        return new KepfeltoltesCommand();
+    TermekMentesCommand kepFeltoltesCommand() {
+        return new TermekMentesCommand();
     }
 
 

@@ -44,7 +44,7 @@
 </head>
 <body>
 <form th:action="@{/}" >
-    <input type="submit" value="Köszönjük hogy nálunk vásárolt!" class="button-76" style="font-size: 90px; position: fixed; top: 0; left: 0; width: 1580px">
+    <input type="submit" th:value="'Köszönjük hogy nálunk vásárolt!' +${keszpenzDto.visszajaro}" class="button-76" style="font-size: 90px; position: fixed; top: 0; left: 0; width: 1580px">
 </form>
 </body>
 </html>

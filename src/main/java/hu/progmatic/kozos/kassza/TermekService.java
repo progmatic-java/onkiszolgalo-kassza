@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +85,7 @@ public class TermekService {
         }
     }
 
-    public Termek create(Termek termek, KepfeltoltesCommand kepfeltoltesCommand) throws IOException {
+    public Termek create(Termek termek, TermekMentesCommand kepfeltoltesCommand) throws IOException {
         termek.setId(null);
         try {
             MultipartFile file = kepfeltoltesCommand.getFile();
@@ -113,5 +114,31 @@ public class TermekService {
                 .kepAdat(kep.getKepAdat())
                 .build();
 
+    }
+
+    public void save(TermekMentesCommand termekmentes) {
+        Termek termek = repository.getById(termekmentes.getId());
+        termek.setMennyiseg(termekmentes.getMennyiseg());
+        termek.setAr(termekmentes.getAr());
+        termek.setMegnevezes(termekmentes.getMegnevezes());
+        termek.setVonalkod(termekmentes.getVonalkod());
+        MultipartFile file = termekmentes.getFile();
+        if (!file.isEmpty()) {
+            try {
+                Kep kep;
+                if(termek.getKep() != null){
+                    kep=termek.getKep();
+                }
+                else {
+                    kep = new Kep();
+                    termek.setKep(kep);
+                }
+                kep.setContentType(file.getContentType());
+                kep.setKepAdat(file.getBytes());
+                kep.setMeret(file.getSize());
+            } catch (IOException e) {
+                throw new KepFeltoltesHibaException();
+            }
+        }
     }
 }

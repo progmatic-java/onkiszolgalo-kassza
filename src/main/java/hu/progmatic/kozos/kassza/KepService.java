@@ -43,7 +43,7 @@ public class KepService {
                 .build();
     }
 
-    public void saveKep(KepfeltoltesCommand kepFeltoltesCommand) {
+    public void saveKep(TermekMentesCommand kepFeltoltesCommand) {
         try {
             MultipartFile kepFile = kepFeltoltesCommand.getFile();
             Kep kep = Kep.builder()
