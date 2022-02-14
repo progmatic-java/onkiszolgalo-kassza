@@ -164,7 +164,7 @@
     </style>
 </head>
 <body>
-<h1 th:text="'Fennmaradó összeg: '+${keszpenzDto.maradek}">
+<h1 th:style="${keszpenzDto.maradek == null || keszpenzDto.maradek == 0} ? 'font-size: 30px': 'font-size: 50px' " th:text="${keszpenzDto.maradek == null || keszpenzDto.maradek == 0} ? 'Visszajáró: '+${keszpenzDto.visszajaro} : 'Fennmaradó összeg: '+${keszpenzDto.maradek}">
     Fizetendő összeg = 0 Ft
 </h1>
 <h2 th:text="'Fizetendő összeg= '+${kosar.vegosszeg}">

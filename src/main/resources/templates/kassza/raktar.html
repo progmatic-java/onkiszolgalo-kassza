@@ -79,7 +79,7 @@
         <td th:text="${item.mennyiseg}">Tipus</td>
         <td th:text="${item.vonalkod}">Tipus</td>
         <td>
-            <img src="istockphoto-1206806317-170667a.jpg" th:src="@{'/kassza/raktar/{id}'(id=${item.id})}">
+            <img src="istockphoto-1206806317-170667a.jpg" th:src="@{'/kassza/raktar/{id}/a'(id=${item.id})}">
         </td>
         <td>
             <form style="text-align: right" th:action="@{'/kassza/raktar/{id}'(id=${item.id})}" method="get">

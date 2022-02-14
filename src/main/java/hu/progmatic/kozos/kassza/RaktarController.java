@@ -29,7 +29,7 @@ public class RaktarController {
         return "/kassza/raktar";
     }
 
-    @GetMapping("/kassza/raktar/{id}")
+    @GetMapping("/kassza/raktar/{id}/a")
     public String edit(@PathVariable Integer id, Model model, HttpServletResponse response) throws IOException {
         KepMegjelenitesDto dto = termekService.getKepMegjelenitesDto(id);
         response.setContentType(dto.getContentType());
@@ -76,11 +76,12 @@ public class RaktarController {
     @PostMapping("/kassza/raktar/{id}")
     public String add(
             @PathVariable Integer id,
+            @ModelAttribute("kepFeltoltesCommand") KepfeltoltesCommand kepfeltoltesCommand,
             @ModelAttribute("formItem") @Valid Termek formItem,
             BindingResult bindingResult,
-            Model model) {
+            Model model) throws IOException {
         if (!bindingResult.hasErrors()) {
-            termekService.add(formItem);
+            termekService.create(formItem, kepfeltoltesCommand);
             refreshAllTermek(model);
             clearFormItem(model);
         }

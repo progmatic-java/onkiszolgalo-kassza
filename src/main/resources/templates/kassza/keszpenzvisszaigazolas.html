@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sikeres Vásárlás</title>
+    <style>
+        .button-76 {
+            border-radius: 8px;
+            bottom: 0;
+            right: 0;
+            background-color: white;
+            border: 0;
+            border-radius: .25rem;
+            box-sizing: border-box;
+            color: black;
+            cursor: pointer;
+            font-family: Helvetica;
+            font-size: 1.125rem; /* 18px */
+            font-weight: 600;
+            line-height: 1.75rem; /* 28px */
+            padding: 1rem 1.25rem;
+            text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .button-76:disabled{
+            background-color: whitesmoke;
+        }
+
+        .button-76:hover:enabled {
+            background-color: grey;
+            color: white;
+        }
+
+        @media (min-width: 1024px) {
+            .button-76 {
+                font-size: 1.5rem; /* 24px */
+                padding: 1rem 1.5rem;
+                line-height: 2rem; /* 32px */
+            }
+        }
+    </style>
+</head>
+<body>
+<form th:action="@{/}" >
+    <input type="submit" value="Köszönjük hogy nálunk vásárolt!" class="button-76" style="font-size: 90px; position: fixed; top: 0; left: 0; width: 1580px">
+</form>
+</body>
+</html>
