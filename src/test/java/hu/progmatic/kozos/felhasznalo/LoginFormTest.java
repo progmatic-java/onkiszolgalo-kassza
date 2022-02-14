@@ -1,5 +1,6 @@
 package hu.progmatic.kozos.felhasznalo;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,7 @@ class LoginFormTest {
         .andExpect(MockMvcResultMatchers.forwardedUrl("/"));
 
   }
-
+  @Disabled
   @Nested
   @DisplayName("Bejelentkezett felhasználóval")
   @WithMockUser(username = "tesztfelhasznalonev")

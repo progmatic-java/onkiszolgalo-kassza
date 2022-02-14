@@ -188,6 +188,28 @@ class KeszpenzServiceTest {
 
         }
 
+        @Disabled
+        // legyen még ezelött pár teszt
+        @Test
+        void nemTudVisszadni() {
+            cimletHozzaad(100, 1);
+            cimletHozzaad(200, 1);
+            cimletHozzaad(50, 1);
+            cimletHozzaad(5, 1);
+            KeszpenzDto keszpenzDto = KeszpenzDto.builder()
+                    .kosarId(kosarViewDTO.getKosarId())
+                    .bedobottCimlet(2_000)
+                    .build();
+            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
+
+            assertEquals(1_635, keszpenzDto.getVegosszeg());
+            assertEquals(1_635, keszpenzDto.getMaradek());
+            assertNotNull(keszpenzDto.getVisszajaro());
+            assertTrue(keszpenzDto.isNemTudVisszaadni());
+            System.out.println(keszpenzDto.getVisszajaro());
+
+        }
+
         private void cimletHozzaad(Integer ertek, Integer mennyiseg) {
             Bankjegy bankjegy = bankjegyService.findByErtek(ertek);
             bankjegyService.editById(bankjegy.getId(), mennyiseg);
