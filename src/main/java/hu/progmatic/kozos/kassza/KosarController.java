@@ -5,10 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,6 +16,23 @@ public class KosarController {
 
     @Autowired
     private KosarService kosarService;
+
+    @GetMapping("/kassza/probaolvasas")
+    public String probaolvasas(Model model) {
+        return "/kassza/probaolvasas";
+    }
+
+    @PostMapping("/kassza/js/{kosarId}")
+    @ResponseBody
+    public String probaolvasPost(@RequestBody TermekMennyisegHozzaadasCommand command,
+                                 @PathVariable("kosarId") Integer kosarId,
+                                 Model model){
+        kosarService.addTermekMennyisegCommand(kosarId, command);
+        model.addAttribute("allTermek", kosarService.findAllTermekNotNullMennyiseg());
+        model.addAttribute("termekMennyisegHozzaadasCommand", new TermekMennyisegHozzaadasCommand());
+        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        return "kassza/kassza";
+    }
 
     @GetMapping("/kassza/kassza")
     public String kosarIndex(Model model) {

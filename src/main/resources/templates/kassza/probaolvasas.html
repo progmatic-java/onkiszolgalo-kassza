@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>probaolvasas</title>
+    <script>
+        let readRow = '';
+        let lastEventTime = performance.now();
+        document.addEventListener('keydown', function (evt) {
+            if (performance.now() - lastEventTime > 50) {
+                readRow = evt.key;
+                lastEventTime = performance.now();
+                //window.alert(readRow);
+            } else {
+                readRow += evt.key;
+                lastEventTime = performance.now();
+                //document.write(readRow);
+            }
+            if (evt.code === 'Enter' && readRow.toString().length >= 13) {
+                let length = readRow.length;
+                readRow = readRow.toString().substring(0, length - 5)
+                sendPost(readRow);
+                window.alert(readRow);
+            }
+        });
+
+        function sendPost(readRow) {
+            var data = '{' +
+                '"vonalkod":' + '"' + readRow + '"' + ',' +
+                '"mennyiseg":"1"' +
+                '}';
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/kassza/js/" + document.getElementById('kosarId').value);
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json")
+            xhr.send(data);
+        }
+    </script>
+</head>
+<body>
+
+<form action="#">
+    <input type="hidden" id="kosarId" value="2">
+
+    <!-- Name: <input type="text">-->
+
+   <!-- <input type="submit" value="Submit">-->
+</form>
+
+
+</body>
+</html>
