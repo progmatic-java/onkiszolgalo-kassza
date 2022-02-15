@@ -70,13 +70,17 @@ public class KosarService {
 
     private void mennyisegValidacio(String vonalkod, Integer mennyiseg) {
         Termek termek = termekService.getByVonalkod(vonalkod);
-        int termekMennyiseg = termek.getMennyiseg();
-        if (termekMennyiseg < mennyiseg) {
-            throw new NincsElegRaktarKeszletException(
-                    String.format("Nincs elég termék a raktáron! Maximálisan %s termék adható hozzá!", termekMennyiseg)
-            );
+        if (termek != null) {
+            int termekMennyiseg = termek.getMennyiseg();
+            if (termekMennyiseg < mennyiseg) {
+                throw new NincsElegRaktarKeszletException(
+                        String.format("Nincs elég termék a raktáron! Maximálisan %s termék adható hozzá!", termekMennyiseg)
+                );
+            }
+            termek.setMennyiseg(termekMennyiseg - mennyiseg);
+        }else{
+            throw new NincsIlyenTermek("Boltban nem szereplő termék!");
         }
-        termek.setMennyiseg(termekMennyiseg - mennyiseg);
     }
 
     private KosarViewDTO kosarToKosarViewDTO(Kosar kosar) {

@@ -222,6 +222,7 @@
 <body>
 <h1 style="text-align: center; background-color: darkblue; color: white; height: 55px; padding-top: 5px">
     Üdvözöljük!</h1>
+<h2 th:text="${vonalkodBeolvasasHiba}" th:hidden="${!isNincsElegTermek}"></h2>
 <h2 style="position: fixed; bottom: 165px; color: darkblue; font-size: 31px">Kérjük olvassa le a Terméket, vagy
     válasszon a listából!</h2>
 <div class="container" style="margin-top: -10px;">
@@ -239,30 +240,38 @@
                     if (performance.now() - lastEventTime > 50) {
                         readRow = evt.key;
                         lastEventTime = performance.now();
-                        //window.alert(readRow);
                     } else {
                         readRow += evt.key;
                         lastEventTime = performance.now();
-                        //document.write(readRow);
                     }
                     if (evt.code === 'Enter' && readRow.toString().length >= 13) {
                         let length = readRow.length;
                         readRow = readRow.toString().substring(0, length - 5)
                         sendPost(readRow);
-                        //window.alert(readRow);
+                    }
+                    if (evt.key.toString() === 'p') {
+                        //sendPost('5051007149822')
+                        document.getElementById("beolvasoVonalkod").value = '5051007149822';
+                        document.getElementById("beolvasoMennyiseg").value = 1;
+                        document.getElementById("beolvasoForm").submit();
                     }
                 });
 
                 function sendPost(readRow) {
-                    var data = '{' +
-                        '"vonalkod":' + '"' + readRow + '"' + ',' +
-                        '"mennyiseg":"1"' +
-                        '}';
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "/kassza/js/" + document.getElementById('kosarIdJs').value);
-                    xhr.setRequestHeader("Accept", "application/json");
-                    xhr.setRequestHeader("Content-Type", "application/json")
-                    xhr.send(data);
+                    document.getElementById("beolvasoVonalkod").value = readRow;
+                    document.getElementById("beolvasoMennyiseg").value = 1;
+                    document.getElementById("beolvasoForm").submit();
+                    /**
+                     * var data = '{' +
+                     *    '"vonalkod":' + '"' + readRow + '"' + ',' +
+                     *    '"mennyiseg":"1"' +
+                     *    '}';
+                     * var xhr = new XMLHttpRequest();
+                     * xhr.open("POST", "/kassza/js/" + document.getElementById('kosarIdJs').value);
+                     * xhr.setRequestHeader("Accept", "application/json");
+                     * xhr.setRequestHeader("Content-Type", "application/json")
+                     * xhr.send(data);* /
+                     */
                 }
             </script>
             <table class="list-group">
@@ -407,7 +416,7 @@
 <i class="gg-enter" style="position: absolute; bottom: 65px; right: 30px; color: white"></i>
 
 
-<!-- Modal -->
+<!-- Modal a visszalépéshez -->
 <div class="modal fade alert-danger" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
      tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -429,6 +438,32 @@
         </div>
     </div>
 </div>
+
+<!-- Vonalkód beolvasáshoz szükséges rész-->
+<form id="beolvasoForm" class="row"
+      th:action="@{'/kassza/{kosarId}/addtermekJs' (kosarId=${kosar.kosarId})}"
+      method="post"
+      th:object="${termekMennyisegHozzaadasCommand}"
+>
+    <div class="col">
+        <label>
+            <input hidden id="beolvasoMennyiseg" type="text"
+                   style="color: darkblue"
+                   class="form-control"
+                   th:field="*{mennyiseg}">
+        </label>
+    </div>
+    <div class="col">
+        <label>
+            <input hidden id="beolvasoVonalkod" type="number"
+                   style="color: darkblue"
+                   class="form-control"
+                   th:field="*{vonalkod}">
+        </label>
+    </div>
+</form>
+<!--  ::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+
 
 
 </body>

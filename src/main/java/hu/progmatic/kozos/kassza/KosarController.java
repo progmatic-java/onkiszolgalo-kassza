@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,17 +23,46 @@ public class KosarController {
         return "/kassza/probaolvasas";
     }
 
-    @PostMapping("/kassza/js/{kosarId}")
+    @PostMapping("/kassza/jstest/{kosarId}")
     @ResponseBody
-    public String probaolvasPost(@RequestBody TermekMennyisegHozzaadasCommand command,
-                                 @PathVariable("kosarId") Integer kosarId,
-                                 Model model){
+    public String requestTest(@RequestBody TermekMennyisegHozzaadasCommand command,
+                              @PathVariable("kosarId") Integer kosarId,
+                              Model model) {
+        System.out.println("Teszt kiiratása vonalkód : " + command.getVonalkod());
+        return "kassza/kassza";
+    }
+
+    @PostMapping("/kassza/{kosarId}/addtermekJs")
+    public String addTermek(@PathVariable("kosarId") Integer kosarId,
+                            @ModelAttribute("termekMennyisegHozzaadasCommand") TermekMennyisegHozzaadasCommand command,
+                            Model model) {
+        try{
+            kosarService.addTermekMennyisegCommand(kosarId, command);
+        }catch (NincsElegRaktarKeszletException | NincsIlyenTermek e){
+            model.addAttribute("isNincsElegTermek", true);
+            model.addAttribute("vonalkodBeolvasasHiba", e.getMessage());
+        }
+        model.addAttribute("allTermek", kosarService.findAllTermekNotNullMennyiseg());
+        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        model.addAttribute("termekMennyisegHozzaadasCommand", new TermekMennyisegHozzaadasCommand());
+        return "kassza/kassza";
+    }
+    /*@PostMapping("/kassza/js/{kosarId}")
+    //@ResponseBody
+    public ModelAndView probaolvasPost(@RequestBody TermekMennyisegHozzaadasCommand command,
+                                       @PathVariable("kosarId") Integer kosarId,
+                                       Model model){
         kosarService.addTermekMennyisegCommand(kosarId, command);
         model.addAttribute("allTermek", kosarService.findAllTermekNotNullMennyiseg());
         model.addAttribute("termekMennyisegHozzaadasCommand", new TermekMennyisegHozzaadasCommand());
         model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
-        return "kassza/kassza";
-    }
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName(String.format("redirect:/kassza/%s", kosarId));
+        return mav;
+        //return kosarIdIndex(kosarId, model);
+        //return "/kassza/kassza";
+        //return String.format("redirect:kassza/%s", kosarId);
+    }*/
 
     @GetMapping("/kassza/kassza")
     public String kosarIndex(Model model) {
@@ -50,7 +80,7 @@ public class KosarController {
     }
 
     @PostMapping("/kassza/torles/{kosarId}")
-    public String kosarTorles(@PathVariable("kosarId") Integer kosarId){
+    public String kosarTorles(@PathVariable("kosarId") Integer kosarId) {
         kosarService.kosarDeleteById(kosarId);
         return "kassza/kezdes";
     }
@@ -114,7 +144,7 @@ public class KosarController {
         return "kassza/kassza";
     }
 
-        @GetMapping("/kassza/{kosarId}/modosit/{termekMId}")
+    @GetMapping("/kassza/{kosarId}/modosit/{termekMId}")
     public String editTermekMennyiseg(
             @PathVariable("kosarId") Integer kosarId,
             @PathVariable("termekMId") Integer termekMId,
@@ -136,6 +166,16 @@ public class KosarController {
     @ModelAttribute("termekMennyisegHozzaadasCommand")
     TermekMennyisegHozzaadasCommand termekMennyisegHozzaadasCommand() {
         return new TermekMennyisegHozzaadasCommand();
+    }
+
+    @ModelAttribute("isNincsElegTermek")
+    boolean nicsElegTermek(){
+        return false;
+    }
+
+    @ModelAttribute("vonalkodBeolvasasHiba")
+    String vonalkodBeolvasasHiba(){
+        return null;
     }
 
     /*@ModelAttribute("isTermekMennyisegEdit")
