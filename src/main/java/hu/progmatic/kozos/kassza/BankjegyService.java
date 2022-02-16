@@ -71,7 +71,9 @@ public class BankjegyService implements InitializingBean {
     );
     @Override
     public void afterPropertiesSet() {
-        bankjegyRepository.saveAll(iniBankjegyek);
+        if(bankjegyRepository.count() == 0){
+            bankjegyRepository.saveAll(iniBankjegyek);
+        }
     }
     /*private int visszajaro(int vegosszeg, int befizetett) {
         return befizetett - vegosszeg;
