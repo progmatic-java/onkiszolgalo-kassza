@@ -35,7 +35,7 @@ public class Termek {
     @JoinColumn
     private Kep kep;
     @Builder.Default
-    private boolean korhataros = true;
+    private Boolean korhataros = false;
 
 
 }
