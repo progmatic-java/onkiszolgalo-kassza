@@ -5,23 +5,23 @@ import java.util.*;
 public class Visszajaro {
 
     private final Kosar kosar;
-    private final Bankjegy bankjegy;
     private final List<Bankjegy> banjegyek = new ArrayList<>();
 
-    public Visszajaro(Kosar kosar, Bankjegy bankjegy) {
+    public Visszajaro(Kosar kosar) {
         this.kosar = kosar;
-        this.bankjegy = bankjegy;
     }
 
+    public void disabledBankjegyek(){
+        new VisszaadasEllenorzo()
+    }
 
-
-    public void addBedobottCimletToKosar() {
+    public void addBedobottCimletToKosar(Bankjegy bankjegy) {
         Optional<BedobottBankjegy> bedobottMennyiseg = kosar.getBedobottBankjegyek().stream()
-                .filter(bankj -> bankj.getBankjegy().getErtek().equals(this.bankjegy.getErtek())).findAny();
+                .filter(bankj -> bankj.getBankjegy().getErtek().equals(bankjegy.getErtek())).findAny();
         if (bedobottMennyiseg.isEmpty()) {
             kosar.getBedobottBankjegyek().add(BedobottBankjegy.builder()
                     .bedobottMenyiseg(1)
-                    .bankjegy(this.bankjegy)
+                    .bankjegy(bankjegy)
                     .kosar(kosar)
                     .build());
         } else {
@@ -44,5 +44,11 @@ public class Visszajaro {
             vegosszeg += 1;
         }
         return vegosszeg;
+    }
+
+    private Integer osszegBedobva(List<BedobottBankjegy> bedobottBankjegyek) {
+        return bedobottBankjegyek.stream()
+                .mapToInt(bedobottBankjegy -> (bedobottBankjegy.getBedobottMenyiseg() * bedobottBankjegy.getBankjegy().getErtek()))
+                .sum();
     }
 }

@@ -131,6 +131,10 @@ public class KeszpenzService {
 
 
     private void visszajaroProbalkozas(Kosar kosar, Bankjegy bedobottBnkjegy, List<Bankjegy> banjegyek){
-        Visszajaro visszajaro = new Visszajaro(kosar, bedobottBnkjegy);
+        Visszajaro visszajaro = new Visszajaro(kosar);
+
+        visszajaro.addBedobottCimletToKosar(bedobottBnkjegy);
+
+        VisszaadasEllenorzo visszaadasEllenorzo = new VisszaadasEllenorzo();
     }
 }
