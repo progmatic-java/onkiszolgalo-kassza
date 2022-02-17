@@ -14,6 +14,7 @@ public class Visszajaro {
     }
 
 
+
     public void addBedobottCimletToKosar() {
         Optional<BedobottBankjegy> bedobottMennyiseg = kosar.getBedobottBankjegyek().stream()
                 .filter(bankj -> bankj.getBankjegy().getErtek().equals(this.bankjegy.getErtek())).findAny();
