@@ -8,7 +8,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -130,6 +132,13 @@ public class KosarController {
         }
         model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
         return "kassza/kassza";
+    }
+
+    @GetMapping("/kassza/{kosarId}/kep")
+    public void kep(@PathVariable("kosarId") Integer kosarId, HttpServletResponse response) throws IOException {
+        TermekMennyisegDto dto = kosarService.getKosarViewDTOById(kosarId).getUtolsoHozzaadottTermekmennyisegDto();
+        response.setContentType(dto.getContentType());
+        response.getOutputStream().write(dto.getKepAdat());
     }
 
 
