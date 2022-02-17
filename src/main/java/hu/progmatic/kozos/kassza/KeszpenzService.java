@@ -29,7 +29,7 @@ public class KeszpenzService {
 
     public KeszpenzDto visszajaro(KeszpenzDto keszpenzDto) {
         Kosar kosar = kosarService.getById(keszpenzDto.getKosarId());
-        Integer vegosszeg = kosarVegosszegRoundFive(kosarService.kosarVegosszeg(kosar));
+        Integer vegosszeg = kosarVegosszegRoundFive(Kosar.kosarVegosszeg(kosar));
         keszpenzDto.setVegosszeg(vegosszeg);
         if (keszpenzDto.getBedobottCimlet() == null) {
             keszpenzDto.setMaradek(vegosszeg);
