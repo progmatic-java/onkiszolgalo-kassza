@@ -69,6 +69,7 @@
         <th scope="col">Mennyiség</th>
         <th scope="col">Vonalkód</th>
         <th scope="col">Kép</th>
+        <th scope="col">Korhataros</th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -77,11 +78,12 @@
         <th scope="row" th:text="${item.id}">0</th>
         <td th:text="${item.megnevezes}">Név</td>
         <td th:text="${item.ar}">100</td>
-        <td th:text="${item.mennyiseg}">Tipus</td>
-        <td th:text="${item.vonalkod}">Tipus</td>
+        <td th:text="${item.mennyiseg}">db</td>
+        <td th:text="${item.vonalkod}">######</td>
         <td>
             <img style="width: 40px; height: 40px" src="istockphoto-1206806317-170667a.jpg" th:if="${item.kep!=null}" th:src="@{'/kassza/raktar/{id}/kep'(id=${item.id})}">
         </td>
+        <td th:text="${item.korhataros}">nem</td>
         <td>
             <form style="text-align: right" th:action="@{'/kassza/raktar/{id}'(id=${item.id})}" method="get">
                 <input type="submit" class="btn btn-success edit-btn" value="Módosít"/>
@@ -155,6 +157,14 @@
                  th:errors="*{vonalkod}">
                 Hibaüzenet
             </div>
+        </label>
+    </div>
+    <div class="col">
+        <label>
+            <input type="checkbox"
+                   th:checked="${korhataros}"
+                   />
+
         </label>
     </div>
 
