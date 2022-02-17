@@ -32,4 +32,12 @@ public class Kosar {
 
     @ManyToOne
     private Kassza kassza;
+
+
+    public static Integer kosarVegosszeg(Kosar kosar) {
+        return kosar.getTermekMennyisegek().stream()
+                .mapToInt(osszeg -> osszeg.getMennyiseg() * osszeg.getTermek().getAr())
+                .sum();
+
+    }
 }
