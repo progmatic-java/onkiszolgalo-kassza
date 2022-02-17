@@ -55,49 +55,36 @@
     </style>
 </head>
 <body>
-<h1 style="text-align: center; background-color: whitesmoke; color: black; height: 55px; padding-top: 5px">Raktár</h1>
+<h1 style="text-align: center; background-color: whitesmoke; color: black; height: 55px; padding-top: 5px">Bankjegy leltár</h1>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 <div class="list-group">
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Név</th>
-        <th scope="col">Ár</th>
-        <th scope="col">Mennyiség</th>
-        <th scope="col">Vonalkód</th>
-        <th scope="col">Kép</th>
-        <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item : ${allItem}">
-        <th scope="row" th:text="${item.id}">0</th>
-        <td th:text="${item.megnevezes}">Név</td>
-        <td th:text="${item.ar}">100</td>
-        <td th:text="${item.mennyiseg}">Tipus</td>
-        <td th:text="${item.vonalkod}">Tipus</td>
-        <td>
-            <img style="width: 40px; height: 40px" src="istockphoto-1206806317-170667a.jpg" th:if="${item.kep!=null}" th:src="@{'/kassza/raktar/{id}/kep'(id=${item.id})}">
-        </td>
-        <td>
-            <form style="text-align: right" th:action="@{'/kassza/raktar/{id}'(id=${item.id})}" method="get">
-                <input type="submit" class="btn btn-success edit-btn" value="Módosít"/>
-            </form>
-        </td>
-        <td>
-            <form style="text-align: right" th:action="@{'/kassza/raktar/delete/{id}'(id=${item.id})}" method="post">
-                <input type="submit" class="btn btn-danger" value="Töröl"/>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Bankjegy</th>
+            <th scope="col">Mennyiség</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${allBankjegy}">
+            <th scope="row" th:text="${item.id}">0</th>
+            <td th:text="${item.ertek}">Bankjegy</td>
+            <td th:text="${item.mennyiseg}">Mennyiseg</td>
+            <td>
+                <form style="text-align: right" th:action="@{'/kassza/raktar/{id}'(id=${item.id})}" method="get">
+                    <input type="submit" class="btn btn-success edit-btn" value="Módosít"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-<h3 th:if="${formItem.id == null}">Termék hozzáadása</h3>
-<h3 th:if="${formItem.id != null}">Termék módosítása</h3>
+<!--
+<h3 th:text="${formItem.id}">Termék módosítása</h3>
 <form th:action="@{'/kassza/raktar/{id}' (id=${formItem.id})}"
       method="post" th:object="${formItem}" class="row" enctype="multipart/form-data">
     <div class="col">
@@ -110,20 +97,6 @@
             <div class="invalid-feedback"
                  th:if="${#fields.hasErrors('megnevezes')}"
                  th:errors="*{megnevezes}">
-                Hibaüzenet
-            </div>
-        </label>
-    </div>
-    <div class="col">
-        <label>
-            <input type="number"
-                   class="form-control"
-                   placeholder="Ár"
-                   th:field="*{ar}"
-                   th:classappend="${#fields.hasErrors('ar')} ? 'is-invalid' : 'is-valid'"/>
-            <div class="invalid-feedback"
-                 th:if="${#fields.hasErrors('ar')}"
-                 th:errors="*{ar}">
                 Hibaüzenet
             </div>
         </label>
@@ -144,40 +117,10 @@
         </label>
     </div>
     <div class="col">
-        <label>
-            <input type="text"
-                   class="form-control"
-                   placeholder="Vonalkód"
-                   th:field="*{vonalkod}"
-                   th:classappend="${#fields.hasErrors('vonalkod')} ? 'is-invalid' : 'is-valid'"/>
-            <div class="invalid-feedback"
-                 th:if="${#fields.hasErrors('vonalkod')}"
-                 th:errors="*{vonalkod}">
-                Hibaüzenet
-            </div>
-        </label>
-    </div>
-
-        <div class="col" th:object="${kepFeltoltesCommand}" >
-            <label>
-                <input type="file"
-                       class="form-control-file"
-                       th:field="*{file}"
-                       th:classappend="${#fields.hasErrors('file')} ? 'is-invalid' : 'is-valid'"
-                >
-                <div class="invalid-feedback"
-                     th:if="${#fields.hasErrors('file')}"
-                     th:errors="*{file}">
-                    Hibaüzenet
-                </div>
-            </label>
-        </div>
-
-    <div class="col">
-        <input th:if="${formItem.id == null}" class="btn btn-primary" type="submit" value="Hozzáad"/>
-        <input th:if="${formItem.id != null}" class="btn btn-primary" type="submit" value="Módosít"/>
+        <input th:text="${formItem.id}" class="btn btn-primary" type="submit" value="Módosít"/>
     </div>
 </form>
+-->
 <form th:action="@{/}" style="padding-top: 2%">
     <div id="back-button" class="position-relative" style="text-align: center">
         <button class="button-76" style="position: fixed; bottom: 0; width: 400px; left: 550px;" type="submit">VISSZA</button>

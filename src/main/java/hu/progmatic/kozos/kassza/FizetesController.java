@@ -47,13 +47,9 @@ public class FizetesController {
 
 
     @PostMapping("/kassza/keszpenzesfizetes/{kosarId}/{osszeg}")
-    public String minusFt(@PathVariable("kosarId") Integer kosarId, @PathVariable("osszeg") Integer osszeg, Model model) {
+    public String minusFt(@PathVariable("kosarId") Integer kosarId, @PathVariable("osszeg") Integer osszeg, Model model) throws InterruptedException {
         KosarViewDTO kosarViewDTO = kosarService.getKosarDtoById(kosarId);
         KeszpenzDto keszpenzDto = keszpenzService.visszajaro(KeszpenzDto.builder().bedobottCimlet(osszeg).kosarId(kosarId).build());
-        if (keszpenzDto.getMaradek() == null || keszpenzDto.getMaradek() == 0) {
-            model.addAttribute("keszpenzdto",keszpenzDto);
-            return "kassza/keszpenzvisszaigazolas";
-        }
 
         model.addAttribute("kosar", kosarViewDTO);
         model.addAttribute("keszpenzDto", keszpenzDto);
@@ -61,9 +57,10 @@ public class FizetesController {
     }
 
 
+
     @GetMapping("/kassza/befejezes/{kosarId}")
-    public String befejezes(@PathVariable("kosarId") Integer kosarId, Model model) {
-        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+    public String befejezes(@PathVariable("kosarId") Integer kosarId) {
+        kosarService.deleteKosarById(kosarId);
         return "kassza/visszaigazolas";
     }
 
