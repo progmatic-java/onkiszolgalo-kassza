@@ -1,9 +1,11 @@
-package hu.progmatic.kozos.kassza;
+package hu.progmatic.kozos.kassza.keszpenz;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -16,6 +18,7 @@ public class KeszpenzDto {
     private Integer vegosszeg;
     private Integer kosarId;
     private String visszajaro;
+    private List<EnabledBankjegyDto> enabledBankjegyek;
     @Builder.Default
     private boolean nemTudVisszaadni = false;
 }

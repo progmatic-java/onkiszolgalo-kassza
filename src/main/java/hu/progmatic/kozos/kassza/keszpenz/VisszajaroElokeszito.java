@@ -1,19 +1,20 @@
-package hu.progmatic.kozos.kassza;
+package hu.progmatic.kozos.kassza.keszpenz;
+
+import hu.progmatic.kozos.kassza.Kosar;
+import hu.progmatic.kozos.kassza.keszpenz.Bankjegy;
+import hu.progmatic.kozos.kassza.keszpenz.BedobottBankjegy;
+import hu.progmatic.kozos.kassza.keszpenz.VisszaadasSzamolo;
 
 import java.util.*;
 
-public class Visszajaro {
+public class VisszajaroElokeszito {
 
     private final Kosar kosar;
-    private final List<Bankjegy> banjegyek = new ArrayList<>();
 
-    public Visszajaro(Kosar kosar) {
+    public VisszajaroElokeszito(Kosar kosar) {
         this.kosar = kosar;
     }
 
-    public void disabledBankjegyek(){
-        new VisszaadasEllenorzo()
-    }
 
     public void addBedobottCimletToKosar(Bankjegy bankjegy) {
         Optional<BedobottBankjegy> bedobottMennyiseg = kosar.getBedobottBankjegyek().stream()
@@ -46,9 +47,13 @@ public class Visszajaro {
         return vegosszeg;
     }
 
-    private Integer osszegBedobva(List<BedobottBankjegy> bedobottBankjegyek) {
-        return bedobottBankjegyek.stream()
+    public Integer osszegBedobva() {
+        return kosar.getBedobottBankjegyek().stream()
                 .mapToInt(bedobottBankjegy -> (bedobottBankjegy.getBedobottMenyiseg() * bedobottBankjegy.getBankjegy().getErtek()))
                 .sum();
+    }
+
+    public Integer getKulonbozet(){
+        return osszegBedobva() - getKosarVegosszegRoundFive();
     }
 }
