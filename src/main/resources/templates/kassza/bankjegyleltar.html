@@ -154,11 +154,16 @@
 </form>
 -->
 <form th:action="@{/}" style="padding-top: 2%">
-    <div id="back-button" class="position-relative" style="text-align: center">
+    <div class="position-relative" style="text-align: center">
         <button class="button-76" style="position: fixed; bottom: 0; width: 400px; left: 550px;" type="submit">VISSZA
         </button>
     </div>
 </form>
-</div>
+<form th:action="@{'/kassza/bankjegyleltar/clear'}" method="post" style="padding-top: 2%">
+    <div class="position-relative" style="text-align: center">
+        <button class="button-76" style="position: fixed; bottom: 100px; width: 400px; left: 550px;" type="submit">KIÜRÍTÉS
+        </button>
+    </div>
+</form>
 </body>
 </html>

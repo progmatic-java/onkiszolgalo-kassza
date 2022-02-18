@@ -42,5 +42,13 @@ public class BankjegyLeltarController {
         return "/kassza/bankjegyleltar";
     }
 
+    @PostMapping("/kassza/bankjegyleltar/clear")
+    public String clearBankjegyek(Model model){
+        bankjegyService.clear();
+        model.addAttribute("allBankjegy", bankjegyService.findAll());
+        model.addAttribute("formItem", Bankjegy.builder().build());
+        return "kassza/bankjegyleltar";
+    }
+
 
 }
