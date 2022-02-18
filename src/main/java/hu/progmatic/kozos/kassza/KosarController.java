@@ -135,12 +135,6 @@ public class KosarController {
     }
 
 
-    @GetMapping("/kassza/{id}/kep")
-    public void kep(@PathVariable Integer id, HttpServletResponse response) throws IOException {
-        TermekMennyisegDto dto = kosarService.getKosarViewDTOById(id).getUtolsoHozzaadottTermekmennyisegDto();
-        response.setContentType(dto.getContentType());
-        response.getOutputStream().write(dto.getKepAdat());
-    }
 
 
     @PostMapping("/kassza/{kosarId}/delete/{termekMId}")

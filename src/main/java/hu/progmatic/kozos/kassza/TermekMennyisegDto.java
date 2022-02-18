@@ -16,6 +16,5 @@ public class TermekMennyisegDto implements Serializable {
     private Integer mennyiseg;
     private String nev;
     private Integer ar;
-    private byte[] kepAdat;
-    private String contentType;
+    private Integer termekId;
 }
