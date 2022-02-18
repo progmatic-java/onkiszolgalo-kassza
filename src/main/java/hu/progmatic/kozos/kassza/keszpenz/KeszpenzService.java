@@ -34,6 +34,7 @@ public class KeszpenzService {
         return keszpenzDto;
     }
 
+
     private String visszajaroListToStr(List<Bankjegy> visszajaroList) {
         if (visszajaroList == null) {
             return null;
