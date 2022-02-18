@@ -25,7 +25,7 @@ public class InitKasszaDataBase implements InitializingBean {
             termekService.saveAll(
                     List.of(
                             Termek.builder().ar(100).megnevezes("víz").vonalkod("5051007149822").mennyiseg(10).build(),
-                            Termek.builder().ar(200).megnevezes("kóla").vonalkod("12335").mennyiseg(10).build(),
+                            Termek.builder().ar(200).megnevezes("kóla").vonalkod("54491472").mennyiseg(10).build(),
                             Termek.builder().ar(300).megnevezes("sör").vonalkod("1232345").mennyiseg(10).build(),
                             Termek.builder().ar(250).megnevezes("kenyér").vonalkod("12344345").mennyiseg(10).build(),
                             Termek.builder().ar(100).megnevezes("Joghurt").vonalkod("12134235").mennyiseg(10).build(),
