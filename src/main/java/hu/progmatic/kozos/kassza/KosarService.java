@@ -11,6 +11,7 @@ import java.util.Optional;
 @Transactional
 public class KosarService {
 
+
     @Autowired
     private KosarRepositoryProba kosarRepository;
 
@@ -183,5 +184,12 @@ public class KosarService {
 
     public Kosar getById(Integer id) {
         return kosarRepository.getById(id);
+    }
+
+    public List<KosarViewDTO> findAllKosarViewDto(){
+        return kosarRepository.findAll().stream()
+                .map(kosar -> KosarViewDTO.builder()
+                        .kosarId(kosar.getId())
+                        .build()).toList();
     }
 }
