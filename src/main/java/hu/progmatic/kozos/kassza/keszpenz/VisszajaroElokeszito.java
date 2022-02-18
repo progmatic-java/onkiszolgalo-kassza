@@ -1,9 +1,6 @@
 package hu.progmatic.kozos.kassza.keszpenz;
 
 import hu.progmatic.kozos.kassza.Kosar;
-import hu.progmatic.kozos.kassza.keszpenz.Bankjegy;
-import hu.progmatic.kozos.kassza.keszpenz.BedobottBankjegy;
-import hu.progmatic.kozos.kassza.keszpenz.VisszaadasSzamolo;
 
 import java.util.*;
 
@@ -55,5 +52,9 @@ public class VisszajaroElokeszito {
 
     public Integer getKulonbozet(){
         return osszegBedobva() - getKosarVegosszegRoundFive();
+    }
+
+    public List<BedobottBankjegy> getBedobottBankjegyek(){
+        return kosar.getBedobottBankjegyek();
     }
 }

@@ -1,6 +1,5 @@
 package hu.progmatic.kozos.kassza.keszpenz;
 
-import hu.progmatic.kozos.kassza.keszpenz.Bankjegy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,6 @@ public class VisszaadasSzamolo {
         if (kulonbozet.equals(0)) {
             return true;
         } else {
-            visszajaroLista.removeAll(visszajaroLista);
             return false;
         }
     }

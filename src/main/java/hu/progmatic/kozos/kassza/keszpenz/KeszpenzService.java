@@ -19,18 +19,34 @@ public class KeszpenzService {
     private KosarService kosarService;
 
 
-    public KeszpenzDto visszajaro(KeszpenzDto keszpenzDto){
+    public KeszpenzDto visszajaro(KeszpenzDto keszpenzDto) {
         Kosar kosar = kosarService.getById(keszpenzDto.getKosarId());
         List<Bankjegy> bankjegyek = bankjegyService.findAll();
         KeszpenzVisszaadas keszpenzVisszaadas = new KeszpenzVisszaadas(kosar, bankjegyek);
-        if (keszpenzDto.getBedobottCimlet() == null){
-            keszpenzDto.setEnabledBankjegyek(keszpenzVisszaadas.enabledBankjegyekMeghatarozasa());
-            keszpenzDto.setVegosszeg(keszpenzVisszaadas.getKosarVegosszegRoundFive());
-            return keszpenzDto;
-        }
         keszpenzVisszaadas.addBedobottCimlet(bankjegyService.findByErtek(keszpenzDto.getBedobottCimlet()));
         keszpenzVisszaadas.szamolas();
-        return null;
+        keszpenzDto.setVegosszeg(keszpenzVisszaadas.getKosarVegosszegRoundFive());
+        keszpenzDto.setMaradek(keszpenzVisszaadas.getMaradek());
+        keszpenzDto.setEnabledBankjegyek(keszpenzVisszaadas.enabledBankjegyekMeghatarozasa());
+        keszpenzDto.setVisszajaro(
+                visszajaroListToStr(
+                        keszpenzVisszaadas.getVisszajaroBankjegyek()));
+        return keszpenzDto;
+    }
+
+    private String visszajaroListToStr(List<Bankjegy> visszajaroList) {
+        if (visszajaroList == null) {
+            return null;
+        } else {
+            String visszajaroStr = "";
+            for (Bankjegy bankjegy : visszajaroList) {
+                if (!bankjegy.getMennyiseg().equals(0)) {
+                    visszajaroStr +=
+                            String.format("%s db: %s Ft, ", bankjegy.getMennyiseg(), bankjegy.getErtek());
+                }
+            }
+            return visszajaroStr.substring(0, visszajaroStr.length() - 2);
+        }
     }
 
 }
