@@ -104,6 +104,7 @@ public class KosarService {
                                 .ar(termekMennyiseg.getTermek().getAr())
                                 .nev(termekMennyiseg.getTermek().getMegnevezes())
                                 .mennyiseg(termekMennyiseg.getMennyiseg())
+                                .termekId(termekMennyiseg.getTermek().getId())
                                 .build()).toList())
                 .build();
     }
