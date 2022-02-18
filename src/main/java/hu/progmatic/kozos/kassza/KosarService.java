@@ -95,6 +95,8 @@ public class KosarService {
                                         .ar(kosar.getUtolsoHozzaadottTermekmennyiseg().getTermek().getAr())
                                         .nev(kosar.getUtolsoHozzaadottTermekmennyiseg().getTermek().getMegnevezes())
                                         .mennyiseg(kosar.getUtolsoHozzaadottTermekmennyiseg().getMennyiseg())
+                                        .kepAdat(kosar.getUtolsoHozzaadottTermekmennyiseg().getTermek().getKep().getKepAdat())
+                                        .contentType(kosar.getUtolsoHozzaadottTermekmennyiseg().getTermek().getKep().getContentType())
                                         .build())
                 .termekMennyisegDtoList(kosar.getTermekMennyisegek().stream()
                         .sorted((o1, o2) -> o2.getId() - o1.getId())

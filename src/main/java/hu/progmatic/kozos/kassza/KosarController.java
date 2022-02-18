@@ -8,7 +8,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -36,9 +38,9 @@ public class KosarController {
     public String addTermek(@PathVariable("kosarId") Integer kosarId,
                             @ModelAttribute("termekMennyisegHozzaadasCommand") TermekMennyisegHozzaadasCommand command,
                             Model model) {
-        try{
+        try {
             kosarService.addTermekMennyisegCommand(kosarId, command);
-        }catch (NincsElegRaktarKeszletException | NincsIlyenTermek e){
+        } catch (NincsElegRaktarKeszletException | NincsIlyenTermek e) {
             model.addAttribute("isNincsElegTermek", true);
             model.addAttribute("vonalkodBeolvasasHiba", e.getMessage());
         }
@@ -133,6 +135,14 @@ public class KosarController {
     }
 
 
+    @GetMapping("/kassza/{id}/kep")
+    public void kep(@PathVariable Integer id, HttpServletResponse response) throws IOException {
+        TermekMennyisegDto dto = kosarService.getKosarViewDTOById(id).getUtolsoHozzaadottTermekmennyisegDto();
+        response.setContentType(dto.getContentType());
+        response.getOutputStream().write(dto.getKepAdat());
+    }
+
+
     @PostMapping("/kassza/{kosarId}/delete/{termekMId}")
     public String deleteTermekMennyiseg(
             @PathVariable("kosarId") Integer kosarId,
@@ -169,12 +179,12 @@ public class KosarController {
     }
 
     @ModelAttribute("isNincsElegTermek")
-    boolean nicsElegTermek(){
+    boolean nicsElegTermek() {
         return false;
     }
 
     @ModelAttribute("vonalkodBeolvasasHiba")
-    String vonalkodBeolvasasHiba(){
+    String vonalkodBeolvasasHiba() {
         return null;
     }
 

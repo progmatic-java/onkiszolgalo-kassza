@@ -374,8 +374,9 @@
         <div class="col-2">
         </div>
         <div class="col-3"
-             style="font-size: 50px;text-align: center;border: 3px solid darkblue; background-color: whitesmoke; border-right: whitesmoke; position: fixed; right: 0; height: 300px; padding-top: 100px"
-             th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Termék neve' : ${kosar.getTermekMennyisegDtoList().get(0).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(0).getMennyiseg()} + ' db'">
+             style="font-size: 50px;text-align: center;border: 3px solid darkblue; background-color: whitesmoke; border-right: whitesmoke; position: fixed; right: 0; height: 300px; padding-top: 100px">
+            <img style="width: 40px; height: 40px" src="istockphoto-1206806317-170667a.jpg"  th:src="@{'/kassza/{id}/kep'(id=${kosar.kosarId})}">
+<!--             th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Termék neve' : ${kosar.getTermekMennyisegDtoList().get(0).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(0).getMennyiseg()} + ' db'">-->
             <!--th:text="${kosar.getUtolsoHozzaadottTermekmennyisegDto() == null} ? 'Aktuálisan hozzáadott termék képe' : ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getNev()} + ' ' + ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getMennyiseg()} + ' db'"> -->
         </div>
     </div>
