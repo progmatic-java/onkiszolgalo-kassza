@@ -7,16 +7,18 @@
         let readRow = '';
         let lastEventTime = performance.now();
         document.addEventListener('keydown', function (evt) {
+            let key = evt.code === 'Digit0'? '0' : evt.key;
             if (performance.now() - lastEventTime > 50) {
-                readRow = evt.key;
+                readRow = key;
                 lastEventTime = performance.now();
-                //window.alert(readRow);
+                //window.alert(evt.code === 'Digit0'? '0' : evt.key);
+               // window.alert(evt.code);
             } else {
-                readRow += evt.key;
+                readRow += key;
                 lastEventTime = performance.now();
                 //document.write(readRow);
             }
-            if (evt.code === 'Enter' && readRow.toString().length >= 13) {
+            if (key === 'Enter' && readRow.toString().length >= 13) {
                 let length = readRow.length;
                 readRow = readRow.toString().substring(0, length - 5)
                 sendPost(readRow);
