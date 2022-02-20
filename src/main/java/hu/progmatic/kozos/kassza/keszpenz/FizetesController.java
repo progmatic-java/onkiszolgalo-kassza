@@ -41,7 +41,7 @@ public class FizetesController {
     public String toKeszpenzesFizetes(@PathVariable("kosarId") Integer kosarId, Model model) {
         KeszpenzDto keszpenzDto = KeszpenzDto.builder()
                 .kosarId(kosarId)
-                .bedobottCimlet(null)
+                .bedobottCimlet(0)
                 .build();
         keszpenzDto= keszpenzService.visszajaro(keszpenzDto);
         keszpenzDto.setVisszajaro("10000000000");
