@@ -316,4 +316,7 @@ public class BankjegyService implements InitializingBean {
     }
 
 
+    public Bankjegy getById(Integer id) {
+        return bankjegyRepository.getById(id);
+    }
 }

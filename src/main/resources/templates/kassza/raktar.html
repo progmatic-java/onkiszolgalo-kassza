@@ -68,6 +68,7 @@
         <th scope="col">Ár</th>
         <th scope="col">Mennyiség</th>
         <th scope="col">Vonalkód</th>
+        <th scope="col">Kép</th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -79,7 +80,7 @@
         <td th:text="${item.mennyiseg}">Tipus</td>
         <td th:text="${item.vonalkod}">Tipus</td>
         <td>
-            <img src="istockphoto-1206806317-170667a.jpg" th:if="${item.kep!=null}" th:src="@{'/kassza/raktar/{id}/kep'(id=${item.id})}">
+            <img style="width: 40px; height: 40px" src="istockphoto-1206806317-170667a.jpg" th:if="${item.kep!=null}" th:src="@{'/kassza/raktar/{id}/kep'(id=${item.id})}">
         </td>
         <td>
             <form style="text-align: right" th:action="@{'/kassza/raktar/{id}'(id=${item.id})}" method="get">

@@ -74,6 +74,9 @@
 </head>
 
 <body>
+<audio autoplay="autoplay">
+    <source src="/static/hikariare.mp3" type="audio/mpeg"></source>
+</audio>
 <h1 style="text-align: center; background-color: darkblue; color: white; height: 55px; padding-top: 5px">Üdvözöljük!</h1>
 <h2 style="position: fixed; bottom: 50px;left: 450px;font-size: 30px; color: darkblue">
     Vásárlás kezdéséhez nyomja meg a gombot
@@ -88,5 +91,7 @@ th:object="${allTermek}"
 >
     <a type="button" style="position: fixed; bottom: 0;left: 0; width: 130px" class="button-76"  href="raktar.html" th:href="@{/kassza/raktar}">Raktár</a>
 </p>
+    <a type="button" style="position: fixed; bottom: 0;left: 150px; width: 175px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/bankjegyleltar}">Bankjegyek</a>
+    <a type="button" style="position: fixed; bottom: 0;right:0; width: 150px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/admin}">Admin</a>
 </body>
 </html>

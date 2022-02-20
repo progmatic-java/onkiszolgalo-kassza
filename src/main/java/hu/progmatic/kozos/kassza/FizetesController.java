@@ -34,36 +34,35 @@ public class FizetesController {
         return "kassza/szamla";
     }
 
+
     @GetMapping("/kassza/keszpenzesfizetes/{kosarId}")
     public String toKeszpenzesFizetes(@PathVariable("kosarId") Integer kosarId, Model model) {
         KeszpenzDto keszpenzDto = KeszpenzDto.builder()
                 .kosarId(kosarId)
-                .maradek(kosarService.getKosarViewDTOById(kosarId).getVegosszeg())
+                .bedobottCimlet(null)
                 .build();
-        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        keszpenzDto= keszpenzService.visszajaro(keszpenzDto);
+        keszpenzDto.setVisszajaro("10000000000");
+        model.addAttribute("kosar", keszpenzDto);
         model.addAttribute("keszpenzDto", keszpenzDto);
         return "kassza/keszpenzesfizetes";
     }
 
 
     @PostMapping("/kassza/keszpenzesfizetes/{kosarId}/{osszeg}")
-    public String minusFt(@PathVariable("kosarId") Integer kosarId, @PathVariable("osszeg") Integer osszeg, Model model) {
+    public String minusFt(@PathVariable("kosarId") Integer kosarId, @PathVariable("osszeg") Integer osszeg, Model model) throws InterruptedException {
         KosarViewDTO kosarViewDTO = kosarService.getKosarDtoById(kosarId);
         KeszpenzDto keszpenzDto = keszpenzService.visszajaro(KeszpenzDto.builder().bedobottCimlet(osszeg).kosarId(kosarId).build());
-        if (keszpenzDto.getMaradek() == null || keszpenzDto.getMaradek() == 0) {
-            model.addAttribute("keszpenzdto",keszpenzDto);
-            return "kassza/keszpenzvisszaigazolas";
-        }
-
         model.addAttribute("kosar", kosarViewDTO);
         model.addAttribute("keszpenzDto", keszpenzDto);
         return "kassza/keszpenzesfizetes";
     }
 
 
+
     @GetMapping("/kassza/befejezes/{kosarId}")
-    public String befejezes(@PathVariable("kosarId") Integer kosarId, Model model) {
-        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+    public String befejezes(@PathVariable("kosarId") Integer kosarId) {
+        kosarService.deleteKosarById(kosarId);
         return "kassza/visszaigazolas";
     }
 
