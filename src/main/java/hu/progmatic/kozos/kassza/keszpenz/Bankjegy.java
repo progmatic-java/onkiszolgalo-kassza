@@ -1,4 +1,4 @@
-package hu.progmatic.kozos.kassza;
+package hu.progmatic.kozos.kassza.keszpenz;
 
 import lombok.*;
 

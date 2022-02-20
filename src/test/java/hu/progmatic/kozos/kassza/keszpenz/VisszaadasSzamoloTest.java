@@ -1,6 +1,5 @@
 package hu.progmatic.kozos.kassza.keszpenz;
 
-import hu.progmatic.kozos.kassza.Bankjegy;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

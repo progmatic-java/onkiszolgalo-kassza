@@ -1,6 +1,7 @@
 package hu.progmatic.kozos.kassza;
 
 
+import hu.progmatic.kozos.kassza.keszpenz.BedobottBankjegy;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,9 +34,6 @@ public class Kosar {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private TermekMennyiseg utolsoHozzaadottTermekmennyiseg;
-
-    @ManyToOne
-    private Kassza kassza;
 
 
     public static Integer kosarVegosszeg(Kosar kosar) {

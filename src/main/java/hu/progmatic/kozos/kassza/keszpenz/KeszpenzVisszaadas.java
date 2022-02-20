@@ -1,7 +1,5 @@
 package hu.progmatic.kozos.kassza.keszpenz;
 
-import hu.progmatic.kozos.kassza.Bankjegy;
-import hu.progmatic.kozos.kassza.BedobottBankjegy;
 import hu.progmatic.kozos.kassza.Kosar;
 
 import java.util.ArrayList;

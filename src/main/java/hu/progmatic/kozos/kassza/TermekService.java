@@ -49,9 +49,6 @@ public class TermekService {
         return repository.findByMegnevezes(nev);
     }
 
-    /*public void addTermek(Termek termek) {
-        repository.save(termek);
-    }*/
 
     public void modify(String vonalkod, Integer mennyiseg) {
         Termek termek = getByVonalkod(vonalkod);

@@ -1,5 +1,7 @@
 package hu.progmatic.kozos.kassza;
 
+import hu.progmatic.kozos.kassza.keszpenz.Bankjegy;
+import hu.progmatic.kozos.kassza.keszpenz.BankjegyService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -169,8 +171,10 @@ class BankjegyServiceTest {
     @DisplayName("Mennyiség szerkesztése")
     void szerkesztes() {
         Bankjegy bankjegy = bankjegyService.findByErtek(1_000);
+        Bankjegy bankjegyId = bankjegyService.getById(bankjegy.getId());
         bankjegy = bankjegyService.editById(bankjegy.getId(),3 );
         assertEquals(3, bankjegy.getMennyiseg());
+        assertEquals(1000, bankjegyId.getErtek());
 
         bankjegy = bankjegyService.findByErtek(100);
         bankjegy = bankjegyService.editById(bankjegy.getId(),96 );

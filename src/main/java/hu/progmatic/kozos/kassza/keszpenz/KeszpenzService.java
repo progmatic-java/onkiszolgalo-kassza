@@ -1,7 +1,7 @@
-package hu.progmatic.kozos.kassza;
+package hu.progmatic.kozos.kassza.keszpenz;
 
-import hu.progmatic.kozos.kassza.*;
-import hu.progmatic.kozos.kassza.keszpenz.KeszpenzVisszaadas;
+import hu.progmatic.kozos.kassza.Kosar;
+import hu.progmatic.kozos.kassza.KosarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
