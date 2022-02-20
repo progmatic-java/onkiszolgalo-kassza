@@ -184,10 +184,6 @@ class KeszpenzServiceTest {
 
         @Test
         void megszakitTest() {
-            /*cimletHozzaad(100, 1);
-            cimletHozzaad(200, 1);
-            cimletHozzaad(50, 1);
-            cimletHozzaad(5, 1);*/
             KeszpenzDto keszpenzDto = KeszpenzDto.builder()
                     .kosarId(kosarViewDTO.getKosarId())
                     .bedobottCimlet(5)
