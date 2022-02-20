@@ -1,6 +1,6 @@
-package hu.progmatic.kozos.kassza.keszpenz;
+package hu.progmatic.kozos.kassza;
 
-import hu.progmatic.kozos.kassza.keszpenz.Bankjegy;
+import hu.progmatic.kozos.kassza.Bankjegy;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

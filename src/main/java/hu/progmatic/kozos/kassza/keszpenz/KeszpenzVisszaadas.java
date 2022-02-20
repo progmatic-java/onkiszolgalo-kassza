@@ -1,16 +1,20 @@
 package hu.progmatic.kozos.kassza.keszpenz;
 
+import hu.progmatic.kozos.kassza.Bankjegy;
+import hu.progmatic.kozos.kassza.BedobottBankjegy;
 import hu.progmatic.kozos.kassza.Kosar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class KeszpenzVisszaadas {
 
     private final VisszajaroElokeszito visszajaroElokeszito;
     private final List<Bankjegy> bankjegyek;
     private Integer maradek;
-    private List<Bankjegy> visszajaroBankjegyek;
+    private List<Bankjegy> visszajaroBankjegyek = new ArrayList<>();
+    private boolean megszakitas = false;
 
     public KeszpenzVisszaadas(Kosar kosar, List<Bankjegy> bankjegyek) {
 
@@ -18,9 +22,13 @@ public class KeszpenzVisszaadas {
         this.bankjegyek = bankjegyek;
     }
 
-    public void addBedobottCimlet(Bankjegy bankjegy) {
+    public void addBedobottCimlet(Bankjegy bedobottBankjegy) {
+        Bankjegy bankjegy = bankjegyek.stream()
+                .filter(bj -> bj.getErtek().equals(bedobottBankjegy.getErtek()))
+                .findAny()
+                .orElseThrow();
         bankjegy.noveles();
-        visszajaroElokeszito.addBedobottCimletToKosar(bankjegy);
+        visszajaroElokeszito.addBedobottCimletToKosar(bedobottBankjegy);
     }
 
     public void szamolas() {
@@ -33,24 +41,31 @@ public class KeszpenzVisszaadas {
                 visszajaroBankjegyek = visszaadasSzamolo.getVisszajaroLista();
                 maradek = 0;
             } else {
-                rollBackBankjegyek(visszaadasSzamolo.getVisszajaroLista());
-                visszajaroBankjegyek = visszajaroElokeszito.getBedobottBankjegyek().stream()
-                        .map(bedobottBankjegy -> Bankjegy.builder()
-                                .ertek(bedobottBankjegy.getBankjegy().getErtek())
-                                .mennyiseg(bedobottBankjegy.getBedobottMenyiseg())
-                                .build()).toList();
+                throw new NemEngedelyezettBankjegyException("Érvénytelen bankjegy!");
             }
         }
     }
 
-    private void rollBackBankjegyek(List<Bankjegy> visszajaroRollBackLista) {
-        for (Bankjegy visszajaroRollback : visszajaroRollBackLista) {
-            Bankjegy bankjegy = bankjegyek.stream()
-                    .filter(bj -> bj.getErtek().equals(visszajaroRollback.getErtek()))
-                    .findAny()
-                    .orElseThrow();
-            bankjegy.setMennyiseg(bankjegy.getMennyiseg() + visszajaroRollback.getMennyiseg());
+    public void fizetesVisszavonas() {
+        List<BedobottBankjegy> bedobottBankjegyList = visszajaroElokeszito.getBedobottBankjegyek();
+        for (Bankjegy bankjegy : bankjegyek) {
+            Optional<BedobottBankjegy> bedobottBankjegyOp = bedobottBankjegyList.stream()
+                    .filter(bBJ -> bBJ.getBankjegy().getErtek().equals(bankjegy.getErtek()))
+                    .findAny();
+            Bankjegy visszajaro = Bankjegy.bankjegyCloneFactory(bankjegy);
+            if (bedobottBankjegyOp.isEmpty()) {
+                visszajaro.setMennyiseg(0);
+                visszajaroBankjegyek.add(visszajaro);
+            }else{
+                visszajaro.setMennyiseg(bedobottBankjegyOp.get().getBedobottMenyiseg());
+                visszajaroBankjegyek.add(visszajaro);
+                bankjegy.setMennyiseg(bankjegy.getMennyiseg() - bedobottBankjegyOp.get().getBedobottMenyiseg());
+            }
+
         }
+        megszakitas = true;
+        maradek = visszajaroElokeszito.getKosarVegosszegRoundFive();
+        visszajaroElokeszito.clearBedobottBankjegyek();
     }
 
     public List<EnabledBankjegyDto> enabledBankjegyekMeghatarozasa() {
@@ -61,13 +76,18 @@ public class KeszpenzVisszaadas {
         boolean engedelyezve;
         List<EnabledBankjegyDto> enabledBankjegyek = new ArrayList<>();
         for (Bankjegy bankjegyClone : bankjegyekClone) {
-            Integer kulonbozet = visszajaroElokeszito.getKulonbozet() + bankjegyClone.getErtek();
-            enabledBankjegyek.add(enabledBankjegyDtoBuilder(bankjegyClone, true));
-            if (kulonbozet >= 0) {
-                visszaadasSzamolo.setBanjegyek(bankjegyekClone);
-                visszaadasSzamolo.setKulonbozet(kulonbozet);
-                engedelyezve = visszaadasSzamolo.visszaadasSzamolo();
-                enabledBankjegyek.add(enabledBankjegyDtoBuilder(bankjegyClone, engedelyezve));
+            if (visszajaroElokeszito.getKulonbozet().equals(0) || megszakitas) {
+                enabledBankjegyek.add(enabledBankjegyDtoBuilder(bankjegyClone, false));
+            } else {
+                Integer ujKulonbozet = visszajaroElokeszito.getKulonbozet() + bankjegyClone.getErtek();
+                if (ujKulonbozet >= 0) {
+                    visszaadasSzamolo.setBankjegyek(bankjegyekClone);
+                    visszaadasSzamolo.setKulonbozet(ujKulonbozet);
+                    engedelyezve = visszaadasSzamolo.visszaadasSzamolo();
+                    enabledBankjegyek.add(enabledBankjegyDtoBuilder(bankjegyClone, engedelyezve));
+                } else {
+                    enabledBankjegyek.add(enabledBankjegyDtoBuilder(bankjegyClone, true));
+                }
             }
         }
         return enabledBankjegyek;
@@ -88,11 +108,12 @@ public class KeszpenzVisszaadas {
         return maradek;
     }
 
-    public Integer getKulonbozet() {
-        return visszajaroElokeszito.getKulonbozet();
-    }
 
     public List<Bankjegy> getVisszajaroBankjegyek() {
         return visszajaroBankjegyek;
+    }
+
+    public List<Bankjegy> getBankjegyek() {
+        return bankjegyek;
     }
 }

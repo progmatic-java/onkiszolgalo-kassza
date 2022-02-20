@@ -1,7 +1,7 @@
-package hu.progmatic.kozos.kassza.keszpenz;
+package hu.progmatic.kozos.kassza;
 
 import hu.progmatic.kozos.kassza.Kosar;
-import hu.progmatic.kozos.kassza.keszpenz.Bankjegy;
+import hu.progmatic.kozos.kassza.Bankjegy;
 import lombok.*;
 
 import javax.persistence.*;

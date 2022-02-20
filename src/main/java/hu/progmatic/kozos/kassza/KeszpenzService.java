@@ -1,6 +1,7 @@
-package hu.progmatic.kozos.kassza.keszpenz;
+package hu.progmatic.kozos.kassza;
 
 import hu.progmatic.kozos.kassza.*;
+import hu.progmatic.kozos.kassza.keszpenz.KeszpenzVisszaadas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,17 @@ public class KeszpenzService {
         Kosar kosar = kosarService.getById(keszpenzDto.getKosarId());
         List<Bankjegy> bankjegyek = bankjegyService.findAll();
         KeszpenzVisszaadas keszpenzVisszaadas = new KeszpenzVisszaadas(kosar, bankjegyek);
-        keszpenzVisszaadas.addBedobottCimlet(bankjegyService.findByErtek(keszpenzDto.getBedobottCimlet()));
-        keszpenzVisszaadas.szamolas();
+        if (keszpenzDto.getBedobottCimlet().equals(0)){
+            keszpenzDto.setEnabledBankjegyek(keszpenzVisszaadas.enabledBankjegyekMeghatarozasa());
+            keszpenzDto = initKeszpenzDto(keszpenzDto, keszpenzVisszaadas.getKosarVegosszegRoundFive());
+            return keszpenzDto;
+        }
+        if (keszpenzDto.isFizetesMegszakitas()){
+            keszpenzVisszaadas.fizetesVisszavonas();
+        }else{
+            keszpenzVisszaadas.addBedobottCimlet(bankjegyService.findByErtek(keszpenzDto.getBedobottCimlet()));
+            keszpenzVisszaadas.szamolas();
+        }
         keszpenzDto.setVegosszeg(keszpenzVisszaadas.getKosarVegosszegRoundFive());
         keszpenzDto.setMaradek(keszpenzVisszaadas.getMaradek());
         keszpenzDto.setEnabledBankjegyek(keszpenzVisszaadas.enabledBankjegyekMeghatarozasa());
@@ -35,8 +45,15 @@ public class KeszpenzService {
     }
 
 
+    private KeszpenzDto initKeszpenzDto(KeszpenzDto keszpenzDto, Integer vegosszeg) {
+       keszpenzDto.setVegosszeg(vegosszeg);
+       keszpenzDto.setMaradek(vegosszeg);
+        return keszpenzDto;
+
+    }
+
     private String visszajaroListToStr(List<Bankjegy> visszajaroList) {
-        if (visszajaroList == null) {
+        if (visszajaroList.isEmpty()) {
             return null;
         } else {
             String visszajaroStr = "";

@@ -1,7 +1,5 @@
-package hu.progmatic.kozos.kassza.keszpenz;
+package hu.progmatic.kozos.kassza;
 
-import hu.progmatic.kozos.kassza.KosarService;
-import hu.progmatic.kozos.kassza.KosarViewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

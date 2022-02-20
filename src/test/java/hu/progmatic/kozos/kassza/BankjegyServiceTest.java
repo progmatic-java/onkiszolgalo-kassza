@@ -1,7 +1,5 @@
 package hu.progmatic.kozos.kassza;
 
-import hu.progmatic.kozos.kassza.keszpenz.Bankjegy;
-import hu.progmatic.kozos.kassza.keszpenz.BankjegyService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

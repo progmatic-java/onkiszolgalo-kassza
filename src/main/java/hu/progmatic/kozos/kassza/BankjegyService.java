@@ -1,7 +1,7 @@
-package hu.progmatic.kozos.kassza.keszpenz;
+package hu.progmatic.kozos.kassza;
 
-import hu.progmatic.kozos.kassza.keszpenz.Bankjegy;
-import hu.progmatic.kozos.kassza.keszpenz.BankjegyRepository;
+import hu.progmatic.kozos.kassza.Bankjegy;
+import hu.progmatic.kozos.kassza.BankjegyRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
