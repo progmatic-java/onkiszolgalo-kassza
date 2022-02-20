@@ -1,5 +1,7 @@
-package hu.progmatic.kozos.kassza;
+package hu.progmatic.kozos.kassza.keszpenz;
 
+import hu.progmatic.kozos.kassza.KosarService;
+import hu.progmatic.kozos.kassza.KosarViewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,13 +36,16 @@ public class FizetesController {
         return "kassza/szamla";
     }
 
+
     @GetMapping("/kassza/keszpenzesfizetes/{kosarId}")
     public String toKeszpenzesFizetes(@PathVariable("kosarId") Integer kosarId, Model model) {
         KeszpenzDto keszpenzDto = KeszpenzDto.builder()
                 .kosarId(kosarId)
-                .maradek(kosarService.getKosarViewDTOById(kosarId).getVegosszeg())
+                .bedobottCimlet(0)
                 .build();
-        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        keszpenzDto= keszpenzService.visszajaro(keszpenzDto);
+        keszpenzDto.setVisszajaro("10000000000");
+        model.addAttribute("kosar", keszpenzDto);
         model.addAttribute("keszpenzDto", keszpenzDto);
         return "kassza/keszpenzesfizetes";
     }
@@ -50,7 +55,6 @@ public class FizetesController {
     public String minusFt(@PathVariable("kosarId") Integer kosarId, @PathVariable("osszeg") Integer osszeg, Model model) throws InterruptedException {
         KosarViewDTO kosarViewDTO = kosarService.getKosarDtoById(kosarId);
         KeszpenzDto keszpenzDto = keszpenzService.visszajaro(KeszpenzDto.builder().bedobottCimlet(osszeg).kosarId(kosarId).build());
-
         model.addAttribute("kosar", kosarViewDTO);
         model.addAttribute("keszpenzDto", keszpenzDto);
         return "kassza/keszpenzesfizetes";

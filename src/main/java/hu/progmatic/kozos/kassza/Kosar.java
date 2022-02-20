@@ -1,9 +1,11 @@
 package hu.progmatic.kozos.kassza;
 
 
+import hu.progmatic.kozos.kassza.keszpenz.BedobottBankjegy;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,23 +15,31 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Kosar {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
     @Column(
             length = 20,
             unique = true
-    )
-    @OneToMany(mappedBy = "kosar",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TermekMennyiseg> termekMennyisegek;
 
+    )
+    @Builder.Default
     @OneToMany(mappedBy = "kosar",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BedobottBankjegy> bedobottBankjegyek;
+    private List<TermekMennyiseg> termekMennyisegek = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "kosar",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BedobottBankjegy> bedobottBankjegyek = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private TermekMennyiseg utolsoHozzaadottTermekmennyiseg;
 
-    @ManyToOne
-    private Kassza kassza;
+
+    public static Integer kosarVegosszeg(Kosar kosar) {
+        return kosar.getTermekMennyisegek().stream()
+                .mapToInt(osszeg -> osszeg.getMennyiseg() * osszeg.getTermek().getAr())
+                .sum();
+
+    }
 }

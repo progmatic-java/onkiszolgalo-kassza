@@ -1,4 +1,4 @@
-package hu.progmatic.kozos.kassza;
+package hu.progmatic.kozos.kassza.keszpenz;
 
 import lombok.*;
 
@@ -21,4 +21,21 @@ public class Bankjegy {
     @Min(0)
     @Max(100000)
     private Integer mennyiseg;
+
+    public static Bankjegy bankjegyCloneFactory(Bankjegy bankjegy) {
+        return Bankjegy.builder()
+                .ertek(bankjegy.ertek)
+                .mennyiseg(bankjegy.mennyiseg)
+                .build();
+    }
+
+    public void noveles() {
+        mennyiseg++;
+    }
+
+    public void csokkentes() {
+        if (mennyiseg > 0){
+            mennyiseg--;
+        }
+    }
 }

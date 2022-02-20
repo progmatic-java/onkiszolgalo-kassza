@@ -1,20 +1,19 @@
-package hu.progmatic.kozos.kassza;
+package hu.progmatic.kozos.kassza.keszpenz;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 @Controller
 public class BankjegyLeltarController {
-    @Autowired BankjegyService bankjegyService;
+    @Autowired
+    BankjegyService bankjegyService;
 
     @GetMapping("/kassza/bankjegyleltar")
     public String items(Model model) {
@@ -40,6 +39,14 @@ public class BankjegyLeltarController {
         model.addAttribute("allBankjegy", bankjegyService.findAll());
         model.addAttribute("formItem", Bankjegy.builder().build());
         return "/kassza/bankjegyleltar";
+    }
+
+    @PostMapping("/kassza/bankjegyleltar/clear")
+    public String clearBankjegyek(Model model){
+        bankjegyService.clear();
+        model.addAttribute("allBankjegy", bankjegyService.findAll());
+        model.addAttribute("formItem", Bankjegy.builder().build());
+        return "kassza/bankjegyleltar";
     }
 
 

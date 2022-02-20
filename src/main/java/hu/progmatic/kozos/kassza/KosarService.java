@@ -87,7 +87,7 @@ public class KosarService {
     private KosarViewDTO kosarToKosarViewDTO(Kosar kosar) {
         return KosarViewDTO.builder()
                 .kosarId(kosar.getId())
-                .vegosszeg(kosarVegosszeg(kosar))
+                .vegosszeg(Kosar.kosarVegosszeg(kosar))
                 .utolsoHozzaadottTermekmennyisegDto(
                         kosar.getUtolsoHozzaadottTermekmennyiseg() == null ? null :
                                 TermekMennyisegDto.builder()
@@ -107,13 +107,6 @@ public class KosarService {
                                 .termekId(termekMennyiseg.getTermek().getId())
                                 .build()).toList())
                 .build();
-    }
-
-    public Integer kosarVegosszeg(Kosar kosar) {
-        return kosar.getTermekMennyisegek().stream()
-                .mapToInt(osszeg -> osszeg.getMennyiseg() * osszeg.getTermek().getAr())
-                .sum();
-
     }
 
     public void deleteKosarById(Integer id) {

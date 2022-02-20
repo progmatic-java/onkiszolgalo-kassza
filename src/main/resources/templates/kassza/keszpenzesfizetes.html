@@ -266,16 +266,16 @@
                th:class="${keszpenzDto.maradek<1}? 'button-76': 'button-74'" value="Befejezes"/>
     </form>
 </div>
-<h1 th:text="${keszpenzDto.getVisszajaro()}" th:value="${keszpenzDto.getVisszajaro()}" id="time" th:style="'display: none'">
+<h1  th:value="${keszpenzDto.visszajaro}" id="time" th:style="'display: none'">
 </h1>
 <form th:action="@{'/kassza/befejezes/{kosarId}'(kosarId=${kosar.kosarId})}" id="send" method="get">
     <input type="submit">
 </form>
 <script>
-    if (document.getElementById("time").value !== null) {
+    if (document.getElementById("time").getAttribute("value") !== '') {
         setTimeout(function () {
             document.getElementById("send").submit();
-        }, 5000);
+        }, 2500);
     }
 </script>
 </body>
