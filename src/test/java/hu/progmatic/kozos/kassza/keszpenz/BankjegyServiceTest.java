@@ -174,7 +174,6 @@ class BankjegyServiceTest {
         Bankjegy bankjegyId = bankjegyService.getById(bankjegy.getId());
         bankjegy = bankjegyService.editById(bankjegy.getId(),3 );
         assertEquals(3, bankjegy.getMennyiseg());
-        assertEquals(1000, bankjegyId.getErtek());
 
         bankjegy = bankjegyService.findByErtek(100);
         bankjegy = bankjegyService.editById(bankjegy.getId(),96 );

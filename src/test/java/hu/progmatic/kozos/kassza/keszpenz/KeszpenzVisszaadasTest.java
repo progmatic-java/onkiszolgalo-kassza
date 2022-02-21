@@ -329,25 +329,34 @@ public class KeszpenzVisszaadasTest {
 
         @Test
         void enabledTovabbiTest() {
-            kosar.getTermekMennyisegek().add(termekMennyisegBuilder(1, 200));
+            kosar.getTermekMennyisegek().add(termekMennyisegBuilder(1, 550));
             List<Bankjegy> bankjegyek =
                     List.of(
-                            Bankjegy.builder().mennyiseg(3).ertek(5).build(),
-                            Bankjegy.builder().mennyiseg(3).ertek(10).build(),
-                            Bankjegy.builder().mennyiseg(3).ertek(20).build(),
-                            Bankjegy.builder().mennyiseg(3).ertek(50).build(),
-                            Bankjegy.builder().mennyiseg(3).ertek(100).build(),
-                            Bankjegy.builder().mennyiseg(3).ertek(200).build(),
-                            Bankjegy.builder().mennyiseg(3).ertek(500).build(),
-                            Bankjegy.builder().mennyiseg(3).ertek(1_000).build(),
-                            Bankjegy.builder().mennyiseg(3).ertek(2_000).build(),
-                            Bankjegy.builder().mennyiseg(3).ertek(5_000).build(),
-                            Bankjegy.builder().mennyiseg(3).ertek(10_000).build(),
+                            Bankjegy.builder().mennyiseg(1).ertek(5).build(),
+                            Bankjegy.builder().mennyiseg(0).ertek(10).build(),
+                            Bankjegy.builder().mennyiseg(2).ertek(20).build(),
+                            Bankjegy.builder().mennyiseg(0).ertek(50).build(),
+                            Bankjegy.builder().mennyiseg(0).ertek(100).build(),
+                            Bankjegy.builder().mennyiseg(2).ertek(200).build(),
+                            Bankjegy.builder().mennyiseg(2).ertek(500).build(),
+                            Bankjegy.builder().mennyiseg(1).ertek(1_000).build(),
+                            Bankjegy.builder().mennyiseg(1).ertek(2_000).build(),
+                            Bankjegy.builder().mennyiseg(1).ertek(5_000).build(),
+                            Bankjegy.builder().mennyiseg(0).ertek(10_000).build(),
                             Bankjegy.builder().mennyiseg(0).ertek(20_000).build()
                     );
             KeszpenzVisszaadas keszpenzVisszaadas = new KeszpenzVisszaadas(kosar, bankjegyek);
             List<EnabledBankjegyDto> enabledBankjegyDtoList = keszpenzVisszaadas.enabledBankjegyekMeghatarozasa();
-            System.out.println("asd");
+
+            EnabledBankjegyDto enab = enabledBankjegyDtoList.stream().filter(enabledBankjegyDto -> enabledBankjegyDto.getBankjegyErtek().equals(10_000)).findAny().orElseThrow();
+            assertFalse(enab.isEngedelyezve());
+
+            enab = enabledBankjegyDtoList.stream().filter(enabledBankjegyDto -> enabledBankjegyDto.getBankjegyErtek().equals(20_000)).findAny().orElseThrow();
+            assertFalse(enab.isEngedelyezve());
+
+            enab = enabledBankjegyDtoList.stream().filter(enabledBankjegyDto -> enabledBankjegyDto.getBankjegyErtek().equals(5_000)).findAny().orElseThrow();
+            assertFalse(enab.isEngedelyezve());
+
         }
     }
 }

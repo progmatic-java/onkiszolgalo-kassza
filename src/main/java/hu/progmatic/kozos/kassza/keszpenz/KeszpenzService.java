@@ -60,7 +60,7 @@ public class KeszpenzService {
 
     private String visszajaroListToStr(List<Bankjegy> visszajaroList) {
         if (visszajaroList.isEmpty()) {
-            return null;
+            return "0 Ft";
         } else {
             String visszajaroStr = "";
             for (Bankjegy bankjegy : visszajaroList) {
