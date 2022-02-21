@@ -35,6 +35,8 @@ public class Kosar {
     @JoinColumn
     private TermekMennyiseg utolsoHozzaadottTermekmennyiseg;
 
+    @Enumerated(EnumType.STRING)
+    private Hitelesites hitelesites;
 
     public static Integer kosarVegosszeg(Kosar kosar) {
         return kosar.getTermekMennyisegek().stream()

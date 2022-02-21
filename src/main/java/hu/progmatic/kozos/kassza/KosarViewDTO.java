@@ -24,5 +24,6 @@ public class KosarViewDTO implements Serializable {
     @Builder.Default
     private List<TermekMennyisegDto> termekMennyisegDtoList = new ArrayList<>();
 
+    private Hitelesites hitelesites;
 
 }

@@ -20,6 +20,8 @@ public class Felhasznalo {
 
   private String jelszo;
 
+  private String hitelesitoKod;
+
   @Enumerated(EnumType.STRING)
   private UserType role;
 }

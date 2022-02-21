@@ -29,7 +29,7 @@ class FelhasznaloServiceTest {
   @DisplayName("Felhasználó hozzáadása")
   @WithMockUser(roles = {UserType.Roles.USER_WRITE_ROLE, UserType.Roles.USER_READ_ROLE})
   void add() {
-    UjFelhasznaloCommand command = new UjFelhasznaloCommand("ujtesztfelhasznalo", "x", UserType.ADMIN);
+    UjFelhasznaloCommand command = new UjFelhasznaloCommand("ujtesztfelhasznalo", "x", UserType.ADMIN, "1111");
     felhasznaloService.add(command);
     assertFelhasznaloLetezik("ujtesztfelhasznalo");
   }
@@ -38,7 +38,7 @@ class FelhasznaloServiceTest {
   @DisplayName("Felhasználó létezik hibaüzenet")
   @WithMockUser(roles = UserType.Roles.USER_WRITE_ROLE)
   void felhasznaloLetezikHiba() {
-    UjFelhasznaloCommand command = new UjFelhasznaloCommand("admin", "x", UserType.ADMIN);
+    UjFelhasznaloCommand command = new UjFelhasznaloCommand("admin", "x", UserType.ADMIN, "11111");
     FelhasznaloLetrehozasException e = null;
     try {
       felhasznaloService.add(command);
@@ -56,7 +56,7 @@ class FelhasznaloServiceTest {
   @WithMockUser(roles = {UserType.Roles.USER_WRITE_ROLE, UserType.Roles.USER_READ_ROLE})
   void torles() {
     String tesztFelhasznaloNev = "ujtesztfelhasznalotorleshez";
-    UjFelhasznaloCommand command = new UjFelhasznaloCommand(tesztFelhasznaloNev, "x", UserType.ADMIN);
+    UjFelhasznaloCommand command = new UjFelhasznaloCommand(tesztFelhasznaloNev, "x", UserType.ADMIN, "11111");
     felhasznaloService.add(command);
     Optional<Felhasznalo> elmentett = felhasznaloService.findByName(tesztFelhasznaloNev);
     assertThat(elmentett).isPresent();

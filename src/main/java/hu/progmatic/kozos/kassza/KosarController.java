@@ -66,6 +66,7 @@ public class KosarController {
         //return String.format("redirect:kassza/%s", kosarId);
     }*/
 
+
     @GetMapping("/kassza/kassza")
     public String kosarIndex(Model model) {
         KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
@@ -183,9 +184,33 @@ public class KosarController {
         return null;
     }
 
+    @ModelAttribute("hitelesitoKod")
+    private HitelesitoKod hiteleditoKod(){
+        return new HitelesitoKod();
+    }
+
+    @PostMapping("/kassza/{kosarId}/hitelsites")
+    public String hitelesites(@PathVariable("kosarId") Integer kosarId,
+                              @ModelAttribute("hitelesitoKod") HitelesitoKod hitelesitoKod,
+                              Model model) {
+        try{
+            KosarViewDTO kosarViewDTO = kosarService.kosarHitelesit(kosarId, hitelesitoKod.getKod());
+            model.addAttribute("kosar", kosarViewDTO);
+        }catch(ErvenytelenHitelesitoKodException e){
+            model.addAttribute("isErvenytelenKod", true);
+            model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        }
+        return "kassza/kassza";
+    }
+
     /*@ModelAttribute("isTermekMennyisegEdit")
     boolean isTermekMennyisegEdit(){
         return false;
     }*/
+
+    @ModelAttribute("isErvenytelenKod")
+    boolean isErvenytelenKod(){
+        return false;
+    }
 }
 

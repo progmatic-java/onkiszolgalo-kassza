@@ -1,5 +1,7 @@
 package hu.progmatic.kozos.kassza;
 
+import hu.progmatic.kozos.felhasznalo.Felhasznalo;
+import hu.progmatic.kozos.felhasznalo.FelhasznaloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ public class KosarService {
 
     @Autowired
     private TermekService termekService;
+    @Autowired
+    private FelhasznaloService felhasznaloService;
 
 
     public KosarViewDTO getKosarDtoById(Integer id) {
@@ -27,7 +31,11 @@ public class KosarService {
     }
 
     public KosarViewDTO kosarViewCreate() {
-        Kosar kosar = kosarRepository.save(Kosar.builder().build());
+        List<Kosar> kosarak = kosarRepository.findAll();
+        kosarRepository.deleteAll(kosarak);
+        Kosar kosar = kosarRepository.save(Kosar.builder()
+                .hitelesites(Hitelesites.NEM_KELL_HITELESITENI)
+                .build());
         return KosarViewDTO.builder()
                 .kosarId(kosar.getId())
                 .build();
@@ -36,26 +44,20 @@ public class KosarService {
 
     public KosarViewDTO addTermekMennyisegCommand(Integer kosarId, TermekMennyisegHozzaadasCommand command) {
         Kosar kosar = kosarRepository.findById(kosarId).orElseThrow();
-
-
         mennyisegValidacio(command.getVonalkod(), command.getMennyiseg());
-        /*Termek termek = termekService.getByVonalkod(command.getVonalkod());
-        int termekMennyiseg = termek.getMennyiseg();
-        if (termekMennyiseg < command.getMennyiseg()) {
-            throw new NincsElegRaktarKeszletException(
-                    String.format("Nincs elég termék a raktáron! Maximálisan %s termék adható hozzá!", termekMennyiseg)
-            );
-        }
-        termek.setMennyiseg(termekMennyiseg - command.getMennyiseg());*/
-
         Optional<TermekMennyiseg> termekMennyisegOptional = kosar.getTermekMennyisegek().stream()
                 .filter(termekM -> termekM.getTermek().getVonalkod().equals(command.getVonalkod()))
                 .findAny();
         if (termekMennyisegOptional.isEmpty()) {
+            Termek termek = termekService.getByVonalkod(command.getVonalkod());
+            if (termek.isHitelesitesSzukseges() && kosar.getHitelesites() != Hitelesites.HITELESITVE){
+                kosar.setHitelesites(Hitelesites.NINCS_HITELESITVE);
+            }
             TermekMennyiseg ujTermekMennyiseg = TermekMennyiseg.builder()
                     .mennyiseg(command.getMennyiseg())
-                    .termek(termekService.getByVonalkod(command.getVonalkod()))
+                    .termek(termek)
                     .kosar(kosar)
+                    .hitelesitesSzukseges(termek.isHitelesitesSzukseges())
                     .build();
             kosar.getTermekMennyisegek().add(ujTermekMennyiseg);
             termekMennyisegRepository.save(ujTermekMennyiseg);
@@ -79,7 +81,7 @@ public class KosarService {
                 );
             }
             termek.setMennyiseg(termekMennyiseg - mennyiseg);
-        }else{
+        } else {
             throw new NincsIlyenTermek("Boltban nem szereplő termék!");
         }
     }
@@ -105,7 +107,9 @@ public class KosarService {
                                 .nev(termekMennyiseg.getTermek().getMegnevezes())
                                 .mennyiseg(termekMennyiseg.getMennyiseg())
                                 .termekId(termekMennyiseg.getTermek().getId())
+                                .hitelesitesSzukseges(termekMennyiseg.isHitelesitesSzukseges())
                                 .build()).toList())
+                .hitelesites(kosar.getHitelesites())
                 .build();
     }
 
@@ -181,10 +185,24 @@ public class KosarService {
         return kosarRepository.getById(id);
     }
 
-    public List<KosarViewDTO> findAllKosarViewDto(){
+    public List<KosarViewDTO> findAllKosarViewDto() {
         return kosarRepository.findAll().stream()
                 .map(kosar -> KosarViewDTO.builder()
                         .kosarId(kosar.getId())
                         .build()).toList();
+    }
+
+    public KosarViewDTO kosarHitelesit(Integer kosarId, String hitelesitKod) {
+        Kosar kosar = kosarRepository.getById(kosarId);
+        List<Felhasznalo> felhasznalok = felhasznaloService.findAll();
+        Optional<Felhasznalo> felhasznaloOpt = felhasznalok.stream()
+                .filter(felhasznalo -> felhasznalo.getHitelesitoKod().equals(hitelesitKod) && !felhasznalo.getHitelesitoKod().isEmpty())
+                .findAny();
+        if (felhasznaloOpt.isPresent()){
+            kosar.setHitelesites(Hitelesites.HITELESITVE);
+        }else{
+            throw new ErvenytelenHitelesitoKodException();
+        }
+        return kosarToKosarViewDTO(kosar);
     }
 }

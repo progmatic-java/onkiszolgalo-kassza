@@ -17,6 +17,9 @@ public class TermekMennyiseg {
     private Integer id;
     @Min(0)
     private Integer mennyiseg;
+
+    private boolean hitelesitesSzukseges;
+
     @ManyToOne
     private Termek termek;
 
