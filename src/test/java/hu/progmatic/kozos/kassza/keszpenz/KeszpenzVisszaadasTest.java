@@ -327,121 +327,27 @@ public class KeszpenzVisszaadasTest {
             assertEquals(1, bentMaradtBankjegyek.get(0).getMennyiseg());
         }
 
-        /*@Nested
-        class ElsoTest{
-
-            @BeforeEach
-            void setUp() {
-                Kosar kosar = kosarService.getById(keszpenzDto.getKosarId());
-                List<Bankjegy> bankjegyek = bankjegyService.findAll();
-                KeszpenzVisszaadas keszpenzVisszaadas = new KeszpenzVisszaadas(kosar, bankjegyek);
-            }
-        }*/
-
-        /* private KosarViewDTO kosarViewDTO;
-
-        @BeforeEach
-        void setUp() {
-            Termek termek = Termek.builder()
-                    .megnevezes("TesztItem1")
-                    .mennyiseg(1)
-                    .vonalkod("99999990")
-                    .ar(13_287)
-                    .build();
-            kosarViewDTO = KosarViewDTO.builder()
-                    .vegosszeg(13_287)
-                    .build();
-            kosarViewDTO.getTermekMennyisegDtoList().add(
-                    TermekMennyisegDto.builder()
-                            .ar(13_287)
-                            .mennyiseg(1)
-                            .nev(termek.getMegnevezes())
-                            .build());
-        }
-
-
         @Test
-        @DisplayName("A felület beöltéséhez szükséges KeszpenzDto")
-        void kezdetiKeszpenzDto() {
-
-            KeszpenzDto keszpenzDto = keszpenzService.visszajaro(KeszpenzDto.builder()
-                    .kosarId(kosarViewDTO.getKosarId())
-                    .build());
-
-
-            assertEquals(13_285, keszpenzDto.getVegosszeg());
-            assertEquals(13_285, keszpenzDto.getMaradek());
-            assertNull(keszpenzDto.getVisszajaro());
-            assertNull(keszpenzDto.getBedobottCimlet());
-            assertFalse(keszpenzDto.isNemTudVisszaadni());
+        void enabledTovabbiTest() {
+            kosar.getTermekMennyisegek().add(termekMennyisegBuilder(1, 200));
+            List<Bankjegy> bankjegyek =
+                    List.of(
+                            Bankjegy.builder().mennyiseg(3).ertek(5).build(),
+                            Bankjegy.builder().mennyiseg(3).ertek(10).build(),
+                            Bankjegy.builder().mennyiseg(3).ertek(20).build(),
+                            Bankjegy.builder().mennyiseg(3).ertek(50).build(),
+                            Bankjegy.builder().mennyiseg(3).ertek(100).build(),
+                            Bankjegy.builder().mennyiseg(3).ertek(200).build(),
+                            Bankjegy.builder().mennyiseg(3).ertek(500).build(),
+                            Bankjegy.builder().mennyiseg(3).ertek(1_000).build(),
+                            Bankjegy.builder().mennyiseg(3).ertek(2_000).build(),
+                            Bankjegy.builder().mennyiseg(3).ertek(5_000).build(),
+                            Bankjegy.builder().mennyiseg(3).ertek(10_000).build(),
+                            Bankjegy.builder().mennyiseg(0).ertek(20_000).build()
+                    );
+            KeszpenzVisszaadas keszpenzVisszaadas = new KeszpenzVisszaadas(kosar, bankjegyek);
+            List<EnabledBankjegyDto> enabledBankjegyDtoList = keszpenzVisszaadas.enabledBankjegyekMeghatarozasa();
+            System.out.println("asd");
         }
-
-        @Test
-        @DisplayName("Bedobott kisebb címlet mint a végösszeg")
-        void bedobottKisCimlet() {
-            KeszpenzDto keszpenzDto = KeszpenzDto.builder()
-                    .kosarId(kosarViewDTO.getKosarId())
-                    .bedobottCimlet(10_000)
-                    .build();
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-
-            assertEquals(13_285, keszpenzDto.getVegosszeg());
-            assertEquals(3_285, keszpenzDto.getMaradek());
-            assertNull(keszpenzDto.getVisszajaro());
-            assertFalse(keszpenzDto.isNemTudVisszaadni());
-
-        }
-
-        @Test
-        @DisplayName("Bedobott több kisebb címlet mint a végösszeg")
-        void bedobottTobbKisCimlet() {
-            KeszpenzDto keszpenzDto = KeszpenzDto.builder()
-                    .kosarId(kosarViewDTO.getKosarId())
-                    .bedobottCimlet(10_000)
-                    .build();
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-            keszpenzDto.setBedobottCimlet(200);
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-            keszpenzDto.setBedobottCimlet(2_000);
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-            keszpenzDto.setBedobottCimlet(5);
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-
-
-            assertEquals(13_285, keszpenzDto.getVegosszeg());
-            assertEquals(1080, keszpenzDto.getMaradek());
-            assertNull(keszpenzDto.getVisszajaro());
-            assertFalse(keszpenzDto.isNemTudVisszaadni());
-
-        }
-
-        @Test
-        @DisplayName("Bedobott több kisebb címlet megegyezik a végösszeg")
-        void bedobottTobbKisCimletVegosszeg() {
-            KeszpenzDto keszpenzDto = KeszpenzDto.builder()
-                    .kosarId(kosarViewDTO.getKosarId())
-                    .bedobottCimlet(10_000)
-                    .build();
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-            keszpenzDto.setBedobottCimlet(1_000);
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-            keszpenzDto.setBedobottCimlet(2_000);
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-            keszpenzDto.setBedobottCimlet(200);
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-            keszpenzDto.setBedobottCimlet(50);
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-            keszpenzDto.setBedobottCimlet(20);
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-            keszpenzDto.setBedobottCimlet(10);
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-            keszpenzDto.setBedobottCimlet(5);
-            keszpenzDto = keszpenzService.visszajaro(keszpenzDto);
-
-            assertEquals(13_285, keszpenzDto.getVegosszeg());
-            assertEquals(0, keszpenzDto.getMaradek());
-            assertNotNull(keszpenzDto.getVisszajaro());
-            assertFalse(keszpenzDto.isNemTudVisszaadni());
-        }*/
     }
 }

@@ -67,13 +67,19 @@ public class KeszpenzVisszaadas {
     }
 
     public List<EnabledBankjegyDto> enabledBankjegyekMeghatarozasa() {
-        List<Bankjegy> bankjegyekClone = bankjegyek.stream()
+        /*List<Bankjegy> bankjegyekClone = bankjegyek.stream()
                 .map(Bankjegy::bankjegyCloneFactory)
-                .toList();
+                .toList();*/
         VisszaadasSzamolo visszaadasSzamolo = new VisszaadasSzamolo();
         boolean engedelyezve;
         List<EnabledBankjegyDto> enabledBankjegyek = new ArrayList<>();
-        for (Bankjegy bankjegyClone : bankjegyekClone) {
+        //for (Bankjegy bankjegyClone : bankjegyekClone) {
+        for (Bankjegy bankjegy : bankjegyek) {
+            List<Bankjegy> bankjegyekClone = bankjegyek.stream()
+                    .map(Bankjegy::bankjegyCloneFactory)
+                    .toList();
+            Bankjegy bankjegyClone = Bankjegy.bankjegyCloneFactory(bankjegy);
+            bankjegyekClone.stream().filter(bj->bj.getErtek().equals(bankjegy.getErtek())).findAny().orElseThrow().noveles();
             if (visszajaroElokeszito.getKulonbozet().equals(0) || megszakitas) {
                 enabledBankjegyek.add(enabledBankjegyDtoBuilder(bankjegyClone, false));
             } else {

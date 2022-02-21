@@ -25,7 +25,7 @@ public class KeszpenzService {
         List<Bankjegy> bankjegyek = bankjegyService.findAll();
         KeszpenzVisszaadas keszpenzVisszaadas = new KeszpenzVisszaadas(kosar, bankjegyek);
         if (keszpenzDto.getBedobottCimlet().equals(0)){
-            keszpenzDto.setEnabledBankjegyek(keszpenzVisszaadas.enabledBankjegyekMeghatarozasa());
+            keszpenzDto.setEnabledBankjegyek(rendezCsokkeno(keszpenzVisszaadas.enabledBankjegyekMeghatarozasa()));
             keszpenzDto = initKeszpenzDto(keszpenzDto, keszpenzVisszaadas.getKosarVegosszegRoundFive());
             return keszpenzDto;
         }
@@ -37,7 +37,7 @@ public class KeszpenzService {
         }
         keszpenzDto.setVegosszeg(keszpenzVisszaadas.getKosarVegosszegRoundFive());
         keszpenzDto.setMaradek(keszpenzVisszaadas.getMaradek());
-        keszpenzDto.setEnabledBankjegyek(keszpenzVisszaadas.enabledBankjegyekMeghatarozasa());
+        keszpenzDto.setEnabledBankjegyek(rendezCsokkeno(keszpenzVisszaadas.enabledBankjegyekMeghatarozasa()));
         keszpenzDto.setVisszajaro(
                 visszajaroListToStr(
                         keszpenzVisszaadas.getVisszajaroBankjegyek()));
@@ -46,6 +46,10 @@ public class KeszpenzService {
         return keszpenzDto;
     }
 
+    private List<EnabledBankjegyDto> rendezCsokkeno(List<EnabledBankjegyDto> enabledBankjegyDtoList){
+        return enabledBankjegyDtoList.stream().sorted((o1, o2) -> o2.getBankjegyErtek() - o1.getBankjegyErtek())
+                .toList();
+    }
 
     private KeszpenzDto initKeszpenzDto(KeszpenzDto keszpenzDto, Integer vegosszeg) {
        keszpenzDto.setVegosszeg(vegosszeg);

@@ -1,5 +1,6 @@
-package hu.progmatic.kozos.kassza;
+package hu.progmatic.kozos.kassza.keszpenz;
 
+import hu.progmatic.kozos.kassza.*;
 import hu.progmatic.kozos.kassza.keszpenz.Bankjegy;
 import hu.progmatic.kozos.kassza.keszpenz.BankjegyService;
 import hu.progmatic.kozos.kassza.keszpenz.KeszpenzDto;
