@@ -201,54 +201,54 @@
 <div class="container">
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${5})}"
           method="post">
-        <input th:disabled="${keszpenzDto.visszajaro!=null}" type="submit" class="button-78" value="5" style="position: fixed; bottom: 42%; left: 0; width: 33%;">
+        <input th:disabled="${!keszpenzDto.enabledBankjegyek.get(0).isEngedelyezve() || keszpenzDto.visszajaro!=null}" type="submit" class="button-78" value="5" style="position: fixed; bottom: 42%; left: 0; width: 33%;">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${10})}"
           method="post">
-        <input th:disabled="${keszpenzDto.visszajaro!=null}" type="submit" class="button-78" value="10" style="position: fixed; bottom: 42%; left: 33.5%; width: 33%">
+        <input th:disabled="${!keszpenzDto.enabledBankjegyek.get(1).isEngedelyezve() || keszpenzDto.visszajaro!=null}" type="submit" class="button-78" value="10" style="position: fixed; bottom: 42%; left: 33.5%; width: 33%">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${20})}"
           method="post">
-        <input th:disabled="${keszpenzDto.visszajaro!=null}" type="submit" class="button-78" value="20" style="position: fixed; bottom: 42%; left: 67%; width: 33%">
+        <input th:disabled="${!keszpenzDto.enabledBankjegyek.get(2).isEngedelyezve() || keszpenzDto.visszajaro!=null}" type="submit" class="button-78" value="20" style="position: fixed; bottom: 42%; left: 67%; width: 33%">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${50})}"
           method="post">
-        <input th:disabled="${keszpenzDto.visszajaro!=null}" type="submit" class="button-78" value="50"
+        <input th:disabled="${!keszpenzDto.enabledBankjegyek.get(3).isEngedelyezve() || keszpenzDto.visszajaro!=null}" type="submit" class="button-78" value="50"
                style="position: fixed; bottom: 29%; left: 0; width: 33%; height: 95px">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${100})}"
           method="post">
-        <input type="submit" th:disabled="${keszpenzDto.visszajaro!=null}" class="button-78" value="100"
+        <input type="submit" th:disabled="${!keszpenzDto.enabledBankjegyek.get(4).isEngedelyezve() || keszpenzDto.visszajaro!=null}" class="button-78" value="100"
                style="position: fixed; bottom: 29%; left: 33.5%; width: 33%; height: 95px">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${200})}"
           method="post">
-        <input type="submit" class="button-78" value="200" th:disabled="${keszpenzDto.visszajaro!=null}"
+        <input type="submit" class="button-78" value="200" th:disabled="${!keszpenzDto.enabledBankjegyek.get(5).isEngedelyezve() || keszpenzDto.visszajaro!=null}"
                style="position: fixed; bottom: 29%; left: 67%; width: 33%; height: 95px">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${500})}"
           method="post">
-        <input type="submit" class="button-78" value="500" th:disabled="${keszpenzDto.visszajaro!=null}"
+        <input type="submit" class="button-78" value="500" th:disabled="${!keszpenzDto.enabledBankjegyek.get(6).isEngedelyezve() || keszpenzDto.visszajaro!=null}"
                style="position: fixed; bottom: 15%; left: 0; width: 33%; height: 99px">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${1000})}"
           method="post">
-        <input type="submit" class="button-78" value="1000" th:disabled="${keszpenzDto.visszajaro!=null}"
+        <input type="submit" class="button-78" value="1000" th:disabled="${!keszpenzDto.enabledBankjegyek.get(7).isEngedelyezve() || keszpenzDto.visszajaro!=null}"
                style="position: fixed; bottom: 15%; left: 33.5%; width: 33%; height: 99px">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${2000})}"
           method="post">
-        <input type="submit" class="button-78" value="2000" th:disabled="${keszpenzDto.visszajaro!=null}"
+        <input type="submit" class="button-78" value="2000" th:disabled="${!keszpenzDto.enabledBankjegyek.get(8).isEngedelyezve() || keszpenzDto.visszajaro!=null}"
                style="position: fixed; bottom: 15%; left: 67%; width: 33%; height: 99px">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${5000})}"
           method="post">
-        <input type="submit" class="button-78" value="5000" th:disabled="${keszpenzDto.visszajaro!=null}"
+        <input type="submit" class="button-78" value="5000" th:disabled="${!keszpenzDto.enabledBankjegyek.get(9).isEngedelyezve() || keszpenzDto.visszajaro!=null}"
                style="position: fixed; bottom: 1%; left: 0; width: 33%; height: 103px">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${10000})}"
           method="post">
-        <input type="submit" class="button-78" value="10000" th:disabled="${!keszpenzDto.enabledBankjegyek.get(11).isEngedelyezve() || keszpenzDto.visszajaro!=null}"
+        <input type="submit" class="button-78" value="10000" th:disabled="${!keszpenzDto.enabledBankjegyek.get(10).isEngedelyezve() || keszpenzDto.visszajaro!=null}"
                style="position: fixed; bottom: 1%; left: 33.5%; width: 33%; height: 103px">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${20000})}"
