@@ -70,6 +70,27 @@
             background-color: whitesmoke;
         }
     </style>
+    <script>
+        let readRow = '';
+        let lastEventTime = performance.now();
+        document.addEventListener('keydown', function (evt) {
+            if (performance.now() - lastEventTime > 2000) {
+                readRow = evt.key;
+                lastEventTime = performance.now();
+            } else {
+                readRow += evt.key;
+                lastEventTime = performance.now();
+            }
+            if (evt.code === 'Enter') {
+                console.log("ok")
+                sendPost();
+            }
+        });
+
+        function sendPost() {
+            document.getElementById("beolvasoForm").submit();
+        }
+    </script>
 
 </head>
 
@@ -89,9 +110,22 @@
 <p th:action="@{/kassza/raktar}" method="post"
 th:object="${allTermek}"
 >
-    <a type="button" style="position: fixed; bottom: 0;left: 0; width: 130px" class="button-76"  href="raktar.html" th:href="@{/kassza/raktar}">Raktár</a>
+    <a type="button" th:hidden="${!adminJogosultsagCommand.isJogosult()}" style="position: fixed; bottom: 0;left: 0; width: 130px" class="button-76"  href="raktar.html" th:href="@{/kassza/raktar}">Raktár</a>
 </p>
-    <a type="button" style="position: fixed; bottom: 0;left: 150px; width: 175px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/bankjegyleltar}">Bankjegyek</a>
-    <a type="button" style="position: fixed; bottom: 0;right:0; width: 150px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/admin}">Admin</a>
+    <a type="button" th:hidden="${!adminJogosultsagCommand.isJogosult()}" style="position: fixed; bottom: 0;left: 150px; width: 175px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/bankjegyleltar}">Bankjegyek</a>
+    <a type="button" th:hidden="${!adminJogosultsagCommand.isJogosult()}" style="position: fixed; bottom: 0;right:0; width: 150px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/admin}">Admin</a>
+
+<form id="beolvasoForm" class="row"
+      th:action="@{'/kezdes/jogosultsag'}"
+      method="get"
+      th:object="${adminJogosultsagCommand}"
+>
+    <div class="col">
+        <label>
+            <input hidden id="beolvasoBoolean" type="checkbox"
+                   th:checked="*{isJogosult}">
+        </label>
+    </div>
+</form>
 </body>
 </html>

@@ -82,8 +82,9 @@ public class KosarController {
     }
 
     @PostMapping("/kassza/torles/{kosarId}")
-    public String kosarTorles(@PathVariable("kosarId") Integer kosarId) {
+    public String kosarTorles(@PathVariable("kosarId") Integer kosarId, Model model) {
         kosarService.kosarDeleteById(kosarId);
+        model.addAttribute("adminJogosultsagCommand", AdminJogosultsagCommand.builder().isJogosult(false).build());
         return "kassza/kezdes";
     }
 

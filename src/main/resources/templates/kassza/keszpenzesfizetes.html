@@ -248,12 +248,12 @@
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${10000})}"
           method="post">
-        <input type="submit" class="button-78" value="10000" th:disabled="${keszpenzDto.visszajaro!=null}"
+        <input type="submit" class="button-78" value="10000" th:disabled="${!keszpenzDto.enabledBankjegyek.get(11).isEngedelyezve() || keszpenzDto.visszajaro!=null}"
                style="position: fixed; bottom: 1%; left: 33.5%; width: 33%; height: 103px">
     </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}/{osszeg}'(kosarId=${kosar.kosarId},osszeg=${20000})}"
           method="post">
-        <input type="submit" class="button-78" value="20000" th:disabled="${keszpenzDto.visszajaro!=null}"
+        <input type="submit" class="button-78" value="20000" th:disabled="${!keszpenzDto.enabledBankjegyek.get(11).isEngedelyezve() || keszpenzDto.visszajaro!=null}"
                style="position: fixed; bottom: 1%; left: 67%; width: 33%; height: 103px">
     </form>
 </div>

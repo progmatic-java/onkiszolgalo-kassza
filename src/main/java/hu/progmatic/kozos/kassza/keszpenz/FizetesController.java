@@ -44,15 +44,14 @@ public class FizetesController {
                 .bedobottCimlet(0)
                 .build();
         keszpenzDto= keszpenzService.visszajaro(keszpenzDto);
-        keszpenzDto.setVisszajaro("10000000000");
-        model.addAttribute("kosar", keszpenzDto);
+        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
         model.addAttribute("keszpenzDto", keszpenzDto);
         return "kassza/keszpenzesfizetes";
     }
 
 
     @PostMapping("/kassza/keszpenzesfizetes/{kosarId}/{osszeg}")
-    public String minusFt(@PathVariable("kosarId") Integer kosarId, @PathVariable("osszeg") Integer osszeg, Model model) throws InterruptedException {
+    public String minusFt(@PathVariable("kosarId") Integer kosarId, @PathVariable("osszeg") Integer osszeg, Model model) throws NemEngedelyezettBankjegyException {
         KosarViewDTO kosarViewDTO = kosarService.getKosarDtoById(kosarId);
         KeszpenzDto keszpenzDto = keszpenzService.visszajaro(KeszpenzDto.builder().bedobottCimlet(osszeg).kosarId(kosarId).build());
         model.addAttribute("kosar", kosarViewDTO);
