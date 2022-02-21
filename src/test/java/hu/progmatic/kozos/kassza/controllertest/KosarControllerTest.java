@@ -1,6 +1,10 @@
-package hu.progmatic.kozos.kassza;
+package hu.progmatic.kozos.kassza.controllertest;
 
 
+import hu.progmatic.kozos.kassza.KosarService;
+import hu.progmatic.kozos.kassza.KosarViewDTO;
+import hu.progmatic.kozos.kassza.TermekMennyisegDto;
+import hu.progmatic.kozos.kassza.TermekMennyisegHozzaadasCommand;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,6 +37,15 @@ public class KosarControllerTest {
                 .andExpect(content().string(containsString("Üdvözöljük!")));
     }
 
+
+
+
+    @Test
+    @DisplayName("probaolvasas.html megjelenik")
+    void toProbaOlvasas() throws Exception {
+        mockMvc.perform(get("/kassza/probaolvasas")).andDo(print()).andExpect(status().isOk());
+    }
+
     @Test
     @DisplayName("A termékek listája szerepel a html-ben")
     void termekLista() throws Exception{
@@ -45,12 +58,13 @@ public class KosarControllerTest {
 
     @Nested
     class Gombtesztelesek{
+
         private KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
         @BeforeEach
         void beforeEach() {
             TermekMennyisegHozzaadasCommand termekMennyisegHozzaadasCommand = TermekMennyisegHozzaadasCommand.builder()
                     .mennyiseg(5)
-                    .vonalkod("12345")
+                    .vonalkod("5051007149822")
                     .build();
             kosarViewDTO = kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), termekMennyisegHozzaadasCommand);
 
@@ -65,12 +79,34 @@ public class KosarControllerTest {
         }
 
 
+
         @Test
         @DisplayName("Termek hozzáadás után is megjelenik és a növelt végösszeg is")
-        @Disabled
-        void Osszeg() throws Exception {
+        void osszeg() throws Exception {
             mockMvc.perform(
                             post("/kassza/" + kosarViewDTO.getKosarId() + "/addtermek")).andDo(print()).andExpect(status().isOk())
+                    .andExpect(content().string(containsString(String.valueOf(kosarViewDTO.getKosarId()))))
+                    .andExpect(content().string(containsString("víz")))
+                    .andExpect(content().string(containsString("500")))
+                    .andExpect(content().string(not(containsString("Aktuálisan hozzáadott termék neve"))));
+        }
+
+        @Test
+        @DisplayName("Termek hozzáadás után is megjelenik és a növelt végösszeg is")
+        void osszegJs() throws Exception {
+            mockMvc.perform(
+                            post("/kassza/" + kosarViewDTO.getKosarId() + "/addtermekJs")).andDo(print()).andExpect(status().isOk())
+                    .andExpect(content().string(containsString(String.valueOf(kosarViewDTO.getKosarId()))))
+                    .andExpect(content().string(containsString("víz")))
+                    .andExpect(content().string(containsString("500")))
+                    .andExpect(content().string(not(containsString("Aktuálisan hozzáadott termék neve"))));
+        }
+
+        @Test
+        @DisplayName("Termek módosítás gomb után is megjelenik")
+        void modosit() throws Exception {
+            mockMvc.perform(
+                            post("/kassza/" + kosarViewDTO.getKosarId() + "/modosit")).andDo(print()).andExpect(status().isOk())
                     .andExpect(content().string(containsString(String.valueOf(kosarViewDTO.getKosarId()))))
                     .andExpect(content().string(containsString("víz")))
                     .andExpect(content().string(containsString("500")))
@@ -91,7 +127,32 @@ public class KosarControllerTest {
             kosarViewDTO = null;
         }
 
+
     }
+
+
+@Nested
+class Vissza{
+
+    private KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
+
+    @Test
+    @DisplayName("kezdes.html megjelenik")
+    void toKezdolap() throws Exception {
+        mockMvc.perform(post("/kassza/torles/" + kosarViewDTO.getKosarId())).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Vásárlás kezdéséhez nyomja meg a gombot")));
+    }
+
+    @Test
+    @DisplayName("kassza.html megjelenik")
+    void kosarId() throws Exception {
+        mockMvc.perform(get("/kassza/" + kosarViewDTO.getKosarId())).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Üdvözöljük!")));
+    }
+
+
+}
+
 
 
 

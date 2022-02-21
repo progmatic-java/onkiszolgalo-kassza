@@ -1,6 +1,8 @@
-package hu.progmatic.kozos.kassza;
+package hu.progmatic.kozos.kassza.controllertest;
 
 
+import hu.progmatic.kozos.kassza.Termek;
+import hu.progmatic.kozos.kassza.TermekService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
