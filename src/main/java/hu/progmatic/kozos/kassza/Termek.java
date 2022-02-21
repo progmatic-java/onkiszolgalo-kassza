@@ -34,6 +34,8 @@ public class Termek {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Kep kep;
+    @Builder.Default
+    private boolean hitelesitesSzukseges = false;
 
 
 }

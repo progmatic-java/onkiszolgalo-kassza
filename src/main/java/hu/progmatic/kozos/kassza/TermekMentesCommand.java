@@ -29,4 +29,5 @@ public class TermekMentesCommand {
     @Max(value = 10000, message = "maximum 10000db terméket lehet felvenni")
     @NotNull(message = "A mező nem lehet üres")
     private Integer mennyiseg;
+    private boolean hitelesitesSzukseges = false;
 }

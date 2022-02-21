@@ -119,6 +119,7 @@ public class TermekService {
         termek.setAr(termekmentes.getAr());
         termek.setMegnevezes(termekmentes.getMegnevezes());
         termek.setVonalkod(termekmentes.getVonalkod());
+        termek.setHitelesitesSzukseges(termekmentes.isHitelesitesSzukseges());
         MultipartFile file = termekmentes.getFile();
         if (!file.isEmpty()) {
             try {
