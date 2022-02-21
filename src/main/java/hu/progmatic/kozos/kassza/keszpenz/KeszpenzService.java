@@ -41,6 +41,8 @@ public class KeszpenzService {
         keszpenzDto.setVisszajaro(
                 visszajaroListToStr(
                         keszpenzVisszaadas.getVisszajaroBankjegyek()));
+
+        keszpenzDto.getEnabledBankjegyek().stream().filter(enabledBankjegyDto -> enabledBankjegyDto.getBankjegyErtek()==5).map(EnabledBankjegyDto::isEngedelyezve).findFirst();
         return keszpenzDto;
     }
 
@@ -65,6 +67,9 @@ public class KeszpenzService {
             }
             return visszajaroStr.substring(0, visszajaroStr.length() - 2);
         }
+
+
+
     }
 
 }
