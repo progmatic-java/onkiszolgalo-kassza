@@ -257,10 +257,10 @@
                style="position: fixed; bottom: 1%; left: 67%; width: 33%; height: 103px">
     </form>
 </div>
-<form th:hidden="${keszpenzDto.vegosszeg == keszpenzDto.maradek || keszpenzDto.visszajaro != null && keszpenzDto.maradek == 0 || keszpenzDto.visszajaro == null && keszpenzDto.maradek == null}" th:action="@{'/kassza/szamla/{kosarId}/megszakit'(kosarId=${kosar.kosarId})}">
+<form method="post" th:hidden="${keszpenzDto.vegosszeg == keszpenzDto.maradek || keszpenzDto.visszajaro != null && keszpenzDto.maradek == 0 || keszpenzDto.visszajaro == null && keszpenzDto.maradek == null}" th:action="@{'/kassza/szamla/{kosarId}/megszakit'(kosarId=${kosar.kosarId})}">
     <input type="submit" class="button-75" value="Megszakít">
 </form>
-<form th:hidden="${keszpenzDto.vegosszeg != keszpenzDto.maradek}" th:action="@{'/kassza/szamla/{kosarId}'(kosarId=${kosar.kosarId})}">
+<form  th:hidden="${keszpenzDto.vegosszeg != keszpenzDto.maradek}" th:action="@{'/kassza/szamla/{kosarId}'(kosarId=${kosar.kosarId})}">
     <input type="submit" class="button-75" value="Vissza">
 </form>
 <div>

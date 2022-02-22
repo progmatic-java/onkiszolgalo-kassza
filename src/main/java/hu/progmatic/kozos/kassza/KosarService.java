@@ -187,9 +187,7 @@ public class KosarService {
 
     public List<KosarViewDTO> findAllKosarViewDto() {
         return kosarRepository.findAll().stream()
-                .map(kosar -> KosarViewDTO.builder()
-                        .kosarId(kosar.getId())
-                        .build()).toList();
+                .map(this::kosarToKosarViewDTO).toList();
     }
 
     public KosarViewDTO kosarHitelesit(Integer kosarId, String hitelesitKod) {
