@@ -21,6 +21,7 @@
         <th scope="col">Id</th>
         <th scope="col">Felhasználónév</th>
         <th scope="col">Role</th>
+        <th scope="col">Hitelesítőkód</th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -29,6 +30,7 @@
         <th scope="row" th:text="${felhasznalo.id}">1</th>
         <td th:text="${felhasznalo.nev}">Minta név</td>
         <td th:text="${felhasznalo.role}">ADMIN</td>
+        <td th:text="${felhasznalo.hitelesitoKod}">Kód</td>
         <td>
             <form th:if="${hasUserWriteRole}"
                   th:action="@{'/felhasznalo/delete/{id}'(id=${felhasznalo.id})}" method="post">
@@ -67,6 +69,13 @@
             <select th:field="*{role}" class="form-select">
                 <option th:each="roleOption : ${allRole}" th:value="${roleOption}" th:text="${roleOption}"></option>
             </select>
+        </label>
+        <label>
+            <input type="text"
+                   class="form-control"
+                   name="hitelesitoKod"
+                   placeholder="Hitelesítő kód"
+                   th:field="*{hitelesitoKod}"/>
         </label>
         <input class="btn btn-primary" type="submit" value="Hozzáad"/>
     </div>
