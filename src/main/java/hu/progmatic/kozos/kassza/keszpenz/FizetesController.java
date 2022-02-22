@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
+
 @Controller
 public class FizetesController {
     @Autowired
@@ -65,6 +67,14 @@ public class FizetesController {
     public String befejezes(@PathVariable("kosarId") Integer kosarId) {
         kosarService.deleteKosarById(kosarId);
         return "kassza/visszaigazolas";
+    }
+
+    @PostMapping("/kassza/szamla/{kosarId}/megszakit")
+    public String megszakit(@PathVariable("kosarId") Integer kosarId, Model model){
+        KeszpenzDto keszpenzDto = keszpenzService.visszajaro(KeszpenzDto.builder().fizetesMegszakitas(true).kosarId(kosarId).build());
+        model.addAttribute("keszpenzDto", keszpenzDto);
+        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        return "kassza/szamla";
     }
 
 
