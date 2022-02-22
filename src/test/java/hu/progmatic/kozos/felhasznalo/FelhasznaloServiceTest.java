@@ -20,25 +20,25 @@ class FelhasznaloServiceTest {
 
   @Test
   @DisplayName("Összes felhasználó listázása")
-  @WithMockUser(roles = UserType.Roles.USER_READ_ROLE)
+  @WithMockUser(roles = UserType.Roles.USER_MODIFYING)
   void findAll() {
     assertFelhasznaloLetezik("admin");
   }
 
   @Test
   @DisplayName("Felhasználó hozzáadása")
-  @WithMockUser(roles = {UserType.Roles.USER_WRITE_ROLE, UserType.Roles.USER_READ_ROLE})
+  @WithMockUser(roles = {UserType.Roles.ITEM_MODIFYING, UserType.Roles.USER_MODIFYING})
   void add() {
-    UjFelhasznaloCommand command = new UjFelhasznaloCommand("ujtesztfelhasznalo", "x", UserType.ADMIN, "1111");
+    UjFelhasznaloCommand command = new UjFelhasznaloCommand("ujtesztfelhasznalo", "x", UserType.MANAGER, "1111");
     felhasznaloService.add(command);
     assertFelhasznaloLetezik("ujtesztfelhasznalo");
   }
 
   @Test
   @DisplayName("Felhasználó létezik hibaüzenet")
-  @WithMockUser(roles = UserType.Roles.USER_WRITE_ROLE)
+  @WithMockUser(roles = UserType.Roles.ITEM_MODIFYING)
   void felhasznaloLetezikHiba() {
-    UjFelhasznaloCommand command = new UjFelhasznaloCommand("admin", "x", UserType.ADMIN, "11111");
+    UjFelhasznaloCommand command = new UjFelhasznaloCommand("admin", "x", UserType.MANAGER, "11111");
     FelhasznaloLetrehozasException e = null;
     try {
       felhasznaloService.add(command);
@@ -53,10 +53,10 @@ class FelhasznaloServiceTest {
 
   @Test
   @DisplayName("Felhasználó törlése")
-  @WithMockUser(roles = {UserType.Roles.USER_WRITE_ROLE, UserType.Roles.USER_READ_ROLE})
+  @WithMockUser(roles = {UserType.Roles.ITEM_MODIFYING, UserType.Roles.USER_MODIFYING})
   void torles() {
     String tesztFelhasznaloNev = "ujtesztfelhasznalotorleshez";
-    UjFelhasznaloCommand command = new UjFelhasznaloCommand(tesztFelhasznaloNev, "x", UserType.ADMIN, "11111");
+    UjFelhasznaloCommand command = new UjFelhasznaloCommand(tesztFelhasznaloNev, "x", UserType.MANAGER, "11111");
     felhasznaloService.add(command);
     Optional<Felhasznalo> elmentett = felhasznaloService.findByName(tesztFelhasznaloNev);
     assertThat(elmentett).isPresent();
@@ -68,24 +68,24 @@ class FelhasznaloServiceTest {
   @DisplayName("Felhasználó jogosultságok lekérése - user")
   @WithUserDetails(userDetailsServiceBeanName = "myUserDetailsService")
   void userHasRole() {
-    assertTrue(felhasznaloService.hasRole(UserType.Roles.USER_READ_ROLE));
-    assertFalse(felhasznaloService.hasRole(UserType.Roles.USER_WRITE_ROLE));
+    assertTrue(felhasznaloService.hasRole(UserType.Roles.USER_MODIFYING));
+    assertFalse(felhasznaloService.hasRole(UserType.Roles.ITEM_MODIFYING));
   }
 
   @Test
   @DisplayName("Felhasználó jogosultságok lekérése - admin")
   @WithUserDetails(value = "admin", userDetailsServiceBeanName = "myUserDetailsService")
   void adminHasRole() {
-    assertTrue(felhasznaloService.hasRole(UserType.Roles.USER_READ_ROLE));
-    assertTrue(felhasznaloService.hasRole(UserType.Roles.USER_WRITE_ROLE));
+    assertTrue(felhasznaloService.hasRole(UserType.Roles.USER_MODIFYING));
+    assertTrue(felhasznaloService.hasRole(UserType.Roles.ITEM_MODIFYING));
   }
 
   @Test
   @DisplayName("Felhasználó jogosultságok lekérése - guest")
   @WithUserDetails(value = "guest", userDetailsServiceBeanName = "myUserDetailsService")
   void guestHasRole() {
-    assertFalse(felhasznaloService.hasRole(UserType.Roles.USER_READ_ROLE));
-    assertFalse(felhasznaloService.hasRole(UserType.Roles.USER_WRITE_ROLE));
+    assertFalse(felhasznaloService.hasRole(UserType.Roles.USER_MODIFYING));
+    assertFalse(felhasznaloService.hasRole(UserType.Roles.ITEM_MODIFYING));
   }
 
   @Test

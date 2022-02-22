@@ -4,12 +4,12 @@ package hu.progmatic.kozos.felhasznalo;
 import java.util.Arrays;
 
 public enum UserType {
-  ADMIN(
-      Roles.USER_WRITE_ROLE,
-      Roles.USER_READ_ROLE
+  MANAGER(
+      Roles.ITEM_MODIFYING,
+      Roles.USER_MODIFYING
   ),
-  USER(Roles.USER_READ_ROLE),
-  GUEST();
+  ASSISTANT(Roles.ITEM_MODIFYING),
+  CUSTOMER(Roles.PAYING);
   private final String[] roles;
 
 
@@ -26,7 +26,8 @@ public enum UserType {
   }
 
   public static class Roles {
-    public static final String USER_WRITE_ROLE = "USER_WRITE";
-    public static final String USER_READ_ROLE = "USER_READ";
+    public static final String ITEM_MODIFYING = "ITEM_MODIFYING";
+    public static final String USER_MODIFYING = "USER_MODIFYING";
+    public static final String PAYING = "PAYING";
   }
 }

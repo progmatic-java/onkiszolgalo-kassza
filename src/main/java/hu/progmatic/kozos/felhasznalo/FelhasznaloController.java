@@ -49,7 +49,7 @@ public class FelhasznaloController {
 
   @ModelAttribute("allFelhasznalo")
   public List<Felhasznalo> populateTypes() {
-    if (felhasznaloService.hasRole(UserType.Roles.USER_READ_ROLE)) {
+    if (felhasznaloService.hasRole(UserType.Roles.USER_MODIFYING)) {
       return felhasznaloService.findAll();
     }
     return List.of();
@@ -67,12 +67,12 @@ public class FelhasznaloController {
 
   @ModelAttribute("hasUserWriteRole")
   public boolean userWriteRole() {
-    return felhasznaloService.hasRole(UserType.Roles.USER_WRITE_ROLE);
+    return felhasznaloService.hasRole(UserType.Roles.ITEM_MODIFYING);
   }
 
   @ModelAttribute("hasUserReadRole")
   public boolean userReadRole() {
-    return felhasznaloService.hasRole(UserType.Roles.USER_READ_ROLE);
+    return felhasznaloService.hasRole(UserType.Roles.USER_MODIFYING);
   }
 
   @ModelAttribute("userId")

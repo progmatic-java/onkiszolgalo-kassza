@@ -29,7 +29,7 @@ public class FelhasznaloService implements InitializingBean {
         return felhasznaloRepository.findAll();
     }
 
-    @RolesAllowed(UserType.Roles.USER_WRITE_ROLE)
+    @RolesAllowed(UserType.Roles.ITEM_MODIFYING)
     public void add(UjFelhasznaloCommand command) {
         if (felhasznaloRepository.findByNev(command.getNev()).isPresent()) {
             throw new FelhasznaloLetrehozasException("Ilyen névvel már létezik felhasználó!");
@@ -43,12 +43,12 @@ public class FelhasznaloService implements InitializingBean {
         felhasznaloRepository.save(felhasznalo);
     }
 
-    @RolesAllowed(UserType.Roles.USER_WRITE_ROLE)
+    @RolesAllowed(UserType.Roles.ITEM_MODIFYING)
     public void delete(Long id) {
         felhasznaloRepository.deleteById(id);
     }
 
-    @RolesAllowed(UserType.Roles.USER_READ_ROLE)
+    @RolesAllowed(UserType.Roles.USER_MODIFYING)
     public Optional<Felhasznalo> findByName(String nev) {
         return felhasznaloRepository.findByNev(nev);
     }
@@ -56,9 +56,9 @@ public class FelhasznaloService implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         if (findAll().isEmpty()) {
-            add(new UjFelhasznaloCommand("admin", "adminpass", UserType.ADMIN, "2222"));
-            add(new UjFelhasznaloCommand("user", "user", UserType.USER, "5051007149822"));
-            add(new UjFelhasznaloCommand("guest", "guest", UserType.GUEST, ""));
+            add(new UjFelhasznaloCommand("admin", "adminpass", UserType.MANAGER, "2222"));
+            add(new UjFelhasznaloCommand("user", "user", UserType.ASSISTANT, "5051007149822"));
+            add(new UjFelhasznaloCommand("customer", "customer", UserType.CUSTOMER, ""));
         }
     }
 
