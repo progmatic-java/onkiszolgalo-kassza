@@ -24,7 +24,7 @@ public class KeszpenzService {
         Kosar kosar = kosarService.getById(keszpenzDto.getKosarId());
         List<Bankjegy> bankjegyek = bankjegyService.findAll();
         KeszpenzVisszaadas keszpenzVisszaadas = new KeszpenzVisszaadas(kosar, bankjegyek);
-        if (keszpenzDto.getBedobottCimlet().equals(0)){
+        if (keszpenzDto.getBedobottCimlet() != null && keszpenzDto.getBedobottCimlet().equals(0)){
             keszpenzDto.setEnabledBankjegyek(rendezCsokkeno(keszpenzVisszaadas.enabledBankjegyekMeghatarozasa()));
             keszpenzDto = initKeszpenzDto(keszpenzDto, keszpenzVisszaadas.getKosarVegosszegRoundFive());
             return keszpenzDto;
