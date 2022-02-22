@@ -55,26 +55,26 @@ public class RaktarController {
 
     @PostMapping("/kassza/raktar")
     public String create(
-            @ModelAttribute("formItem") @Valid Termek formItem,
+            @ModelAttribute("termekMentesCommand") @Valid TermekMentesCommand termekMentesCommand,
             BindingResult bindingResult,
-            @ModelAttribute("kepFeltoltesCommand") TermekMentesCommand kepfeltoltesCommand,
             Model model) throws IOException {
         try {
-            termekService.validacio(formItem);
+            termekService.validacio(termekMentesCommand);
             //refreshAllTermek(model);
             //clearFormItem(model);
-            model.addAttribute("formItem", formItem());
+            //model.addAttribute("termekMentesCommand", termekMentesCommand());
         } catch (FoglaltTermekException e) {
             for (Map.Entry<String, String> entry : e.getBindingProperty().entrySet()) {
-                bindingResult.addError(new FieldError("formItem",
+                bindingResult.addError(new FieldError("termekMentesCommand",
                         entry.getKey(),
                         entry.getValue()));
             }
         }
         if (!bindingResult.hasErrors()) {
-            termekService.create(formItem, kepfeltoltesCommand);
+            termekService.create(termekMentesCommand);
             refreshAllTermek(model);
             clearFormItem(model);
+            model.addAttribute("termekMentesCommand", termekMentesCommand());
         }
         return items();
     }
@@ -125,8 +125,8 @@ public class RaktarController {
         model.addAttribute("allItem", allItem());
     }
 
-    @ModelAttribute("kepFeltoltesCommand")
-    TermekMentesCommand kepFeltoltesCommand() {
+    @ModelAttribute("termekMentesCommand")
+    TermekMentesCommand termekMentesCommand() {
         return new TermekMentesCommand();
     }
 

@@ -5,15 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -103,6 +98,40 @@ public class TermekService {
         return repository.save(termek);
     }
 
+    public Termek create(TermekMentesCommand termekMentesCommand) {
+        Termek termek = termekMentesCommandToTermek(termekMentesCommand);
+        try {
+            MultipartFile file = termekMentesCommand.getFile();
+
+            Kep kep = Kep.builder()
+                    .contentType(file.getContentType())
+                    .kepAdat(file.getBytes())
+                    .meret(file.getSize())
+                    .build();
+            termek.setKep(kep);
+        } catch (IOException e) {
+            throw new KepFeltoltesHibaException();
+        }
+        return repository.save(termek);
+    }
+
+
+    public void validacio(TermekMentesCommand termekMentesCommand) {
+        Termek termek = termekMentesCommandToTermek(termekMentesCommand);
+        Map<String, String> uniqueItemMap = new HashMap<>();
+        if (repository.findByMegnevezes(termek.getMegnevezes()) != null) {
+            uniqueItemMap.put("megnevezes", String.format("%s nevű termék már van raktáron", termek.getMegnevezes()));
+        }
+        if (repository.findByVonalkod(termek.getVonalkod()) != null) {
+            uniqueItemMap.put("vonalkod", String.format("%s számú vonalkód már foglalt", termek.getVonalkod()));
+        }
+        if (!uniqueItemMap.isEmpty()) {
+            throw new FoglaltTermekException(uniqueItemMap);
+        }
+    }
+
+
+
     public Termek create(Termek termek) {
          termek.setId(null);
         return repository.save(termek);
@@ -146,5 +175,17 @@ public class TermekService {
 
     public void deleteAll(List<Termek> termekek) {
         repository.deleteAll(termekek);
+    }
+
+    private Termek termekMentesCommandToTermek(TermekMentesCommand termekMentesCommand){
+
+        return Termek.builder()
+                .megnevezes(termekMentesCommand.getMegnevezes())
+                .hitelesitesSzukseges(termekMentesCommand.isHitelesitesSzukseges())
+                .id(termekMentesCommand.getId())
+                .vonalkod(termekMentesCommand.getVonalkod())
+                .mennyiseg(termekMentesCommand.getMennyiseg())
+                .ar(termekMentesCommand.getAr())
+                .build();
     }
 }

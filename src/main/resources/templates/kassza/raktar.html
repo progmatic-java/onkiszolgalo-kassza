@@ -132,8 +132,8 @@
 </div>
 <h3 th:if="${formItem.id == null}">Termék hozzáadása</h3>
 <h3 th:if="${formItem.id != null}">Termék módosítása</h3>
-<form th:action="@{'/kassza/raktar/{id}' (id=${formItem.id})}"
-      method="post" th:object="${formItem}" class="row" enctype="multipart/form-data">
+<form th:action="@{'/kassza/raktar/{id}' (id=${termekMentesCommand.id})}"
+      method="post" th:object="${termekMentesCommand}" class="row" enctype="multipart/form-data">
     <div class="col">
         <label>
             <input type="text"
@@ -200,7 +200,7 @@
                     th:field="*{hitelesitesSzukseges}"/>
         </label>
     </div>
-    <div class="col" th:object="${kepFeltoltesCommand}">
+    <div class="col">
         <label>
             <input type="file"
                    class="form-control-file"

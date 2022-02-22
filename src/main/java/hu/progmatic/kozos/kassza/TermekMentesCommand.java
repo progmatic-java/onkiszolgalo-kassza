@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 
 @Data
 public class TermekMentesCommand {
-    @NotNull
+
     private MultipartFile file;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
