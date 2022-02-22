@@ -192,9 +192,10 @@ public class KosarService {
 
     public KosarViewDTO kosarHitelesit(Integer kosarId, String hitelesitKod) {
         Kosar kosar = kosarRepository.getById(kosarId);
+        String hitelesitKodcserelt = hitelesitKod.replaceAll("ö","0");
         List<Felhasznalo> felhasznalok = felhasznaloService.findAll();
         Optional<Felhasznalo> felhasznaloOpt = felhasznalok.stream()
-                .filter(felhasznalo -> felhasznalo.getHitelesitoKod().equals(hitelesitKod) && !felhasznalo.getHitelesitoKod().isEmpty())
+                .filter(felhasznalo -> felhasznalo.getHitelesitoKod().equals(hitelesitKodcserelt) && !felhasznalo.getHitelesitoKod().isEmpty())
                 .findAny();
         if (felhasznaloOpt.isPresent()){
             kosar.setHitelesites(Hitelesites.HITELESITVE);

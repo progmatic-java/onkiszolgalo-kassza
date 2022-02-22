@@ -81,7 +81,7 @@
                 readRow += evt.key;
                 lastEventTime = performance.now();
             }
-            if (evt.code === 'Enter') {
+            if (readRow === 'admin') {
                 console.log("ok")
                 sendPost();
             }
@@ -110,15 +110,19 @@
 <p th:action="@{/kassza/raktar}" method="post"
 th:object="${allTermek}"
 >
-    <a type="button" th:hidden="${!adminJogosultsagCommand.isJogosult()}" style="position: fixed; bottom: 0;left: 0; width: 130px" class="button-76"  href="raktar.html" th:href="@{/kassza/raktar}">Raktár</a>
+    <a type="button" th:hidden="${!itemModifying}" style="position: fixed; bottom: 0;left: 0; width: 130px" class="button-76"  href="raktar.html" th:href="@{/kassza/raktar}">Raktár</a>
 </p>
-    <a type="button" th:hidden="${!adminJogosultsagCommand.isJogosult()}" style="position: fixed; bottom: 0;left: 150px; width: 175px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/bankjegyleltar}">Bankjegyek</a>
-    <a type="button" th:hidden="${!adminJogosultsagCommand.isJogosult()}" style="position: fixed; bottom: 0;right:0; width: 150px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/admin}">Admin</a>
+    <a type="button" th:hidden="${!itemModifying}" style="position: fixed; bottom: 0;left: 150px; width: 175px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/bankjegyleltar}">Bankjegyek</a>
+    <a type="button" th:hidden="${!itemModifying}" style="position: fixed; bottom: 0;right:0; width: 150px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/kosarlista}">Kosar</a>
+<a type="button" th:hidden="${!isUserModifying}" style="position: fixed; bottom: 0;right:170px; width: 150px" class="button-76"  href="bankjegyleltar.html" th:href="@{/felhasznalo}">Admin</a>
 
+<form th:action="@{/logout}" method="post">
+<input type="submit" th:hidden="${!kijelentkezesCommand.isJogosult()}" style=" position: fixed; top:40px;right:0; width: 150px" class="button-76"  value="Kijelentkezes">
+</form>
 <form id="beolvasoForm" class="row"
       th:action="@{'/kezdes/jogosultsag'}"
       method="get"
-      th:object="${adminJogosultsagCommand}"
+      th:object="${kijelentkezesCommand}"
 >
     <div class="col">
         <label>

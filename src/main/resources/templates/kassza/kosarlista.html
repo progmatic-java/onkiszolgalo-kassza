@@ -53,7 +53,7 @@
     <script>
             setTimeout(function () {
                 document.getElementById("send").submit();
-            }, 2500);
+            }, 500);
     </script>
 </head>
 <body>
@@ -94,7 +94,7 @@
             <button class="button-76" style="position: fixed; bottom: 0; width: 400px; left: 550px;" type="submit">VISSZA</button>
         </div>
     </form>
-    <form th:action="@{'/kassza/admin'}" id="send" method="get">
+    <form th:action="@{'/kassza/kosarlista'}" id="send" method="get">
         <input type="submit">
     </form>
 </body>

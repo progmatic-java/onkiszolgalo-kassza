@@ -187,10 +187,10 @@
     <input type="submit" class="button-75" style="position: fixed; bottom: 0;left: 0; top:0; width: 280px;" value="Vissza">
 </form>
     <form th:action="@{'/kassza/keszpenzesfizetes/{kosarId}'(kosarId=${kosar.kosarId})}">
-        <input type="submit" class="button-77" style="position: fixed;bottom: 50%;right: 0; top:0; width: 280px;"   value="Fizetés készpénzel"/>
+        <input type="submit" class="button-77" style="position: fixed;bottom: 50%;right: 0; top:0; width: 280px;"   value="Fizetés készpénzel" th:disabled="${!userFizethet}"/>
     </form>
-    <form th:action="@{'/kassza/bankkartyaUrlap/{kosarId}'(kosarId=${kosar.kosarId})}">
-        <input type="submit" class="button-78" style="position: fixed;top: 50%;right: 0; bottom:0; width: 280px;"   value="Fizetés bankkártyával"/>
+    <form th:action="@{'/kassza/bankkartyaUrlap/{kosarId}'(kosarId=${kosar.kosarId})}" >
+        <input type="submit" class="button-78" style="position: fixed;top: 50%;right: 0; bottom:0; width: 280px;"   value="Fizetés bankkártyával" th:disabled="${!userFizethet}"/>
     </form>
 </div>
 </body>

@@ -16,6 +16,8 @@ import java.util.Map;
 
 @Controller
 public class RaktarController {
+    @Autowired
+    private EanService eanService;
 
     @Autowired
     private TermekService termekService;
@@ -35,6 +37,7 @@ public class RaktarController {
         model.addAttribute("formItem", formItem);
         return "/kassza/raktar";
     }
+
     @GetMapping("/kassza/raktar/{id}/kep")
     public void kep(@PathVariable Integer id, HttpServletResponse response) throws IOException {
         KepMegjelenitesDto dto = termekService.getKepMegjelenitesDto(id);
@@ -69,7 +72,7 @@ public class RaktarController {
             }
         }
         if (!bindingResult.hasErrors()) {
-            termekService.create(formItem,kepfeltoltesCommand);
+            termekService.create(formItem, kepfeltoltesCommand);
             refreshAllTermek(model);
             clearFormItem(model);
         }
@@ -87,6 +90,18 @@ public class RaktarController {
             termekService.save(termekmentesDto);
             refreshAllTermek(model);
             clearFormItem(model);
+        }
+        return items();
+    }
+    @GetMapping("/kassza/raktar/addtermekJs")
+    public String addVonalkod(Model model, @ModelAttribute("formItem") Termek formItem) {
+
+        try {
+            formItem = eanService.searchForBarcode(formItem.getVonalkod());
+            model.addAttribute("formItem",formItem);
+        }catch (NincsConnectionToEanServerException e){
+            model.addAttribute("isEanApiConnectionError", true);
+            model.addAttribute("formItem", new Termek());
         }
         return items();
     }
@@ -115,5 +130,9 @@ public class RaktarController {
         return new TermekMentesCommand();
     }
 
+    @ModelAttribute("isEanApiConnectionError")
+    boolean isEanApiConnectionError(){
+        return false;
+    }
 
 }

@@ -55,6 +55,34 @@
             }
         }
     </style>
+    <script>
+        let readRow = '';
+        let lastEventTime = performance.now();
+        document.addEventListener('keydown', function (evt) {
+            let key = evt.code === 'Digit0' ? '0' : evt.key;
+            if (key === 'Enter' && readRow.toString().length >= 8) {
+                sendPost(readRow);
+            } else {
+                if (performance.now() - lastEventTime > 50) {
+                    readRow = key;
+                    lastEventTime = performance.now();
+                } else {
+                    readRow += key;
+                    lastEventTime = performance.now();
+                }
+            }
+            if (evt.key.toString() === 'p') {
+                //sendPost('5051007149822')
+                document.getElementById("beolvasoVonalkod").value = '3700123300014';
+                document.getElementById("beolvasoForm").submit();
+            }
+        });
+
+        function sendPost(readRow) {
+            document.getElementById("beolvasoVonalkod").value = readRow;
+            document.getElementById("beolvasoForm").submit();
+        }
+    </script>
 </head>
 <body>
 <h1 style="text-align: center; background-color: whitesmoke; color: black; height: 55px; padding-top: 5px">Raktár</h1>
@@ -200,5 +228,20 @@
     </div>
 </form>
 </div>
+
+<form id="beolvasoForm" class="row"
+      th:action="@{'/kassza/raktar/addtermekJs'}"
+      method="get"
+      th:object="${formItem}"
+>
+    <div class="col">
+        <label>
+            <input hidden id="beolvasoVonalkod" type="number"
+                   style="color: darkblue"
+                   class="form-control"
+                   th:field="*{vonalkod}">
+        </label>
+    </div>
+</form>
 </body>
 </html>

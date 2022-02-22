@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminJogosultsagCommand {
+public class KijelentkezesCommand {
     boolean isJogosult;
 }

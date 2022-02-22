@@ -13,7 +13,7 @@ public class KosarListaController {
     @Autowired
     KosarService kosarService;
 
-    @GetMapping("/kassza/admin")
+    @GetMapping("/kassza/kosarlista")
     public String adminFelulet(Model model){
         model.addAttribute("kosar", kosarService.findAllKosarViewDto().stream().findFirst().orElse(KosarViewDTO.builder().build()));
         return "kassza/kosarlista";

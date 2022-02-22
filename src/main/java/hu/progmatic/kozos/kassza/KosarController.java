@@ -1,20 +1,21 @@
 package hu.progmatic.kozos.kassza;
 
+import hu.progmatic.kozos.felhasznalo.FelhasznaloService;
+import hu.progmatic.kozos.felhasznalo.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
 public class KosarController {
+    @Autowired
+    FelhasznaloService felhasznaloService;
 
 
     @Autowired
@@ -85,7 +86,7 @@ public class KosarController {
     @PostMapping("/kassza/torles/{kosarId}")
     public String kosarTorles(@PathVariable("kosarId") Integer kosarId, Model model) {
         kosarService.kosarDeleteById(kosarId);
-        model.addAttribute("adminJogosultsagCommand", AdminJogosultsagCommand.builder().isJogosult(false).build());
+        model.addAttribute("kijelentkezesCommand", KijelentkezesCommand.builder().isJogosult(false).build());
         return "kassza/kezdes";
     }
 
@@ -212,5 +213,18 @@ public class KosarController {
     boolean isErvenytelenKod(){
         return false;
     }
+
+    @ModelAttribute("itemModifying")
+    public boolean itemModifying() {
+        return felhasznaloService.hasRole(UserType.Roles.ITEM_MODIFYING);
+    }
+
+    @ModelAttribute("isUserModifying")
+    public boolean isUserModifying() {
+        return felhasznaloService.hasRole(UserType.Roles.USER_MODIFYING);
+    }
+
 }
+
+
 
