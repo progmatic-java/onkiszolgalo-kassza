@@ -19,6 +19,10 @@ class KosarServiceTest {
     @Autowired
     private KosarService kosarService;
 
+    @Autowired
+    private TermekService termekService;
+
+
     @Test
     void kosarLetrehozas() {
         KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
@@ -29,45 +33,62 @@ class KosarServiceTest {
     class HozzaadTest {
 
         KosarViewDTO kosarViewDTO;
+        List<Termek> termekek = List.of(
+                Termek.builder().vonalkod("01").mennyiseg(10).megnevezes("Teszt1").ar(1000).build(),
+                Termek.builder().vonalkod("02").mennyiseg(10).megnevezes("Teszt2").ar(1000).build(),
+                Termek.builder().vonalkod("03").mennyiseg(10).megnevezes("Teszt3").ar(1000).build(),
+                Termek.builder().vonalkod("04").mennyiseg(10).megnevezes("Teszt4").ar(1000).build(),
+                Termek.builder().vonalkod("05").mennyiseg(10).megnevezes("Teszt5").ar(1000).build(),
+                Termek.builder().vonalkod("06").mennyiseg(10).megnevezes("Teszt6").ar(1000).build(),
+                Termek.builder().vonalkod("07").mennyiseg(10).megnevezes("Teszt7").ar(1000).build(),
+                Termek.builder().vonalkod("08").mennyiseg(10).megnevezes("Teszt8").ar(1000).build(),
+                Termek.builder().vonalkod("09").mennyiseg(10).megnevezes("Teszt9").ar(1000).build(),
+                Termek.builder().vonalkod("10").mennyiseg(10).megnevezes("Teszt10").ar(1000).build(),
+                Termek.builder().vonalkod("11").mennyiseg(10).megnevezes("Teszt11").ar(1000).build(),
+                Termek.builder().vonalkod("12").mennyiseg(10).megnevezes("Teszt12").ar(1000).build()
+        );
 
         private List<TermekMennyisegHozzaadasCommand> getTermekMennyisegHozzaadasCommandList() {
             return List.of(
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12345").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12335").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1232345").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12344345").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12134235").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("23212345").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("16752345").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("123226345").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("121134354345").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("113344512345").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1234133425").mennyiseg(1).build(),
-                    TermekMennyisegHozzaadasCommand.builder().vonalkod("1221421345").mennyiseg(1).build()
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("01").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("02").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("03").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("04").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("05").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("06").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("07").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("08").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("09").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("10").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("11").mennyiseg(1).build(),
+                    TermekMennyisegHozzaadasCommand.builder().vonalkod("12").mennyiseg(1).build()
             );
         }
 
         @BeforeEach
         void setUp() {
             kosarViewDTO = kosarService.kosarViewCreate();
+            termekService.saveAll(termekek);
+
         }
 
         @AfterEach
         void tearDown() {
             kosarService.deleteKosarById(kosarViewDTO.getKosarId());
+            termekService.deleteAll(termekek);
         }
 
         @Test
         void hozzaad1Elem() {
             TermekMennyisegHozzaadasCommand command = TermekMennyisegHozzaadasCommand.builder()
                     .mennyiseg(1)
-                    .vonalkod("12345")
+                    .vonalkod("01")
                     .build();
             kosarViewDTO = kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), command);
 
             assertThat(kosarViewDTO.getTermekMennyisegDtoList())
                     .extracting(TermekMennyisegDto::getNev)
-                    .containsExactlyInAnyOrder("víz");
+                    .containsExactlyInAnyOrder("Teszt1");
         }
 
         @Test
@@ -78,25 +99,25 @@ class KosarServiceTest {
             kosarViewDTO = kosarService.getKosarDtoById(kosarViewDTO.getKosarId());
             assertThat(kosarViewDTO.getTermekMennyisegDtoList())
                     .extracting(TermekMennyisegDto::getNev)
-                    .containsExactlyInAnyOrder("víz",
-                            "kóla",
-                            "sör",
-                            "kenyér",
-                            "Joghurt",
-                            "fanta",
-                            "zsemle",
-                            "bor",
-                            "vodka",
-                            "narancs",
-                            "tüske",
-                            "cigaretta");
+                    .containsExactlyInAnyOrder("Teszt1",
+                            "Teszt2",
+                            "Teszt3",
+                            "Teszt4",
+                            "Teszt5",
+                            "Teszt6",
+                            "Teszt7",
+                            "Teszt8",
+                            "Teszt9",
+                            "Teszt10",
+                            "Teszt11",
+                            "Teszt12");
         }
 
         @Test
         void hozzadEgyElemTobbszor() {
             TermekMennyisegHozzaadasCommand command = TermekMennyisegHozzaadasCommand.builder()
                     .mennyiseg(1)
-                    .vonalkod("12345")
+                    .vonalkod("01")
                     .build();
             kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), command);
             kosarViewDTO = kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), command);
@@ -109,7 +130,7 @@ class KosarServiceTest {
 
             TermekMennyisegHozzaadasCommand command = TermekMennyisegHozzaadasCommand.builder()
                     .mennyiseg(11)
-                    .vonalkod("12345")
+                    .vonalkod("01")
                     .build();
             String message = null;
             try {

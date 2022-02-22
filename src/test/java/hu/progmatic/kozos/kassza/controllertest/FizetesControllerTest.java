@@ -1,9 +1,7 @@
 package hu.progmatic.kozos.kassza.controllertest;
 
 
-import hu.progmatic.kozos.kassza.KosarService;
-import hu.progmatic.kozos.kassza.KosarViewDTO;
-import hu.progmatic.kozos.kassza.TermekMennyisegHozzaadasCommand;
+import hu.progmatic.kozos.kassza.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,15 +25,22 @@ public class FizetesControllerTest {
     @Autowired
     KosarService kosarService;
 
+    @Autowired
+    private TermekService termekService;
+
+
     @Nested
     class ToSzamla {
         KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
+        Termek termek;
 
         @BeforeEach
         void beforeEach() {
+            Termek termek = Termek.builder().vonalkod("01").mennyiseg(30).megnevezes("Teszt1").ar(1000).build();
+            this.termek = termekService.create(termek);
             TermekMennyisegHozzaadasCommand termekMennyisegHozzaadasCommand = TermekMennyisegHozzaadasCommand.builder()
                     .mennyiseg(5)
-                    .vonalkod("5051007149822")
+                    .vonalkod("01")
                     .build();
             kosarViewDTO = kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), termekMennyisegHozzaadasCommand);
 
@@ -47,6 +52,7 @@ public class FizetesControllerTest {
                 kosarService.deleteKosarById(kosarViewDTO.getKosarId());
                 kosarViewDTO = null;
             }
+            termekService.deleteById(termek.getId());
         }
 
         @Test

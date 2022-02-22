@@ -100,7 +100,7 @@ public class TermekService {
     }
 
     public Termek create(Termek termek) {
-        termek.setId(null);
+         termek.setId(null);
         return repository.save(termek);
     }
 
@@ -138,5 +138,9 @@ public class TermekService {
                 throw new KepFeltoltesHibaException();
             }
         }
+    }
+
+    public void deleteAll(List<Termek> termekek) {
+        repository.deleteAll(termekek);
     }
 }

@@ -1,10 +1,7 @@
 package hu.progmatic.kozos.kassza.controllertest;
 
 
-import hu.progmatic.kozos.kassza.KosarService;
-import hu.progmatic.kozos.kassza.KosarViewDTO;
-import hu.progmatic.kozos.kassza.TermekMennyisegDto;
-import hu.progmatic.kozos.kassza.TermekMennyisegHozzaadasCommand;
+import hu.progmatic.kozos.kassza.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,6 +26,10 @@ public class KosarControllerTest {
 
     @Autowired
     KosarService kosarService;
+
+    @Autowired
+    private TermekService termekService;
+
 
     @Test
     @DisplayName("kassza.html megjelenik")
@@ -60,11 +61,15 @@ public class KosarControllerTest {
     class Gombtesztelesek{
 
         private KosarViewDTO kosarViewDTO = kosarService.kosarViewCreate();
+        Termek termek;
+
         @BeforeEach
         void beforeEach() {
+            Termek termek = Termek.builder().vonalkod("01").mennyiseg(30).megnevezes("Teszt1").ar(100).build();
+            this.termek = termekService.create(termek);
             TermekMennyisegHozzaadasCommand termekMennyisegHozzaadasCommand = TermekMennyisegHozzaadasCommand.builder()
                     .mennyiseg(5)
-                    .vonalkod("5051007149822")
+                    .vonalkod("01")
                     .build();
             kosarViewDTO = kosarService.addTermekMennyisegCommand(kosarViewDTO.getKosarId(), termekMennyisegHozzaadasCommand);
 
@@ -76,6 +81,7 @@ public class KosarControllerTest {
                 kosarService.deleteKosarById(kosarViewDTO.getKosarId());
                 kosarViewDTO = null;
             }
+            termekService.deleteById(termek.getId());
         }
 
 
@@ -86,7 +92,7 @@ public class KosarControllerTest {
             mockMvc.perform(
                             post("/kassza/" + kosarViewDTO.getKosarId() + "/addtermek")).andDo(print()).andExpect(status().isOk())
                     .andExpect(content().string(containsString(String.valueOf(kosarViewDTO.getKosarId()))))
-                    .andExpect(content().string(containsString("víz")))
+                    .andExpect(content().string(containsString("Teszt1")))
                     .andExpect(content().string(containsString("500")))
                     .andExpect(content().string(not(containsString("Aktuálisan hozzáadott termék neve"))));
         }
@@ -97,7 +103,7 @@ public class KosarControllerTest {
             mockMvc.perform(
                             post("/kassza/" + kosarViewDTO.getKosarId() + "/addtermekJs")).andDo(print()).andExpect(status().isOk())
                     .andExpect(content().string(containsString(String.valueOf(kosarViewDTO.getKosarId()))))
-                    .andExpect(content().string(containsString("víz")))
+                    .andExpect(content().string(containsString("Teszt1")))
                     .andExpect(content().string(containsString("500")))
                     .andExpect(content().string(not(containsString("Aktuálisan hozzáadott termék neve"))));
         }
@@ -108,7 +114,7 @@ public class KosarControllerTest {
             mockMvc.perform(
                             post("/kassza/" + kosarViewDTO.getKosarId() + "/modosit")).andDo(print()).andExpect(status().isOk())
                     .andExpect(content().string(containsString(String.valueOf(kosarViewDTO.getKosarId()))))
-                    .andExpect(content().string(containsString("víz")))
+                    .andExpect(content().string(containsString("Teszt1")))
                     .andExpect(content().string(containsString("500")))
                     .andExpect(content().string(not(containsString("Aktuálisan hozzáadott termék neve"))));
         }
@@ -118,7 +124,7 @@ public class KosarControllerTest {
         void OsszegTorles() throws Exception {
             mockMvc.perform(post("/kassza/"+ kosarViewDTO.getKosarId() + "/delete/"
                             + kosarViewDTO.getTermekMennyisegDtoList().stream()
-                            .filter(termekMennyisegDto -> termekMennyisegDto.getNev().equals("víz"))
+                            .filter(termekMennyisegDto -> termekMennyisegDto.getNev().equals("Teszt1"))
                     .mapToInt(TermekMennyisegDto::getTermekMennyisegId).findAny().orElseThrow()))
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(content().string(containsString("Végösszeg")))
