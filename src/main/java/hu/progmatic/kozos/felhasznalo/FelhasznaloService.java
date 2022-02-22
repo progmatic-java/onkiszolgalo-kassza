@@ -29,7 +29,7 @@ public class FelhasznaloService implements InitializingBean {
         return felhasznaloRepository.findAll();
     }
 
-    @RolesAllowed(UserType.Roles.ITEM_MODIFYING)
+    @RolesAllowed(UserType.Roles.USER_MODIFYING)
     public void add(UjFelhasznaloCommand command) {
         if (felhasznaloRepository.findByNev(command.getNev()).isPresent()) {
             throw new FelhasznaloLetrehozasException("Ilyen névvel már létezik felhasználó!");

@@ -27,7 +27,7 @@ class FelhasznaloServiceTest {
 
   @Test
   @DisplayName("Felhasználó hozzáadása")
-  @WithMockUser(roles = {UserType.Roles.ITEM_MODIFYING, UserType.Roles.USER_MODIFYING})
+  @WithMockUser(roles =  UserType.Roles.USER_MODIFYING)
   void add() {
     UjFelhasznaloCommand command = new UjFelhasznaloCommand("ujtesztfelhasznalo", "x", UserType.MANAGER, "1111");
     felhasznaloService.add(command);
@@ -36,7 +36,7 @@ class FelhasznaloServiceTest {
 
   @Test
   @DisplayName("Felhasználó létezik hibaüzenet")
-  @WithMockUser(roles = UserType.Roles.ITEM_MODIFYING)
+  @WithMockUser(roles = UserType.Roles.USER_MODIFYING)
   void felhasznaloLetezikHiba() {
     UjFelhasznaloCommand command = new UjFelhasznaloCommand("admin", "x", UserType.MANAGER, "11111");
     FelhasznaloLetrehozasException e = null;
@@ -68,8 +68,8 @@ class FelhasznaloServiceTest {
   @DisplayName("Felhasználó jogosultságok lekérése - user")
   @WithUserDetails(userDetailsServiceBeanName = "myUserDetailsService")
   void userHasRole() {
-    assertTrue(felhasznaloService.hasRole(UserType.Roles.USER_MODIFYING));
-    assertFalse(felhasznaloService.hasRole(UserType.Roles.ITEM_MODIFYING));
+    assertFalse(felhasznaloService.hasRole(UserType.Roles.USER_MODIFYING));
+    assertTrue(felhasznaloService.hasRole(UserType.Roles.ITEM_MODIFYING));
   }
 
   @Test
@@ -82,15 +82,15 @@ class FelhasznaloServiceTest {
 
   @Test
   @DisplayName("Felhasználó jogosultságok lekérése - guest")
-  @WithUserDetails(value = "guest", userDetailsServiceBeanName = "myUserDetailsService")
+  @WithUserDetails(value = "customer", userDetailsServiceBeanName = "myUserDetailsService")
   void guestHasRole() {
-    assertFalse(felhasznaloService.hasRole(UserType.Roles.USER_MODIFYING));
+    assertTrue(felhasznaloService.hasRole(UserType.Roles.PAYING));
     assertFalse(felhasznaloService.hasRole(UserType.Roles.ITEM_MODIFYING));
   }
 
   @Test
   @DisplayName("Felhasználó id lekérése")
-  @WithUserDetails(value = "guest", userDetailsServiceBeanName = "myUserDetailsService")
+  @WithUserDetails(value = "customer", userDetailsServiceBeanName = "myUserDetailsService")
   void userId() {
     Long felhasznaloId = felhasznaloService.getFelhasznaloId();
     assertThat(felhasznaloId)

@@ -86,7 +86,7 @@ public class TermekService {
         }
     }
 
-    public Termek create(Termek termek, TermekMentesCommand kepfeltoltesCommand) throws IOException {
+    public Termek create(Termek termek, TermekMentesCommand kepfeltoltesCommand) {
         termek.setId(null);
         try {
             MultipartFile file = kepfeltoltesCommand.getFile();
