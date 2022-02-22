@@ -1,17 +1,22 @@
 package hu.progmatic.kozos.kassza;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class TermekMentesCommand {
 
     private MultipartFile file;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Integer id;
     @Column(unique = true)
     @NotEmpty(message = "A mező nem lehet üres")

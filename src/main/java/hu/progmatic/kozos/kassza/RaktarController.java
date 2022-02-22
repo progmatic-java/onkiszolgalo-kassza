@@ -33,8 +33,8 @@ public class RaktarController {
 
     @GetMapping("/kassza/raktar/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        Termek formItem = termekService.getById(id);
-        model.addAttribute("formItem", formItem);
+        TermekMentesCommand termekMentesCommand = termekService.getTermekMentesCommandById(id);
+        model.addAttribute("termekMentesCommand", termekMentesCommand);
         return "/kassza/raktar";
     }
 
@@ -57,9 +57,9 @@ public class RaktarController {
     public String create(
             @ModelAttribute("termekMentesCommand") @Valid TermekMentesCommand termekMentesCommand,
             BindingResult bindingResult,
-            Model model) throws IOException {
+            Model model) {
         try {
-            termekService.validacio(termekMentesCommand);
+            termekService.validacioWithCommand(termekMentesCommand);
             //refreshAllTermek(model);
             //clearFormItem(model);
             //model.addAttribute("termekMentesCommand", termekMentesCommand());
@@ -82,14 +82,27 @@ public class RaktarController {
     @PostMapping("/kassza/raktar/{id}")
     public String add(
             @PathVariable Integer id,
-            @ModelAttribute("kepFeltoltesCommand") TermekMentesCommand termekmentesDto,
+            @ModelAttribute("termekMentesCommand") @Valid TermekMentesCommand termekMentesCommand,
             BindingResult bindingResult,
             Model model) throws IOException {
+        try {
+            termekService.validacioWithCommand(termekMentesCommand, id);
+            //refreshAllTermek(model);
+            //clearFormItem(model);
+            //model.addAttribute("termekMentesCommand", termekMentesCommand());
+        } catch (FoglaltTermekException e) {
+            for (Map.Entry<String, String> entry : e.getBindingProperty().entrySet()) {
+                bindingResult.addError(new FieldError("termekMentesCommand",
+                        entry.getKey(),
+                        entry.getValue()));
+            }
+        }
         if (!bindingResult.hasErrors()) {
-            termekmentesDto.setId(id);
-            termekService.save(termekmentesDto);
+            termekMentesCommand.setId(id);
+            termekService.update(termekMentesCommand);
             refreshAllTermek(model);
             clearFormItem(model);
+            model.addAttribute("termekMentesCommand", termekMentesCommand());
         }
         return items();
     }

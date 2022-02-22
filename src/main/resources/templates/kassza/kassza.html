@@ -222,6 +222,7 @@
     <script>
         $(document).ready(function () {
             $("#hitelesitesModal").on('shown.bs.modal', function () {
+                $(this).find('#hitelesito-kod').val("");
                 $(this).find('#hitelesito-kod').focus();
             });
         });

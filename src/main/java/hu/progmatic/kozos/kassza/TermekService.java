@@ -19,20 +19,12 @@ public class TermekService {
     private TermekRepository repository;
 
 
-    public Termek add(Termek termek) {
-        return repository.save(termek);
-    }
-
     public Termek getById(Integer id) {
         return repository.getById(id);
     }
 
     public void saveAll(List<Termek> initItems) {
         repository.saveAll(initItems);
-    }
-
-    public List<Termek> findAllbyNev(String nev) {
-        return repository.findAllByMegnevezesContains(nev);
     }
 
     public List<Termek> findAll() {
@@ -68,6 +60,21 @@ public class TermekService {
         repository.deleteById(id);
     }
 
+    public TermekMentesCommand getTermekMentesCommandById(Integer id){
+        return termekToTermekMentesCommand(repository.getById(id));
+    }
+
+    public TermekMentesCommand termekToTermekMentesCommand(Termek termek){
+        return TermekMentesCommand.builder()
+                .id(termek.getId())
+                .vonalkod(termek.getVonalkod())
+                .ar(termek.getAr())
+                .mennyiseg(termek.getMennyiseg())
+                .megnevezes(termek.getMegnevezes())
+                .hitelesitesSzukseges(termek.isHitelesitesSzukseges())
+                .build();
+    }
+
     public void validacio(Termek termek) {
         Map<String, String> uniqueItemMap = new HashMap<>();
         if (repository.findByMegnevezes(termek.getMegnevezes()) != null) {
@@ -81,21 +88,27 @@ public class TermekService {
         }
     }
 
-    public Termek create(Termek termek, TermekMentesCommand kepfeltoltesCommand) {
-        termek.setId(null);
-        try {
-            MultipartFile file = kepfeltoltesCommand.getFile();
-
-            Kep kep = Kep.builder()
-                    .contentType(file.getContentType())
-                    .kepAdat(file.getBytes())
-                    .meret(file.getSize())
-                    .build();
-            termek.setKep(kep);
-        } catch (IOException e) {
-            throw new KepFeltoltesHibaException();
+    public void validacio(Termek termek, Integer termekId) {
+        Termek lekerdezettTermek = repository.findByMegnevezes(termek.getMegnevezes());
+        Map<String, String> uniqueItemMap = new HashMap<>();
+        if (lekerdezettTermek != null && !lekerdezettTermek.getId().equals(termekId)) {
+            uniqueItemMap.put("megnevezes", String.format("%s nevű termék már van raktáron", termek.getMegnevezes()));
         }
-        return repository.save(termek);
+        lekerdezettTermek = repository.findByVonalkod(termek.getVonalkod());
+        if (lekerdezettTermek != null && !lekerdezettTermek.getId().equals(termekId)) {
+            uniqueItemMap.put("vonalkod", String.format("%s számú vonalkód már foglalt", termek.getVonalkod()));
+        }
+        if (!uniqueItemMap.isEmpty()) {
+            throw new FoglaltTermekException(uniqueItemMap);
+        }
+    }
+
+    public void validacioWithCommand(TermekMentesCommand termekMentesCommand){
+        validacio(termekMentesCommandToTermek(termekMentesCommand));
+    }
+
+    public void validacioWithCommand(TermekMentesCommand termekMentesCommand, Integer termekId){
+        validacio(termekMentesCommandToTermek(termekMentesCommand), termekId);
     }
 
     public Termek create(TermekMentesCommand termekMentesCommand) {
@@ -116,22 +129,6 @@ public class TermekService {
     }
 
 
-    public void validacio(TermekMentesCommand termekMentesCommand) {
-        Termek termek = termekMentesCommandToTermek(termekMentesCommand);
-        Map<String, String> uniqueItemMap = new HashMap<>();
-        if (repository.findByMegnevezes(termek.getMegnevezes()) != null) {
-            uniqueItemMap.put("megnevezes", String.format("%s nevű termék már van raktáron", termek.getMegnevezes()));
-        }
-        if (repository.findByVonalkod(termek.getVonalkod()) != null) {
-            uniqueItemMap.put("vonalkod", String.format("%s számú vonalkód már foglalt", termek.getVonalkod()));
-        }
-        if (!uniqueItemMap.isEmpty()) {
-            throw new FoglaltTermekException(uniqueItemMap);
-        }
-    }
-
-
-
     public Termek create(Termek termek) {
          termek.setId(null);
         return repository.save(termek);
@@ -146,7 +143,7 @@ public class TermekService {
 
     }
 
-    public void save(TermekMentesCommand termekmentes) {
+    public void update(TermekMentesCommand termekmentes) {
         Termek termek = repository.getById(termekmentes.getId());
         termek.setMennyiseg(termekmentes.getMennyiseg());
         termek.setAr(termekmentes.getAr());

@@ -2,10 +2,12 @@ package hu.progmatic.kozos.kassza.servicetest;
 
 import hu.progmatic.kozos.kassza.FoglaltTermekException;
 import hu.progmatic.kozos.kassza.Termek;
+import hu.progmatic.kozos.kassza.TermekMentesCommand;
 import hu.progmatic.kozos.kassza.TermekService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -128,7 +130,7 @@ class TermekServiceTest {
         void addUniqueNev() {
             String exceptionMessageMegnevezes = null;
             String exceptionMessageVonalkod = null;
-            try{
+            try {
                 service.validacio(
                         Termek.builder()
                                 .megnevezes("Unique1Teszt")
@@ -138,7 +140,7 @@ class TermekServiceTest {
                                 .build()
 
                 );
-            }catch (FoglaltTermekException e){
+            } catch (FoglaltTermekException e) {
                 exceptionMessageMegnevezes = e.getBindingProperty().get("megnevezes");
                 exceptionMessageVonalkod = e.getBindingProperty().get("vonalkod");
             }
@@ -152,7 +154,7 @@ class TermekServiceTest {
         void addUniqueVonalkod() {
             String exceptionMessageMegnevezes = null;
             String exceptionMessageVonalkod = null;
-            try{
+            try {
                 service.validacio(
                         Termek.builder()
                                 .megnevezes("Unique12Teszt")
@@ -162,7 +164,7 @@ class TermekServiceTest {
                                 .build()
 
                 );
-            }catch (FoglaltTermekException e){
+            } catch (FoglaltTermekException e) {
                 exceptionMessageMegnevezes = e.getBindingProperty().get("megnevezes");
                 exceptionMessageVonalkod = e.getBindingProperty().get("vonalkod");
             }
@@ -176,7 +178,7 @@ class TermekServiceTest {
         void addUniqueVonalkodEsNev() {
             String exceptionMessageMegnevezes = null;
             String exceptionMessageVonalkod = null;
-            try{
+            try {
                 service.validacio(
                         Termek.builder()
                                 .megnevezes("Unique1Teszt")
@@ -186,7 +188,7 @@ class TermekServiceTest {
                                 .build()
 
                 );
-            }catch (FoglaltTermekException e){
+            } catch (FoglaltTermekException e) {
                 exceptionMessageMegnevezes = e.getBindingProperty().get("megnevezes");
                 exceptionMessageVonalkod = e.getBindingProperty().get("vonalkod");
             }
@@ -197,4 +199,102 @@ class TermekServiceTest {
             assertEquals("1200000000 számú vonalkód már foglalt", exceptionMessageVonalkod);
         }
     }
+
+
+    @Nested
+    class unqieNevVonalkodWithId {
+
+        @BeforeEach
+        void setUp() {
+            service.create(
+                    Termek.builder()
+                            .megnevezes("Unique1Teszt")
+                            .ar(270)
+                            .vonalkod("1200000000")
+                            .mennyiseg(2)
+                            .build());
+            service.create(
+                    Termek.builder()
+                            .megnevezes("Unique2Teszt")
+                            .ar(270)
+                            .vonalkod("1100000000")
+                            .mennyiseg(2)
+                            .build());
+        }
+
+        @AfterEach
+        void tearDown() {
+            service.deleteByVonalkod("1200000000");
+            service.deleteByVonalkod("1100000000");
+        }
+
+        @Test
+        void addUniqueNev() {
+            String exceptionMessageMegnevezes = null;
+            Integer id = service.getByVonalkod("1200000000").getId();
+            try {
+                service.validacioWithCommand(
+                        TermekMentesCommand.builder()
+                                .megnevezes("Unique1Teszt")
+                                .ar(270)
+                                .vonalkod("1300000000")
+                                .mennyiseg(2)
+                                .build(), id);
+            } catch (FoglaltTermekException e) {
+                exceptionMessageMegnevezes = e.getBindingProperty().get("megnevezes");
+            }
+
+            assertNull(exceptionMessageMegnevezes);
+
+            try {
+                service.validacioWithCommand(
+                        TermekMentesCommand.builder()
+                                .megnevezes("Unique2Teszt")
+                                .ar(270)
+                                .vonalkod("1300000000")
+                                .mennyiseg(2)
+                                .build(), id);
+            } catch (FoglaltTermekException e) {
+                exceptionMessageMegnevezes = e.getBindingProperty().get("megnevezes");
+            }
+            assertEquals("Unique2Teszt nevű termék már van raktáron", exceptionMessageMegnevezes);
+        }
+
+        @Test
+        void addUniqueVonalkodEsNev() {
+            String exceptionMessageVonalkod = null;
+            Integer id = service.getByVonalkod("1200000000").getId();
+            try {
+                service.validacioWithCommand(
+                        TermekMentesCommand.builder()
+                                .megnevezes("Unique1Teszt")
+                                .ar(270)
+                                .vonalkod("1200000000")
+                                .mennyiseg(2)
+                                .build(), id);
+            } catch (FoglaltTermekException e) {
+                exceptionMessageVonalkod = e.getBindingProperty().get("vonalkod");
+            }
+
+            assertNull(exceptionMessageVonalkod);
+
+            try {
+                service.validacioWithCommand(
+                        service.termekToTermekMentesCommand(Termek.builder()
+                                .megnevezes("Unique1Teszt")
+                                .ar(270)
+                                .vonalkod("1100000000")
+                                .mennyiseg(2)
+                                .build()), id);
+            } catch (FoglaltTermekException e) {
+                exceptionMessageVonalkod = e.getBindingProperty().get("vonalkod");
+            }
+
+            assertNotNull(exceptionMessageVonalkod);
+
+            assertEquals("1100000000 számú vonalkód már foglalt", exceptionMessageVonalkod);
+        }
+    }
+
+
 }

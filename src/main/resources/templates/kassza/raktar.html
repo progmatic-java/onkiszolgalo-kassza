@@ -130,8 +130,8 @@
         </tbody>
     </table>
 </div>
-<h3 th:if="${formItem.id == null}">Termék hozzáadása</h3>
-<h3 th:if="${formItem.id != null}">Termék módosítása</h3>
+<h3 th:if="${termekMentesCommand.id == null}">Termék hozzáadása</h3>
+<h3 th:if="${termekMentesCommand.id != null}">Termék módosítása</h3>
 <form th:action="@{'/kassza/raktar/{id}' (id=${termekMentesCommand.id})}"
       method="post" th:object="${termekMentesCommand}" class="row" enctype="multipart/form-data">
     <div class="col">
@@ -216,8 +216,8 @@
     </div>
 
     <div class="col">
-        <input th:if="${formItem.id == null}" class="btn btn-primary" type="submit" value="Hozzáad"/>
-        <input th:if="${formItem.id != null}" class="btn btn-primary" type="submit" value="Módosít"/>
+        <input th:if="${termekMentesCommand.id == null}" class="btn btn-primary" type="submit" value="Hozzáad"/>
+        <input th:if="${termekMentesCommand.id != null}" class="btn btn-primary" type="submit" value="Módosít"/>
     </div>
 </form>
 <form th:action="@{/}" style="padding-top: 2%">
