@@ -66,9 +66,9 @@
     </script>
 </head>
 <body>
-<h1>Bentragadt Kosarak törlése</h1>
+<h1>Kosárban lévő termékek</h1>
 <h2 th:text="'A kosár létrehozásának dátuma: ' + ${kosar.letrehozasDatuma}" th:hidden="${kosar.letrehozasDatuma == null}"></h2>
-
+<h2 th:hidden="${kosar.letrehozasDatuma != null}" style="position: fixed; text-align: center; font-size: 100px; color: darkblue; top: 300px; left:450px"> Üres a kosár!</h2>
 <table class="table table-striped" th:hidden="${kosar.letrehozasDatuma == null}">
     <thead>
     <tr style="font-size: 30px;">
