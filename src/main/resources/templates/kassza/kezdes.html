@@ -88,7 +88,10 @@
         });
 
         function sendPost() {
-            document.getElementById("beolvasoForm").submit();
+            //document.getElementById("beolvasoForm").submit();
+            if (document.getElementById("isJogosult").checked === false){
+                document.getElementById("kijelentkezes").hidden = !document.getElementById("kijelentkezes").hidden
+            }
         }
     </script>
 
@@ -116,7 +119,14 @@ th:object="${allTermek}"
     <a type="button" th:hidden="${!itemModifying}" style="position: fixed; bottom: 0;right:0; width: 150px" class="button-76"  href="bankjegyleltar.html" th:href="@{/kassza/kosarlista}">Kosar</a>
 <a type="button" th:hidden="${!isUserModifying}" style="position: fixed; bottom: 0;right:170px; width: 150px" class="button-76"  href="bankjegyleltar.html" th:href="@{/felhasznalo}">Admin</a>
 
+<!-- JavaSript rész-->
 <form th:action="@{/logout}" method="post">
+    <input type="submit" th:hidden="${!itemModifying}" style=" position: fixed; top:40px;right:0; width: 150px" class="button-76" id="kijelentkezes"  value="Kijelentkezes">
+</form>
+<form>
+    <input id="isJogosult" type="checkbox" th:checked="${itemModifying}" style="visibility: hidden">
+</form>
+<!--<form th:action="@{/logout}" method="post">
 <input type="submit" th:hidden="${!kijelentkezesCommand.isJogosult()}" style=" position: fixed; top:40px;right:0; width: 150px" class="button-76"  value="Kijelentkezes">
 </form>
 <form id="beolvasoForm" class="row"
@@ -130,6 +140,6 @@ th:object="${allTermek}"
                    th:checked="*{isJogosult}">
         </label>
     </div>
-</form>
+</form>-->
 </body>
 </html>
