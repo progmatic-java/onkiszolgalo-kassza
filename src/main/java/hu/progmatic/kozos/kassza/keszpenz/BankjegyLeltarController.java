@@ -36,8 +36,10 @@ public class BankjegyLeltarController {
         if(!bindingResult.hasErrors()){
             bankjegyService.editById(id,formItem.getMennyiseg());
         }
-        model.addAttribute("allBankjegy", bankjegyService.findAll());
         model.addAttribute("formItem", Bankjegy.builder().build());
+        model.addAttribute("allBankjegy", bankjegyService.findAll());
+        //model.addAttribute("allBankjegy", bankjegyService.findAll());
+        //model.addAttribute("formItem", formItem);
         return "/kassza/bankjegyleltar";
     }
 

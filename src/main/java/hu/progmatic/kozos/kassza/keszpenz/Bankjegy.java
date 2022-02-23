@@ -5,6 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -18,6 +20,7 @@ public class Bankjegy {
     private Integer id;
     @Column(unique = true)
     private Integer ertek;
+    @NotNull(message ="A bankjegy mennyisége nem lehet 0!")
     @Min(0)
     @Max(100000)
     private Integer mennyiseg;

@@ -539,7 +539,7 @@
                       th:action="@{'/kassza/{kosarId}/hitelsites'(kosarId=${kosar.kosarId})}" method="post">
                     <div class="form-group">
                         <label for="hitelesito-kod" class="col-form-label">Hitelesítő kód</label>
-                        <input type="text" class="form-control" id="hitelesito-kod" th:field="*{kod}">
+                        <input type="password" class="form-control" id="hitelesito-kod" th:field="*{kod}">
                         <hr>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezár</button>
                         <input type="submit" class="btn btn-primary" value="Küldés" data-bs-dismiss="modal"/>
