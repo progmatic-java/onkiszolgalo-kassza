@@ -10,11 +10,11 @@
             border-radius: 8px;
             bottom: 0;
             right: 0;
-            background-color: darkblue;
+            background-color: #0ca3d2;
             border: 0;
             border-radius: .25rem;
             box-sizing: border-box;
-            color: #fff;
+            color: #032e83;
             cursor: pointer;
             font-family: Helvetica;
             font-size: 1.125rem; /* 18px */
@@ -101,13 +101,13 @@
 <audio autoplay="autoplay">
     <source src="/static/hikariare.mp3" type="audio/mpeg"></source>
 </audio>
-<h1 style="text-align: center; background-color: darkblue; color: white; height: 55px; padding-top: 5px">Üdvözöljük!</h1>
-<h2 style="position: fixed; bottom: 50px;left: 450px;font-size: 30px; color: darkblue">
+<h1 style="text-align: center; background-color: #0ca3d2; color: #032e83; height: 55px; padding-top: 5px">Üdvözöljük!</h1>
+<h2 style="position: fixed; bottom: 100px;left: 450px;font-size: 30px; color: #032e83">
     Vásárlás kezdéséhez nyomja meg a gombot
 </h2>
 <div class="kep">
     <a href="kassza.html" th:href="@{/kassza/kassza}">
-        <img src="../../images/kassza/images.png" th:src="@{/images/kassza/images.png}" alt="">
+        <img src="../../images/kassza/images.png" th:src="@{/images/kassza/images.png}" >
     </a>
 </div>
 <p th:action="@{/kassza/raktar}" method="post"
@@ -120,8 +120,8 @@ th:object="${allTermek}"
 <a type="button" th:hidden="${!isUserModifying}" style="position: fixed; bottom: 0;right:170px; width: 150px" class="button-76"  href="bankjegyleltar.html" th:href="@{/felhasznalo}">Admin</a>
 
 <!-- JavaSript rész-->
-<form th:action="@{/logout}" method="post">
-    <input type="submit" th:hidden="${!itemModifying}" style=" position: fixed; top:40px;right:0; width: 150px" class="button-76" id="kijelentkezes"  value="Kijelentkezes">
+<form th:action="@{/logout}" method="post" style=" position: fixed; top:0;right:0; width: 150px">
+    <input type="submit" th:hidden="${!itemModifying}"  class="button-76" id="kijelentkezes"  value="Kijelentkezes">
 </form>
 <form>
     <input id="isJogosult" type="checkbox" th:checked="${itemModifying}" style="visibility: hidden">

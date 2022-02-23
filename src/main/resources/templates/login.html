@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <title>Közös projekt</title>
+
     <style>
         body {
             font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
@@ -189,7 +190,7 @@
     <div th:if="${param.logout}" class="alert alert-info">
         Kijelentkeztél
     </div>
-    <form th:action="@{/login}" method="post" style="position:fixed;left: 650px; right: auto; top: 300px; bottom: auto; width: 400px" >
+    <form th:action="@{/login}" method="post" style="position:fixed;left: 650px; right: auto; top: 300px; bottom: auto; width: 400px" class="loginbox" autocomplete="off">
         <div><label style="color: white"> Felhasználónév: <input type="text"  class="form-control"name="username"/> </label></div>
         <br>
         <div><label style="color: white"> Jelszó: <input type="password" class="form-control" name="password"/> </label></div>

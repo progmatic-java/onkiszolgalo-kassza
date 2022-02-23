@@ -13,10 +13,11 @@
     <title>Önkiszolgáló kassza</title>
     <style th:inline="text">
 
+
         /* CSS */
         .button-79 {
             backface-visibility: hidden;
-            background: #332cf2;
+            background: #0ca3d2;
             border: 0;
             border-radius: .375rem;
             box-sizing: border-box;
@@ -129,7 +130,7 @@
             border-radius: 8px;
             bottom: 0;
             right: 0;
-            background-color: darkblue;
+            background-color: #0ca3d2;
             border: 0;
             border-radius: .25rem;
             box-sizing: border-box;
@@ -166,7 +167,7 @@
             width: 250px;
             height: 150px;
             align-items: center;
-            background: darkblue;
+            background: #0ca3d2;
             border: 0;
             border-radius: 8px;
             box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
@@ -229,17 +230,17 @@
     </script>
 </head>
 <body>
-<h1 style="text-align: center; background-color: darkblue; color: white; height: 55px; padding-top: 5px">
+<h1 style="text-align: center; background-color: #0ca3d2; color: white; height: 55px; padding-top: 5px">
     Üdvözöljük!</h1>
 <h2 th:hidden="${!isErvenytelenKod}" style="position: fixed; bottom: 210px;font-size: 31px;color:white;background:red">
     Hibás hitelesítő kód!</h2>
-<h2 style="position: fixed; bottom: 160px; color: darkblue; font-size: 31px"
+<h2 style="position: fixed; bottom: 160px; color: #0ca3d2; font-size: 31px"
     th:text="${!isNincsElegTermek} ? 'Kérjük olvassa le a Terméket, vagy válasszon a listából! ': ${vonalkodBeolvasasHiba}"
     th:style="${!isNincsElegTermek} ? 'position: fixed; bottom: 160px; color: darkblue; font-size: 31px':'position: fixed; bottom: 160px;font-size: 31px;color:white;background:red'"></h2>
 <div class="container" style="margin-top: -10px;">
     <div class="row">
         <div class="col-6"
-             style="border-top: 3px solid darkblue;border-right: 3px solid darkblue; border-bottom: 3px solid darkblue; position: fixed; left: 0; background-color: whitesmoke; height: 470px">
+             style="border-top: 3px solid #0ca3d2;border-right: 3px solid #0ca3d2; border-bottom: 3px solid #0ca3d2; position: fixed; left: 0; background-color: whitesmoke; height: 470px">
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
                     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
                     crossorigin="anonymous">
@@ -278,7 +279,7 @@
                 <thead>
                 <tr style="font-size: 30px;">
                     <h3>Kosár tartalma:</h3></tr>
-                <tr style="border-bottom: 1px solid darkblue;background-color: white;">
+                <tr style="border-bottom: 1px solid #0ca3d2;background-color: white;">
                     <td style="width: 150px">TERMÉK NEVE</td>
                     <td style="width: 100px">EGYSÉGÁR</td>
                     <td style="width: 50px">DB</td>
@@ -289,7 +290,7 @@
                 </thead>
                 <tbody class="list-group2">
                 <tr th:each="termekmennyiseg, iter : ${kosar.getTermekMennyisegDtoList()}"
-                    style="border-right: 1px solid darkblue"
+                    style="border-right: 1px solid #0ca3d2"
                     th:style="${iter.index % 2 == 0} ? 'background-color:#fff' : 'background-color:whitesmoke'">
                     <th style="width: 150px" scope="col" th:text="${termekmennyiseg.nev}">Termék neve</th>
                     <th style="width: 100px" scope="col" th:text="${termekmennyiseg.ar}">Ár</th>
@@ -366,7 +367,7 @@
             >
                 <div class="col">
                     <label>
-                        <select th:field="*{vonalkod}" class="form-select" style="color: darkblue"
+                        <select th:field="*{vonalkod}" class="form-select" style="color: #032e83"
                                 th:hidden="${isTermekMennyisegEdit}">
                             <option th:selected="${type.vonalkod == termekMennyisegHozzaadasCommand.vonalkod}"
                                     th:each="type : ${allTermek}"
@@ -378,7 +379,7 @@
                 <div class="col">
                     <label>
                         <input type="number"
-                               style="color: darkblue"
+                               style="color: #0ca3d2"
                                class="form-control"
                                placeholder="Mennyiség"
                                th:field="*{mennyiseg}"
@@ -400,8 +401,8 @@
         <div class="col-2">
         </div>
         <div class="col-3"
-             style="font-size: 50px;text-align: center;border: 3px solid darkblue; background-color: whitesmoke; border-right: whitesmoke; position: fixed; right: 0; height: 300px; padding-top: 100px">
-            <img style="width: 382px; height: 295px; position: fixed; right: 0px; top: 55px;"
+             style="font-size: 50px;text-align: center;border: 3px solid #0ca3d2; background-color: whitesmoke; border-right: whitesmoke; position: fixed; right: 0; height: 330px; padding-top: 100px">
+            <img style="width: 382px; height: 325px; position: fixed; right: 0px; top: 55px;"
                  alt="istockphoto-1206806317-170667a.jpg" th:if="${kosar.termekMennyisegDtoList.size()!=0}"
                  th:src="@{'/kassza/raktar/{id}/kep'(id=${kosar.termekMennyisegDtoList.get(0).termekId})}">
             <!--             th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Termék neve' : ${kosar.getTermekMennyisegDtoList().get(0).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(0).getMennyiseg()} + ' db'">-->
@@ -410,7 +411,7 @@
     </div>
     <div class="row" style="text-align: center; font-size: 30px">
         <div class="col-5"
-             style="border-bottom: 1px solid darkblue; background-color: whitesmoke;right: auto; color: darkblue; text-align: center; height: 150px; width: 1050px;position: fixed;bottom: 0; left: 250px;padding-top: 50px"
+             style="border-bottom: 1px solid #032e83; background-color: whitesmoke;right: auto; color: #032e83; text-align: center; height: 150px; width: 1050px;position: fixed;bottom: 0; left: 250px;padding-top: 50px"
              th:text="'Végösszeg: '+${kosar.vegosszeg}+'Ft'">
             Végösszeg: 0 Ft
         </div>
@@ -515,7 +516,7 @@
     <div class="col">
         <label>
             <input hidden id="beolvasoVonalkod" type="number"
-                   style="color: darkblue"
+                   style="color: #0ca3d2"
                    class="form-control"
                    th:field="*{vonalkod}">
         </label>
