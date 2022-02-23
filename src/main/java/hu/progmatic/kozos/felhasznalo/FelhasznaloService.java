@@ -29,6 +29,17 @@ public class FelhasznaloService implements InitializingBean {
         return felhasznaloRepository.findAll();
     }
 
+    public ModositFelhasznalo getModositFelhasznaloById(Long id){
+        Felhasznalo felhasznalo = felhasznaloRepository.getById(id);
+        return ModositFelhasznalo.builder()
+                .felhasznaloId(felhasznalo.getId())
+                .nev(felhasznalo.getNev())
+                .role(felhasznalo.getRole())
+                .hitelesitoKod(felhasznalo.getHitelesitoKod())
+                .build();
+    }
+
+
     @RolesAllowed(UserType.Roles.USER_MODIFYING)
     public void add(UjFelhasznaloCommand command) {
         if (felhasznaloRepository.findByNev(command.getNev()).isPresent()) {
@@ -43,7 +54,7 @@ public class FelhasznaloService implements InitializingBean {
         felhasznaloRepository.save(felhasznalo);
     }
 
-    @RolesAllowed(UserType.Roles.ITEM_MODIFYING)
+    @RolesAllowed(UserType.Roles.USER_MODIFYING)
     public void delete(Long id) {
         felhasznaloRepository.deleteById(id);
     }
@@ -74,5 +85,12 @@ public class FelhasznaloService implements InitializingBean {
 
     private MyUserDetails getMyUserDetails() {
         return (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public void modosit(ModositFelhasznalo modositFelhasznalo, Long id) {
+        Felhasznalo felhasznalo = felhasznaloRepository.getById(id);
+        felhasznalo.setRole(modositFelhasznalo.getRole());
+        felhasznalo.setHitelesitoKod(modositFelhasznalo.getHitelesitoKod());
+        felhasznaloRepository.save(felhasznalo);
     }
 }

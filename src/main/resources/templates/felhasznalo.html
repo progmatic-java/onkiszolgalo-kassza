@@ -22,7 +22,8 @@
         <th scope="col">Felhasználónév</th>
         <th scope="col">Role</th>
         <th scope="col">Hitelesítőkód</th>
-        <th scope="col"></th>
+        <th scope="col">Módosítás</th>
+        <th scope="col">Törlés</th>
     </tr>
     </thead>
     <tbody>
@@ -30,56 +31,107 @@
         <th scope="row" th:text="${felhasznalo.id}">1</th>
         <td th:text="${felhasznalo.nev}">Minta név</td>
         <td th:text="${felhasznalo.role}">ADMIN</td>
-        <td th:text="${felhasznalo.hitelesitoKod}">Kód</td>
+        <td th:text="${felhasznalo.hitelesitoKod.isEmpty() ? 'Nincs' : felhasznalo.hitelesitoKod }">Kód</td>
+        <td>
+            <form th:if="${hasUserWriteRole}"
+                  th:action="@{'/felhasznalo/modosit/{id}'(id=${felhasznalo.id})}" method="get">
+                <input type="submit" class="btn btn-danger" th:href="@{/felhasznalo}" value="Modosít"/>
+            </form>
+        </td>
         <td>
             <form th:if="${hasUserWriteRole}"
                   th:action="@{'/felhasznalo/delete/{id}'(id=${felhasznalo.id})}" method="post">
                 <input type="submit" class="btn btn-danger" th:href="@{/felhasznalo}" value="Törlés"/>
             </form>
         </td>
+
     </tr>
     </tbody>
 </table>
 
 <hr>
-<h3 th:if="${hasUserWriteRole}">Új felhasználó létrehozása</h3>
-<form th:if="${hasUserWriteRole}"
-      th:action="@{/felhasznalo}" method="post" th:object="${ujFelhasznaloCommand}">
-    <div class="form-row">
-        <div th:if="${ujFelhasznaloError != null}"
-             class="alert alert-danger"
-             th:text="${ujFelhasznaloError}">
-            Hibaüzenet
+
+<div th:if="${modositFelhasznalo.felhasznaloId == null}">
+    <h3 th:if="${hasUserWriteRole}">Új felhasználó létrehozása</h3>
+    <form th:if="${hasUserWriteRole}"
+          th:action="@{/felhasznalo}" method="post" th:object="${ujFelhasznaloCommand}">
+        <div class="form-row">
+            <div th:if="${ujFelhasznaloError != null}"
+                 class="alert alert-danger"
+                 th:text="${ujFelhasznaloError}">
+                Hibaüzenet
+            </div>
+            <label>Felhasználónév
+                <input type="text"
+                       class="form-control"
+                       name="nev"
+                       placeholder="Felhasználónév"
+                       th:field="*{nev}"/>
+            </label>
+            <label>Jelszó
+                <input type="password"
+                       class="form-control"
+                       name="jelszo"
+                       placeholder="Jelszó"
+                       th:field="*{jelszo}"/>
+            </label>
+            <label>Role
+                <select th:field="*{role}" class="form-select">
+                    <option th:each="roleOption : ${allRole}" th:value="${roleOption}" th:text="${roleOption}"></option>
+                </select>
+            </label>
+            <label>Hitelesítő kód
+                <input type="text"
+                       class="form-control"
+                       name="hitelesitoKod"
+                       placeholder="Hitelesítő kód"
+                       th:field="*{hitelesitoKod}"/>
+            </label>
+            <input class="btn btn-primary" type="submit" value="Hozzáad"/>
         </div>
-        <label>
-            <input type="text"
-                   class="form-control"
-                   name="nev"
-                   placeholder="Felhasználónév"
-                   th:field="*{nev}"/>
-        </label>
-        <label>
-            <input type="password"
-                   class="form-control"
-                   name="jelszo"
-                   placeholder="Jelszó"
-                   th:field="*{jelszo}"/>
-        </label>
-        <label>
-            <select th:field="*{role}" class="form-select">
-                <option th:each="roleOption : ${allRole}" th:value="${roleOption}" th:text="${roleOption}"></option>
-            </select>
-        </label>
-        <label>
-            <input type="text"
-                   class="form-control"
-                   name="hitelesitoKod"
-                   placeholder="Hitelesítő kód"
-                   th:field="*{hitelesitoKod}"/>
-        </label>
-        <input class="btn btn-primary" type="submit" value="Hozzáad"/>
-    </div>
-</form>
+    </form>
+</div>
+
+<div th:if="${modositFelhasznalo.felhasznaloId != null}">
+    <h3 th:if="${hasUserWriteRole}">Felhasználó adatainak módosítása</h3>
+    <form th:if="${hasUserWriteRole}"
+          th:action="@{'/felhasznalo/modosit/{felhasznaloId}' (felhasznaloId =${modositFelhasznalo.felhasznaloId})}"
+          method="post" th:object="${modositFelhasznalo}">
+        <div class="form-row">
+            <label th:hidden="true">
+                <input type="text"
+                       class="form-control"
+                       name="nev"
+                       placeholder="Felhasználónév"
+                       th:field="*{felhasznaloId}"
+                       th:disabled="true"/>
+            </label>
+            <label>Felhasználónév
+                <input type="text"
+                       class="form-control"
+                       name="nev"
+                       placeholder="Felhasználónév"
+                       th:field="*{nev}"
+                       th:disabled="true"/>
+            </label>
+            <label>Role
+                <select th:field="*{role}" class="form-select">
+                    <option th:selected="${modositFelhasznalo.role}"
+                            th:each="roleOption : ${allRole}" th:value="${roleOption}" th:text="${roleOption}"></option>
+                </select>
+            </label>
+            <label>Hitelesitő kód
+                <input type="text"
+                       class="form-control"
+                       name="hitelesitoKod"
+                       placeholder="Hitelesítő kód"
+                       th:field="*{hitelesitoKod}"/>
+            </label>
+            <input class="btn btn-primary" type="submit" value="Módosít"/>
+        </div>
+    </form>
+</div>
+
 <h3 th:text="'Bejelntkezett felhasználó id: ' + ${userId}">Felhasználó id: 2</h3>
 </body>
 </html>
