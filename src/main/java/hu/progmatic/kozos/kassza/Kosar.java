@@ -5,6 +5,7 @@ import hu.progmatic.kozos.kassza.keszpenz.BedobottBankjegy;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class Kosar {
 
     @Enumerated(EnumType.STRING)
     private Hitelesites hitelesites;
+
+    private LocalDateTime letrehozasDatuma;
 
     public static Integer kosarVegosszeg(Kosar kosar) {
         return kosar.getTermekMennyisegek().stream()

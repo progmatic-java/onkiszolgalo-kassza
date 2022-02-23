@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +15,7 @@ import java.util.Optional;
 @Transactional
 public class KosarService {
 
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
     private KosarRepositoryProba kosarRepository;
@@ -35,9 +38,11 @@ public class KosarService {
         kosarRepository.deleteAll(kosarak);
         Kosar kosar = kosarRepository.save(Kosar.builder()
                 .hitelesites(Hitelesites.NEM_KELL_HITELESITENI)
+                .letrehozasDatuma(LocalDateTime.now())
                 .build());
         return KosarViewDTO.builder()
                 .kosarId(kosar.getId())
+                .letrehozasDatuma(dateTimeFormatter.format(kosar.getLetrehozasDatuma()))
                 .build();
     }
 
@@ -50,7 +55,7 @@ public class KosarService {
                 .findAny();
         if (termekMennyisegOptional.isEmpty()) {
             Termek termek = termekService.getByVonalkod(command.getVonalkod());
-            if (termek.isHitelesitesSzukseges() && kosar.getHitelesites() != Hitelesites.HITELESITVE){
+            if (termek.isHitelesitesSzukseges() && kosar.getHitelesites() != Hitelesites.HITELESITVE) {
                 kosar.setHitelesites(Hitelesites.NINCS_HITELESITVE);
             }
             TermekMennyiseg ujTermekMennyiseg = TermekMennyiseg.builder()
@@ -110,6 +115,7 @@ public class KosarService {
                                 .hitelesitesSzukseges(termekMennyiseg.isHitelesitesSzukseges())
                                 .build()).toList())
                 .hitelesites(kosar.getHitelesites())
+                .letrehozasDatuma(dateTimeFormatter.format(kosar.getLetrehozasDatuma()))
                 .build();
     }
 
@@ -140,7 +146,6 @@ public class KosarService {
         termek.setMennyiseg(termek.getMennyiseg() + termekMenny.getMennyiseg());
         kosar.getTermekMennyisegek().remove(termekMenny);
         termekMennyisegRepository.delete(termekMenny);
-
         return kosarToKosarViewDTO(kosar);
     }
 
@@ -192,14 +197,14 @@ public class KosarService {
 
     public KosarViewDTO kosarHitelesit(Integer kosarId, String hitelesitKod) {
         Kosar kosar = kosarRepository.getById(kosarId);
-        String hitelesitKodcserelt = hitelesitKod.replaceAll("ö","0");
+        String hitelesitKodcserelt = hitelesitKod.replaceAll("ö", "0");
         List<Felhasznalo> felhasznalok = felhasznaloService.findAll();
         Optional<Felhasznalo> felhasznaloOpt = felhasznalok.stream()
                 .filter(felhasznalo -> felhasznalo.getHitelesitoKod().equals(hitelesitKodcserelt) && !felhasznalo.getHitelesitoKod().isEmpty())
                 .findAny();
-        if (felhasznaloOpt.isPresent()){
+        if (felhasznaloOpt.isPresent()) {
             kosar.setHitelesites(Hitelesites.HITELESITVE);
-        }else{
+        } else {
             throw new ErvenytelenHitelesitoKodException();
         }
         return kosarToKosarViewDTO(kosar);

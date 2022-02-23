@@ -26,4 +26,6 @@ public class KosarViewDTO implements Serializable {
 
     private Hitelesites hitelesites;
 
+    private String letrehozasDatuma;
+
 }
