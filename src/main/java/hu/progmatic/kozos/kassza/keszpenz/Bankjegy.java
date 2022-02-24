@@ -21,7 +21,7 @@ public class Bankjegy {
     @Column(unique = true)
     private Integer ertek;
     @NotNull(message ="A bankjegy mennyisége nem lehet 0!")
-    @Min(0)
+    @Min(value = 0, message = "A mennyisőg nem lehet 0!")
     @Max(100000)
     private Integer mennyiseg;
 

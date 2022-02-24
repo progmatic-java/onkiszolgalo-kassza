@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -32,14 +33,14 @@ public class BankjegyLeltarController {
 
 
     @PostMapping("/kassza/bankjegyleltar/{id}")
-    public String modify(@PathVariable Integer id, @Valid Bankjegy formItem, BindingResult bindingResult, Model model){
+    public String modify(@PathVariable Integer id, @ModelAttribute("formItem") @Valid Bankjegy formItem, BindingResult bindingResult, Model model){
         if(!bindingResult.hasErrors()){
             bankjegyService.editById(id,formItem.getMennyiseg());
+            model.addAttribute("formItem",  Bankjegy.builder().build());
+        }else{
+            model.addAttribute("formItem", formItem);
         }
-        model.addAttribute("formItem", Bankjegy.builder().build());
         model.addAttribute("allBankjegy", bankjegyService.findAll());
-        //model.addAttribute("allBankjegy", bankjegyService.findAll());
-        //model.addAttribute("formItem", formItem);
         return "/kassza/bankjegyleltar";
     }
 
