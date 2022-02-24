@@ -120,8 +120,8 @@ th:object="${allTermek}"
 <a type="button" th:hidden="${!isUserModifying}" style="position: fixed; bottom: 0;right:170px; width: 150px" class="button-76"  href="bankjegyleltar.html" th:href="@{/felhasznalo}">Admin</a>
 
 <!-- JavaSript rész-->
-<form th:action="@{/logout}" method="post" style=" position: fixed; top:0;right:0; width: 150px">
-    <input type="submit" th:hidden="${!itemModifying}"  class="button-76" id="kijelentkezes"  value="Kijelentkezes">
+<form th:action="@{/logout}" method="post" style=" position: fixed; top:50px;right:33px; width: 150px">
+    <input type="submit" th:hidden="${!itemModifying}"  class="button-76" id="kijelentkezes"  value="Kijelentkezés">
 </form>
 <form>
     <input id="isJogosult" type="checkbox" th:checked="${itemModifying}" style="visibility: hidden">
