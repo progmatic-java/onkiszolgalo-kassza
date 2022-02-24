@@ -78,6 +78,13 @@ public class FizetesController {
         KeszpenzDto keszpenzDto = keszpenzService.visszajaro(KeszpenzDto.builder().fizetesMegszakitas(true).kosarId(kosarId).build());
         model.addAttribute("keszpenzDto", keszpenzDto);
         model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
+        model.addAttribute("isMegszakit",true);
+        return "kassza/keszpenzesfizetes";
+    }
+
+    @GetMapping("/kassza/szamla/{kosarId}/megszakit")
+    public String megszakitToSzamla(@PathVariable("kosarId") Integer kosarId, Model model){
+        model.addAttribute("kosar", kosarService.getKosarViewDTOById(kosarId));
         return "kassza/szamla";
     }
 
@@ -85,5 +92,10 @@ public class FizetesController {
     @ModelAttribute("userFizethet")
     public boolean userFizethet() {
         return felhasznaloService.hasRole(UserType.Roles.PAYING);
+    }
+
+    @ModelAttribute("isMegszakit")
+    public boolean isMegszakit(){
+        return false;
     }
 }
