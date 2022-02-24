@@ -402,10 +402,12 @@
         </div>
         <div class="col-3"
              style="font-size: 50px;text-align: center;border: 3px solid #0ca3d2; background-color: whitesmoke; border-right: whitesmoke; position: fixed; right: 0; height: 330px; padding-top: 100px">
-            <img style="width: 382px; height: 325px; position: fixed; right: 0px; top: 55px;"
-                 alt="istockphoto-1206806317-170667a.jpg" th:if="${kosar.termekMennyisegDtoList.size()!=0}"
-                 th:src="@{'/kassza/raktar/{id}/kep'(id=${kosar.termekMennyisegDtoList.get(0).termekId})}">
-            <!--             th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Termék neve' : ${kosar.getTermekMennyisegDtoList().get(0).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(0).getMennyiseg()} + ' db'">-->
+            <img th:if="${kosar.utolsoHozzaadottTermekmennyisegDto != null && kosar.utolsoHozzaadottTermekmennyisegDto.vanKep}"
+                 style="width: 382px; height: 325px; position: fixed; right: 0px; top: 55px;"
+                 alt="istockphoto-1206806317-170667a.jpg"
+                 th:src="@{'/kassza/raktar/{id}/kep'(id=${kosar.utolsoHozzaadottTermekmennyisegDto.termekId})}">
+            <h1 th:text="${kosar.utolsoHozzaadottTermekmennyisegDto == null} ? 'Termék neve' : ${kosar.utolsoHozzaadottTermekmennyisegDto.getNev()} + ' ' + ${kosar.utolsoHozzaadottTermekmennyisegDto.getMennyiseg()} + ' db'">></h1>
+                        <!-- th:text="${kosar.getTermekMennyisegDtoList().size() == 0} ? 'Termék neve' : ${kosar.getTermekMennyisegDtoList().get(0).getNev()} + ' ' + ${kosar.getTermekMennyisegDtoList().get(0).getMennyiseg()} + ' db'">-->
             <!--th:text="${kosar.getUtolsoHozzaadottTermekmennyisegDto() == null} ? 'Aktuálisan hozzáadott termék képe' : ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getNev()} + ' ' + ${kosar.getUtolsoHozzaadottTermekmennyisegDto().getMennyiseg()} + ' db'"> -->
         </div>
     </div>
@@ -428,7 +430,8 @@
             <!-- Button trigger modal nem lehet hitelesítés nélkül fizetni-->
             <div th:if="${kosar.hitelesites == T(hu.progmatic.kozos.kassza.Hitelesites).NINCS_HITELESITVE}">
                 <button type="button" class="button-76"
-                        style="font-size:23px; position: fixed; bottom: 0;right: 0; width: 250px;height: 150px;" data-bs-toggle="modal"
+                        style="font-size:23px; position: fixed; bottom: 0;right: 0; width: 250px;height: 150px;"
+                        data-bs-toggle="modal"
                         data-bs-target="#nemLehetFizetni">
                     Számlához
                 </button>
@@ -485,11 +488,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="nemLehetFizetniLabel"><i class="bi-exclamation-triangle-fill"></i>Hitelesítés szükséges!</h5>
+                <h5 class="modal-title" id="nemLehetFizetniLabel"><i class="bi-exclamation-triangle-fill"></i>Hitelesítés
+                    szükséges!</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                A kosar tartalmaz olyan terméket, amihez hitelesítés szükséges! A fizetés csak a hitelesítés után lehetséges!
+                A kosar tartalmaz olyan terméket, amihez hitelesítés szükséges! A fizetés csak a hitelesítés után
+                lehetséges!
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vissza</button>

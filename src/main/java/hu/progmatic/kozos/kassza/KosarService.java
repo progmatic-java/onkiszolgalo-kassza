@@ -92,28 +92,23 @@ public class KosarService {
     }
 
     private KosarViewDTO kosarToKosarViewDTO(Kosar kosar) {
+        List<TermekMennyisegDto> termekMennyisegDtoList = kosar.getTermekMennyisegek().stream()
+                .sorted((o1, o2) -> o2.getId() - o1.getId())
+                .map(termekMennyiseg -> TermekMennyisegDto.builder()
+                        .termekMennyisegId(termekMennyiseg.getId())
+                        .ar(termekMennyiseg.getTermek().getAr())
+                        .nev(termekMennyiseg.getTermek().getMegnevezes())
+                        .mennyiseg(termekMennyiseg.getMennyiseg())
+                        .termekId(termekMennyiseg.getTermek().getId())
+                        .hitelesitesSzukseges(termekMennyiseg.isHitelesitesSzukseges())
+                        .vanKep(termekMennyiseg.getTermek().getKep() != null)
+                        .build()).toList();
         return KosarViewDTO.builder()
                 .kosarId(kosar.getId())
                 .vegosszeg(Kosar.kosarVegosszeg(kosar))
                 .utolsoHozzaadottTermekmennyisegDto(
-                        kosar.getUtolsoHozzaadottTermekmennyiseg() == null ? null :
-                                TermekMennyisegDto.builder()
-                                        .termekMennyisegId(kosar.getUtolsoHozzaadottTermekmennyiseg().getId())
-                                        .ar(kosar.getUtolsoHozzaadottTermekmennyiseg().getTermek().getAr())
-                                        .nev(kosar.getUtolsoHozzaadottTermekmennyiseg().getTermek().getMegnevezes())
-                                        .mennyiseg(kosar.getUtolsoHozzaadottTermekmennyiseg().getMennyiseg())
-                                        .termekId(kosar.getUtolsoHozzaadottTermekmennyiseg().getTermek().getId())
-                                        .build())
-                .termekMennyisegDtoList(kosar.getTermekMennyisegek().stream()
-                        .sorted((o1, o2) -> o2.getId() - o1.getId())
-                        .map(termekMennyiseg -> TermekMennyisegDto.builder()
-                                .termekMennyisegId(termekMennyiseg.getId())
-                                .ar(termekMennyiseg.getTermek().getAr())
-                                .nev(termekMennyiseg.getTermek().getMegnevezes())
-                                .mennyiseg(termekMennyiseg.getMennyiseg())
-                                .termekId(termekMennyiseg.getTermek().getId())
-                                .hitelesitesSzukseges(termekMennyiseg.isHitelesitesSzukseges())
-                                .build()).toList())
+                        termekMennyisegDtoList.size() == 0 ? null : termekMennyisegDtoList.get(0))
+                .termekMennyisegDtoList(termekMennyisegDtoList)
                 .hitelesites(kosar.getHitelesites())
                 .letrehozasDatuma(dateTimeFormatter.format(kosar.getLetrehozasDatuma()))
                 .build();

@@ -18,4 +18,5 @@ public class TermekMennyisegDto implements Serializable {
     private Integer ar;
     private Integer termekId;
     private boolean hitelesitesSzukseges;
+    private boolean vanKep;
 }
