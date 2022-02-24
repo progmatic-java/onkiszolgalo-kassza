@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -58,10 +59,9 @@ class LoginFormTest {
         .andExpect(MockMvcResultMatchers.forwardedUrl("/"));
 
   }
-  @Disabled
   @Nested
   @DisplayName("Bejelentkezett felhasználóval")
-  @WithMockUser(username = "tesztfelhasznalonev")
+  @WithUserDetails("admin")
   class BejelentkezveTest {
 
     @Test
@@ -71,7 +71,7 @@ class LoginFormTest {
               MockMvcRequestBuilders.get("/")
           )
           .andExpect(MockMvcResultMatchers.status().isOk())
-          .andExpect(MockMvcResultMatchers.content().string(containsString("tesztfelhasznalonev")));
+          .andExpect(MockMvcResultMatchers.content().string(containsString("Üdvözöljük!")));
     }
   }
 
