@@ -133,7 +133,8 @@ class KeszpenzServiceTest {
 
             assertEquals(13_285, keszpenzDto.getVegosszeg());
             assertEquals(0, keszpenzDto.getMaradek());
-            assertNull(keszpenzDto.getVisszajaro());
+            assertNotNull(keszpenzDto.getVisszajaro());
+            assertTrue(keszpenzDto.getVisszajaro().contains("0 Ft"));
         }
     }
 

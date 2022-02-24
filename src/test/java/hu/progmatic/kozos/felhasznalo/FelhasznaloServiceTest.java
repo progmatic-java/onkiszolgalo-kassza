@@ -66,7 +66,7 @@ class FelhasznaloServiceTest {
 
   @Test
   @DisplayName("Felhasználó jogosultságok lekérése - user")
-  @WithUserDetails(userDetailsServiceBeanName = "myUserDetailsService")
+  @WithUserDetails(value = "assistant", userDetailsServiceBeanName = "myUserDetailsService")
   void userHasRole() {
     assertFalse(felhasznaloService.hasRole(UserType.Roles.USER_MODIFYING));
     assertTrue(felhasznaloService.hasRole(UserType.Roles.ITEM_MODIFYING));

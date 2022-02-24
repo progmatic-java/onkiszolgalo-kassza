@@ -30,8 +30,14 @@ public class KeszpenzVisszaadas {
     }
 
     public void szamolas() {
-        if (visszajaroElokeszito.getKulonbozet() <= 0) {
+        if (visszajaroElokeszito.getKulonbozet() < 0) {
             maradek = Math.abs(visszajaroElokeszito.getKulonbozet());
+        } else if (visszajaroElokeszito.getKulonbozet().equals(0)) {
+            visszajaroBankjegyek.add(Bankjegy.builder()
+                    .ertek(0)
+                    .mennyiseg(0)
+                    .build());
+            maradek = 0;
         } else {
             VisszaadasSzamolo visszaadasSzamolo =
                     new VisszaadasSzamolo(bankjegyek, visszajaroElokeszito.getKulonbozet());
@@ -54,7 +60,7 @@ public class KeszpenzVisszaadas {
             if (bedobottBankjegyOp.isEmpty()) {
                 visszajaro.setMennyiseg(0);
                 visszajaroBankjegyek.add(visszajaro);
-            }else{
+            } else {
                 visszajaro.setMennyiseg(bedobottBankjegyOp.get().getBedobottMenyiseg());
                 visszajaroBankjegyek.add(visszajaro);
                 bankjegy.setMennyiseg(bankjegy.getMennyiseg() - bedobottBankjegyOp.get().getBedobottMenyiseg());
@@ -79,7 +85,7 @@ public class KeszpenzVisszaadas {
                     .map(Bankjegy::bankjegyCloneFactory)
                     .toList();
             Bankjegy bankjegyClone = Bankjegy.bankjegyCloneFactory(bankjegy);
-            bankjegyekClone.stream().filter(bj->bj.getErtek().equals(bankjegy.getErtek())).findAny().orElseThrow().noveles();
+            bankjegyekClone.stream().filter(bj -> bj.getErtek().equals(bankjegy.getErtek())).findAny().orElseThrow().noveles();
             if (visszajaroElokeszito.getKulonbozet().equals(0) || megszakitas) {
                 enabledBankjegyek.add(enabledBankjegyDtoBuilder(bankjegyClone, false));
             } else {

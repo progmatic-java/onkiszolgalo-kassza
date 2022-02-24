@@ -64,7 +64,7 @@ public class KeszpenzService {
         } else {
             String visszajaroStr = "";
             for (Bankjegy bankjegy : visszajaroList) {
-                if (!bankjegy.getMennyiseg().equals(0)) {
+                if (!bankjegy.getMennyiseg().equals(0) || bankjegy.getErtek().equals(0)) {
                     visszajaroStr +=
                             String.format("%s db: %s Ft, ", bankjegy.getMennyiseg(), bankjegy.getErtek());
                 }
