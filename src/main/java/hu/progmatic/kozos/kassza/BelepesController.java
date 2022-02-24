@@ -1,5 +1,6 @@
 package hu.progmatic.kozos.kassza;
 
+import hu.progmatic.kozos.felhasznalo.Felhasznalo;
 import hu.progmatic.kozos.felhasznalo.FelhasznaloService;
 import hu.progmatic.kozos.felhasznalo.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class BelepesController {
     @RequestMapping("/")
     public String kassza(Model model) {
         model.addAttribute("kijelentkezesCommand", KijelentkezesCommand.builder().isJogosult(false).build());
+        model.addAttribute("felhasznalonev", felhasznaloService.getNev());
         return "kassza/kezdes";
     }
 

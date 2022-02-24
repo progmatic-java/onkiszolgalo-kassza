@@ -93,4 +93,9 @@ public class FelhasznaloService implements InitializingBean {
         felhasznalo.setHitelesitoKod(modositFelhasznalo.getHitelesitoKod());
         felhasznaloRepository.save(felhasznalo);
     }
+
+    public String getNev(){
+        MyUserDetails felhasznalo = getMyUserDetails();
+        return felhasznalo.getUsername();
+    }
 }

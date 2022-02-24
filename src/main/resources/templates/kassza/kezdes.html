@@ -105,6 +105,7 @@
 <h2 style="position: fixed; bottom: 100px;left: 450px;font-size: 30px; color: #032e83">
     Vásárlás kezdéséhez nyomja meg a gombot
 </h2>
+<h3 th:hidden="${!itemModifying}" th:text="${felhasznalonev}" style="color: red" >eladó</h3>
 <div class="kep">
     <a href="kassza.html" th:href="@{/kassza/kassza}">
         <img src="../../images/kassza/images.png" th:src="@{/images/kassza/images.png}" >
