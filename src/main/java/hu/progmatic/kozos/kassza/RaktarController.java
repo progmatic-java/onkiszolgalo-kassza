@@ -114,12 +114,15 @@ public class RaktarController {
 
         try {
             formItem = eanService.searchForBarcode(formItem.getVonalkod());
-            model.addAttribute("formItem",formItem);
+            TermekMentesCommand termekMentesCommand =  TermekMentesCommand.builder()
+                    .vonalkod(formItem.getVonalkod())
+                    .megnevezes(formItem.getMegnevezes())
+                    .build();
+            model.addAttribute("termekMentesCommand",termekMentesCommand);
         }catch (NincsConnectionToEanServerException e){
             model.addAttribute("isEanApiConnectionError", true);
             model.addAttribute("formItem", new Termek());
         }
-        model.addAttribute("formItem",formItem);
         return items();
     }
 
