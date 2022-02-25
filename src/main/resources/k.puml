@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/class-diagram
+package Database << Database >>{
+class Termek{
+int id;
+int ar;
+boolean hitelsitesSzukseges
+String megnevezes;
+int mennyiseg;
+String vonalkod;
+}
+class TermekMennyiseg{
+int id;
+boolean hitelesitesSzukseges;
+int mennyiseg;
+int kosarId;
+int termekId;
+}
+class Kep{
+int id;
+String contetType;
+byte[] kepAdat;
+long meret;
+int termekId;
+}
+class Kosar{
+int id;
+Hitesites hitelesites;
+LocalDateTime letrehozasDatuma;
+}
+class Bankjegy{
+int id;
+int ertek;
+int mennyiseg;
+}
+class BedobottBankjegy{
+int id;
+int bedobottMennyiseg;
+int kosarId;
+int banjegyId;
+}
+}
+
+Termek::id -- TermekMennyiseg::termekId
+Termek::id -- Kep::termekId
+Kosar::id -- TermekMennyiseg::kosarId
+Kosar::id -- BedobottBankjegy::kosarId
+Bankjegy::id -- BedobottBankjegy::banjegyId
+
+
+
+
+@enduml
