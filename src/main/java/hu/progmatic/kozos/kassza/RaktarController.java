@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RolesAllowed(UserType.Roles.ITEM_MODIFYING)
 public class RaktarController {
     @Autowired
     private EanService eanService;
