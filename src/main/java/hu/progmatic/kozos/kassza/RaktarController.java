@@ -120,6 +120,7 @@ public class RaktarController {
             model.addAttribute("isEanApiConnectionError", true);
             model.addAttribute("formItem", new Termek());
         }
+        model.addAttribute("formItem",formItem);
         return items();
     }
 
