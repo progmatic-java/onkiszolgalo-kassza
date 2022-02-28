@@ -2,8 +2,9 @@
 # Önkiszólgáló kassza project
 A projekt célja egy önkiszolgáló kassza webalkalmazás fejlesztése volt.
 A fejlesztés Spring keretrendszerben történt, az egyes felületek pedig a ThymeLeaf segítségével lettek megjelenítve.
-A designe megtervezésére és megalkotására CSS Bootstrap-et használtunk.
-Vásárlóval a belépés: Felh: customer, jelsz: customer
+A designe megtervezésére és megalkotására CSS Bootstrap-et használtunk.  
+  
+<strong>Vásárlóval a belépés: Felh: customer, jelsz: customer</strong>
 ## Adatbázis
 Az egyes adatokat MySql adatbázisban tároltuk.
 * https://www.mysql.com/
