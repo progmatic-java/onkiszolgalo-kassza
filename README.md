@@ -1,19 +1,21 @@
 
-# kozos-projekt
-Közösen karban tartott spring projekt
-## Thymeleaf
-* https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html
-## Validáció
+# Önkiszólgáló kassza project
+A projekt célja egy önkiszolgáló kassza webalkalmazás fejlesztése volt.
+A fejlesztés Spring keretrendszerben történt, az egyes felületek pedig a ThymeLeaf segítségével lettek megjelenítve.
+A designe megtervezésére és megalkotására CSS Bootstrap-et használtunk.
+## Adatbázis
+Az egyes adatokat MySql adatbázisban tároltuk.
+* https://www.mysql.com/
+#### Az alábbi ábra mutatja az adatbázis szerkezetét
+![](src/main/resources/database.png)
+## Vonalkód olvasás
+A vonalkód beolvasására az alábbi eszközt használtuk:  
+https://www.zebra.com/content/dam/zebra_new_ia/en-us/manuals/barcode-scanners/ls2208-product-reference-guide-en-us.pdf  
+A beolvasót úgy konfiguráltuk, hogy a következő módon küldeje a beolvasott információt:  
+* \<DATA\>\<SUFFIX\>,
+ahol suffix-nek "Enter" ütést választottunk. A felületbe történő integrálást JavaScript segítségével végeztük.
 * https://www.baeldung.com/javax-validation
-## Spring data jpa
-Hivatalos doksik
-* Spring data jpa: https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords
-* Hibernate: https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#domain-model
-### Kétirányú kapcsolatok fizikai és logikai iránya
-* https://www.baeldung.com/jpa-joincolumn-vs-mappedby
-### OneToOne - 1:1 tábla kapcsolat
-* https://www.baeldung.com/jpa-one-to-one
-### OnaToMany - ManyToOne - 1:N tábla kapcsolat
-* https://www.baeldung.com/hibernate-one-to-many
-### ManyToMany - N:N tábla kapcsolat
-* https://www.baeldung.com/jpa-many-to-many
+## Tesztek
+* Unit tesztek
+* Spring boot tesztek
+* Spring MVC tesztek
