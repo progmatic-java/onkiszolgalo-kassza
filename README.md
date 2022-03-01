@@ -16,7 +16,6 @@ https://www.zebra.com/content/dam/zebra_new_ia/en-us/manuals/barcode-scanners/ls
 A beolvasót úgy konfiguráltuk, hogy a következő módon küldeje a beolvasott információt:  
 * \<DATA\>\<SUFFIX\>,
 ahol suffix-nek "Enter" ütést választottunk. A felületbe történő integrálást JavaScript segítségével végeztük.
-* https://www.baeldung.com/javax-validation
 ## Tesztek
 * Unit tesztek
 * Spring boot tesztek
