@@ -67,11 +67,9 @@ public class KosarService {
             kosar.getTermekMennyisegek().add(ujTermekMennyiseg);
             termekMennyisegRepository.save(ujTermekMennyiseg);
             kosar.setUtolsoHozzaadottTermekmennyiseg(null);
-            //kosar.setUtolsoHozzaadottTermekmennyiseg(ujTermekMennyiseg);
         } else {
             termekMennyisegOptional.get().setMennyiseg(termekMennyisegOptional.get().getMennyiseg() + command.getMennyiseg());
             kosar.setUtolsoHozzaadottTermekmennyiseg(null);
-            //kosar.setUtolsoHozzaadottTermekmennyiseg(termekMennyisegOptional.get());
         }
         return kosarToKosarViewDTO(kosar);
     }
@@ -150,7 +148,6 @@ public class KosarService {
                 .filter(termekMennyiseg -> termekMennyiseg.getId().equals(termekMId))
                 .findAny()
                 .orElseThrow();
-        //termekM.getTermek().setMennyiseg(termekM.getTermek().getMennyiseg() + termekM.getMennyiseg());
         return TermekMennyisegHozzaadasCommand.builder()
                 .vonalkod(termekM.getTermek().getVonalkod())
                 .mennyiseg(termekM.getMennyiseg())
@@ -165,8 +162,6 @@ public class KosarService {
         termekMennyiseg.getTermek().setMennyiseg(
                 termekMennyiseg.getTermek().getMennyiseg() + termekMennyiseg.getMennyiseg());
         mennyisegValidacio(command.getVonalkod(), command.getMennyiseg());
-        //termekMennyiseg.getTermek().setMennyiseg(
-        //        termekMennyiseg.getTermek().getMennyiseg() - command.getMennyiseg() );
         termekMennyiseg.setMennyiseg(command.getMennyiseg());
 
         return kosarToKosarViewDTO(kosar);

@@ -73,13 +73,9 @@ public class KeszpenzVisszaadas {
     }
 
     public List<EnabledBankjegyDto> enabledBankjegyekMeghatarozasa() {
-        /*List<Bankjegy> bankjegyekClone = bankjegyek.stream()
-                .map(Bankjegy::bankjegyCloneFactory)
-                .toList();*/
         VisszaadasSzamolo visszaadasSzamolo = new VisszaadasSzamolo();
         boolean engedelyezve;
         List<EnabledBankjegyDto> enabledBankjegyek = new ArrayList<>();
-        //for (Bankjegy bankjegyClone : bankjegyekClone) {
         for (Bankjegy bankjegy : bankjegyek) {
             List<Bankjegy> bankjegyekClone = bankjegyek.stream()
                     .map(Bankjegy::bankjegyCloneFactory)

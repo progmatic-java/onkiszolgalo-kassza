@@ -63,9 +63,6 @@ public class RaktarController {
             Model model) {
         try {
             termekService.validacioWithCommand(termekMentesCommand);
-            //refreshAllTermek(model);
-            //clearFormItem(model);
-            //model.addAttribute("termekMentesCommand", termekMentesCommand());
         } catch (FoglaltTermekException e) {
             for (Map.Entry<String, String> entry : e.getBindingProperty().entrySet()) {
                 bindingResult.addError(new FieldError("termekMentesCommand",
@@ -90,9 +87,6 @@ public class RaktarController {
             Model model) throws IOException {
         try {
             termekService.validacioWithCommand(termekMentesCommand, id);
-            //refreshAllTermek(model);
-            //clearFormItem(model);
-            //model.addAttribute("termekMentesCommand", termekMentesCommand());
         } catch (FoglaltTermekException e) {
             for (Map.Entry<String, String> entry : e.getBindingProperty().entrySet()) {
                 bindingResult.addError(new FieldError("termekMentesCommand",

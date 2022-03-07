@@ -49,15 +49,16 @@ public class VisszajaroElokeszito {
                 .mapToInt(bedobottBankjegy -> (bedobottBankjegy.getBedobottMenyiseg() * bedobottBankjegy.getBankjegy().getErtek()))
                 .sum();
     }
-    public void clearBedobottBankjegyek(){
+
+    public void clearBedobottBankjegyek() {
         kosar.getBedobottBankjegyek().clear();
     }
 
-    public Integer getKulonbozet(){
+    public Integer getKulonbozet() {
         return osszegBedobva() - getKosarVegosszegRoundFive();
     }
 
-    public List<BedobottBankjegy> getBedobottBankjegyek(){
+    public List<BedobottBankjegy> getBedobottBankjegyek() {
         return kosar.getBedobottBankjegyek();
     }
 }

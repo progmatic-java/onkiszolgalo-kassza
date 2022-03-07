@@ -24,14 +24,14 @@ public class KeszpenzService {
         Kosar kosar = kosarService.getById(keszpenzDto.getKosarId());
         List<Bankjegy> bankjegyek = bankjegyService.findAll();
         KeszpenzVisszaadas keszpenzVisszaadas = new KeszpenzVisszaadas(kosar, bankjegyek);
-        if (keszpenzDto.getBedobottCimlet() != null && keszpenzDto.getBedobottCimlet().equals(0)){
+        if (keszpenzDto.getBedobottCimlet() != null && keszpenzDto.getBedobottCimlet().equals(0)) {
             keszpenzDto.setEnabledBankjegyek(rendezCsokkeno(keszpenzVisszaadas.enabledBankjegyekMeghatarozasa()));
             keszpenzDto = initKeszpenzDto(keszpenzDto, keszpenzVisszaadas.getKosarVegosszegRoundFive());
             return keszpenzDto;
         }
-        if (keszpenzDto.isFizetesMegszakitas()){
+        if (keszpenzDto.isFizetesMegszakitas()) {
             keszpenzVisszaadas.fizetesVisszavonas();
-        }else{
+        } else {
             keszpenzVisszaadas.addBedobottCimlet(bankjegyService.findByErtek(keszpenzDto.getBedobottCimlet()));
             keszpenzVisszaadas.szamolas();
         }
@@ -42,18 +42,18 @@ public class KeszpenzService {
                 visszajaroListToStr(
                         keszpenzVisszaadas.getVisszajaroBankjegyek()));
 
-        keszpenzDto.getEnabledBankjegyek().stream().filter(enabledBankjegyDto -> enabledBankjegyDto.getBankjegyErtek()==5).map(EnabledBankjegyDto::isEngedelyezve).findFirst();
+        keszpenzDto.getEnabledBankjegyek().stream().filter(enabledBankjegyDto -> enabledBankjegyDto.getBankjegyErtek() == 5).map(EnabledBankjegyDto::isEngedelyezve).findFirst();
         return keszpenzDto;
     }
 
-    private List<EnabledBankjegyDto> rendezCsokkeno(List<EnabledBankjegyDto> enabledBankjegyDtoList){
+    private List<EnabledBankjegyDto> rendezCsokkeno(List<EnabledBankjegyDto> enabledBankjegyDtoList) {
         return enabledBankjegyDtoList.stream().sorted((o1, o2) -> o2.getBankjegyErtek() - o1.getBankjegyErtek())
                 .toList();
     }
 
     private KeszpenzDto initKeszpenzDto(KeszpenzDto keszpenzDto, Integer vegosszeg) {
-       keszpenzDto.setVegosszeg(vegosszeg);
-       keszpenzDto.setMaradek(vegosszeg);
+        keszpenzDto.setVegosszeg(vegosszeg);
+        keszpenzDto.setMaradek(vegosszeg);
         return keszpenzDto;
 
     }
@@ -64,14 +64,16 @@ public class KeszpenzService {
         } else {
             String visszajaroStr = "";
             for (Bankjegy bankjegy : visszajaroList) {
-                if (!bankjegy.getMennyiseg().equals(0) || bankjegy.getErtek().equals(0)) {
+                if (!bankjegy.getMennyiseg().equals(0)) {
                     visszajaroStr +=
                             String.format("%s db: %s Ft, ", bankjegy.getMennyiseg(), bankjegy.getErtek());
+                }
+                if (bankjegy.getErtek().equals(0)) {
+                    visszajaroStr = "0 Ft  ";
                 }
             }
             return visszajaroStr.substring(0, visszajaroStr.length() - 2);
         }
-
 
 
     }

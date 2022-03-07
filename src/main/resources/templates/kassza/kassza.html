@@ -261,12 +261,6 @@
                             lastEventTime = performance.now();
                         }
                     }
-                    if (evt.key.toString() === 'p') {
-                        //sendPost('5051007149822')
-                        document.getElementById("beolvasoVonalkod").value = '5051007149822';
-                        document.getElementById("beolvasoMennyiseg").value = 1;
-                        document.getElementById("beolvasoForm").submit();
-                    }
                 });
 
                 function sendPost(readRow) {
@@ -284,7 +278,6 @@
                     <td style="width: 100px">EGYSÉGÁR</td>
                     <td style="width: 50px">DB</td>
                     <td style="width: 100px">ÖSSZESEN</td>
-                    <!--                    <td th:text="${termek.mennyiseg}">10.0</td>-->
 
                 </tr>
                 </thead>
@@ -306,7 +299,6 @@
                             <div class="col">
                                 <form th:action="@{'/kassza/{kosarId}/modosit/{termekMId}'(kosarId=${kosar.kosarId},termekMId =${termekmennyiseg.termekMennyisegId})}"
                                       method="get">
-                                    <!--<input type="submit" class="btn btn-success" value="Módosít"/>-->
                                     <button type="submit" class="btn btn-primary">
                                         <i class="bi bi-pen" style="color: white"></i>
                                     </button>
@@ -315,21 +307,12 @@
                             <div class="col">
                                 <form th:action="@{'/kassza/{kosarId}/delete/{termekMId}'(kosarId=${kosar.kosarId},termekMId =${termekmennyiseg.termekMennyisegId})}"
                                       method="post">
-                                    <!--<input type="submit" class="btn btn-danger" value="Törlés"/>-->
                                     <button type="submit" class="btn btn-danger">
                                         <i class="bi bi-trash" style="color: white"></i>
                                     </button>
                                 </form>
                             </div>
                             <div class="col">
-                                <!--<form th:action="@{'/kassza/{kosarId}/hitelsites'(kosarId=${kosar.kosarId})}"
-                                      method="post" th:hidden="${!termekmennyiseg.hitelesitesSzukseges}">
-                                    <button type="submit"
-                                            th:class="${kosar.hitelesites == T(hu.progmatic.kozos.kassza.Hitelesites).HITELESITVE} ? 'btn btn-secondary' : 'btn btn-warning'"
-                                            th:disabled="${kosar.hitelesites == T(hu.progmatic.kozos.kassza.Hitelesites).HITELESITVE}">
-                                        <i class="bi bi-exclamation-triangle" style="color: white"></i>
-                                    </button>
-                                </form>-->
                                 <form th:if="${kosar.hitelesites == T(hu.progmatic.kozos.kassza.Hitelesites).HITELESITVE && termekmennyiseg.hitelesitesSzukseges}">
                                     <button type="submit"
                                             class="btn btn-secondary"
